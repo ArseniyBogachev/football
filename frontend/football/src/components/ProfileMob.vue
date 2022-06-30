@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="content">
-
+      рпрпрпрп
     </div>
   </div>
 </template>

@@ -13,14 +13,14 @@
                 Teams
               </a>
               <ul class="dropdown-menu bg-light" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Premier League</a></li>
-                <li><a class="dropdown-item" href="#">EFL Championship</a></li>
-                <li><a class="dropdown-item" href="#">EFL League One</a></li>
-                <li><a class="dropdown-item" href="#">EFL League Two</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">National League</a></li>
-                <li><a class="dropdown-item" href="#">National League North</a></li>
-                <li><a class="dropdown-item" href="#">National League South</a></li>
+                <li><a class="dropdown-item" href="#">Russian PL</a></li>
+                <li><a class="dropdown-item" href="#">FNL</a></li>
+<!--                <li><a class="dropdown-item" href="#">EFL League One</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">EFL League Two</a></li>-->
+<!--                <li><hr class="dropdown-divider"></li>-->
+<!--                <li><a class="dropdown-item" href="#">National League</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">National League North</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">National League South</a></li>-->
               </ul>
             </li>
             <li><a href="#" class="nav-link"  style="color: gray">Article</a></li>

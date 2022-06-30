@@ -5,8 +5,6 @@
         <img class="image-user-xxl d-none d-xxl-block" src="../assets/user.jpg" alt="">
         <img class="image-user-lg d-none d-lg-block d-xxl-none" src="../assets/user.jpg" alt="">
         <img class="image-user-md d-none d-md-block d-lg-none" src="../assets/user.jpg" alt="">
-<!--        <img class="image-user-xs d-md-none" src="../assets/user.jpg" alt="">-->
-<!--        <span class="info-user-xs d-md-none">kuwsh1n</span>-->
         <p class="followers-md-none d-none d-lg-block">
           <span>58k</span>
           <br>
@@ -42,18 +40,10 @@
           <a class="nav-link" href="#">My article</a>
           <a class="nav-link" href="#">Bookmarks</a>
         </nav>
-<!--        <nav class="nav flex-column menu-sm d-none d-sm-block d-md-none">-->
-<!--          <a class="nav-link active" aria-current="page" href="#">Subscriptions</a>-->
-<!--          <a class="nav-link" href="#">My article</a>-->
-<!--          <a class="nav-link" href="#">Bookmarks</a>-->
-<!--        </nav>-->
-<!--        <nav class="nav flex-column menu-xs d-sm-none">-->
-<!--          <a class="nav-link active" aria-current="page" href="#" style="font-size: 12px">Subscriptions</a>-->
-<!--          <a class="nav-link" href="#" style="font-size: 12px">My article</a>-->
-<!--          <a class="nav-link" href="#" style="font-size: 12px">Bookmarks</a>-->
-<!--        </nav>-->
       </div>
-      <div class="col-8"></div>
+      <div class="col-8">
+        <div></div>
+      </div>
     </div>
   </div>
 </template>

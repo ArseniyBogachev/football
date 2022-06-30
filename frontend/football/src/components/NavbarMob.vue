@@ -31,7 +31,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Article</a>
+              <a class="nav-link" href="#" @click="$router.push('/article')">Article</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">About</a>

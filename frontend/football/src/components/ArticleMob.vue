@@ -1,9 +1,9 @@
 <template>
-  <div class="container-md">
+  <div>
     <h1 class="title">Category Article</h1>
     <hr>
     <div class="wrapper">
-      <div class="card" style="width: 18rem;">
+      <div class="card" style="width: 80%;">
         <img src="../assets/tactial.jpg" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Tactical articles</h5>
@@ -11,7 +11,7 @@
           <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
-      <div class="card" style="width: 18rem;">
+      <div class="card" style="width: 80%;">
         <img src="../assets/player.jpg" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Articles about player</h5>
@@ -19,7 +19,7 @@
           <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
-      <div class="card" style="width: 18rem;">
+      <div class="card" style="width: 80%">
         <img src="../assets/team.jpg" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Articles about team</h5>
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="wrapper">
-      <div class="card" style="width: 18rem;">
+      <div class="card" style="width: 80%;">
         <img src="../assets/xg2.webp" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Articles about XG</h5>
@@ -37,7 +37,7 @@
           <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
-      <div class="card" style="width: 18rem;">
+      <div class="card" style="width: 80%;">
         <img src="../assets/manager.jpg" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Articles about managers</h5>
@@ -45,7 +45,7 @@
           <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
-      <div class="card" style="width: 18rem;">
+      <div class="card" style="width: 80%;">
         <img src="../assets/transfer.jpg" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Articles about transfers</h5>
@@ -59,20 +59,13 @@
 
 <script>
 export default {
-  name: "ArticleCom",
+  name: "ArticleApp",
 }
 </script>
 
 <style scoped>
-  .container-md{
-    box-shadow: 0 0 5px 1px grey;
-    margin-bottom: 100px;
-  }
   .wrapper{
-    padding-top: 70px;
-    padding-bottom: 50px;
-    display: flex;
-    justify-content: space-between;
+    padding: 5%;
   }
   .title{
     text-align: center;
@@ -82,5 +75,11 @@ export default {
   .btn-primary{
     background-color: gray;
     border: 1px solid rgb(100,100,100);
+  }
+  .card{
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 10%;
   }
 </style>

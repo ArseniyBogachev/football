@@ -1,6 +1,6 @@
 <template>
   <ProfileCom class="d-none d-md-block"></ProfileCom>
-  <ProfileMob class="d-block d-lg-none"></ProfileMob>
+  <ProfileMob class="d-md-none"></ProfileMob>
 </template>
 
 <script>

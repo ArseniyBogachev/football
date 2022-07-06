@@ -3,6 +3,7 @@ import HomeApp from "@/pages/HomeApp";
 import AboutApp from "@/pages/AboutApp";
 import ProfileApp from "@/pages/ProfileApp";
 import ArticleApp from "@/pages/ArticleApp";
+import TeamsApp from "@/pages/TeamsApp";
 
 
 
@@ -23,7 +24,11 @@ const routes = [
     {
         path: '/article',
         component: ArticleApp,
-    }
+    },
+    {
+        path: '/teams',
+        component: TeamsApp,
+    },
 ]
 
 

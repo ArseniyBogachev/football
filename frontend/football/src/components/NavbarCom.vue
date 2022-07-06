@@ -13,8 +13,8 @@
                 Teams
               </a>
               <ul class="dropdown-menu bg-light" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Russian PL</a></li>
-                <li><a class="dropdown-item" href="#">FNL</a></li>
+                <li><a class="dropdown-item" href="#" @click="$router.push('/teams')">Russian PL</a></li>
+                <li><a class="dropdown-item" href="#" @click="$router.push('/teams')">FNL</a></li>
               </ul>
             </li>
             <li><a href="#" class="nav-link" @click="$router.push('/article')" style="color: gray">Article</a></li>

@@ -22,7 +22,7 @@
       </li>
     </ul>
     <div class="card mb-3" style="max-width: 840px;">
-      <a href="#" @click="$router.push('/club')" style="color: rgb(70,70,70); text-decoration: none;">
+      <a href="#" @click="$router.push('/teams/club')" style="color: rgb(70,70,70); text-decoration: none;">
         <div class="row g-0">
           <div class="col-md-4">
             <img src="../assets/teams/zenit.svg" class="img-fluid img-thumbnail" alt="...">

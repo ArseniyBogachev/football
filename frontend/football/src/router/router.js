@@ -5,6 +5,7 @@ import ProfileApp from "@/pages/ProfileApp";
 import ArticleApp from "@/pages/ArticleApp";
 import TeamsApp from "@/pages/TeamsApp";
 import ClubApp from "@/pages/ClubApp";
+import LineUp from "@/pages/LineUp";
 
 
 
@@ -31,8 +32,12 @@ const routes = [
         component: TeamsApp,
     },
     {
-        path: '/club',
+        path: '/teams/club',
         component: ClubApp,
+    },
+    {
+        path: '/teams/lineup',
+        component: LineUp,
     },
 ]
 

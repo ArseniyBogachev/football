@@ -1,26 +1,6 @@
 <template>
   <div class="container-md">
-    <ul class="nav nav-tabs">
-      <li class="nav-item" v-on:click="$emit('tab_func', Object.keys(tab_team)[0])">
-        <a v-if="tab_team.club" class="nav-link active" aria-current="page" href="#">Club</a>
-        <a v-else class="nav-link" aria-current="page" href="#">Club</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Season</a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">2021-2022</a></li>
-          <li><a class="dropdown-item disabled" href="#">2022-2023</a></li>
-        </ul>
-      </li>
-      <li class="nav-item" v-on:click="$emit('tab_func', Object.keys(tab_team)[1])">
-        <a v-if="tab_team.matches" class="nav-link active" href="#">Matches</a>
-        <a v-else class="nav-link" href="#">Matches</a>
-      </li>
-      <li class="nav-item" v-on:click="$emit('tab_func', Object.keys(tab_team)[2])">
-        <a v-if="tab_team.line_up" class="nav-link active" href="#">Line-up</a>
-        <a v-else class="nav-link" href="#">Line-up</a>
-      </li>
-    </ul>
+    <MinibarCom v-bind:tab_team="tab_team"></MinibarCom>
     <div class="container">
       <div class="row">
         <div class="col-4"><img src="../assets/teams/zenit.svg" class="img-thumbnail" alt="..."></div>
@@ -80,8 +60,12 @@
 </template>
 
 <script>
+import MinibarCom from "@/components/MinibarCom";
 export default {
   name: "ClubCom",
+  components:{
+    MinibarCom,
+  },
   props:{
     tab_team:{
       type:Object,
@@ -98,9 +82,6 @@ export default {
   .container-md{
     box-shadow: 0 0 5px 1px gray;
     margin-bottom: 100px;
-  }
-  .nav-link{
-    color: rgb(50,50,50);
   }
   ul{
     list-style: none;

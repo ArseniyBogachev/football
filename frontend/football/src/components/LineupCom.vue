@@ -19,13 +19,13 @@
       </thead>
       <tbody>
         <tr v-for="player in players">
-            <th scope="row"><a href="" class="link-table">{{ player.position }}</a></th>
-            <td><a href="" class="link-table">{{ player.number }}</a></td>
-            <td><a href="" class="link-table">{{ player.firstname }}</a></td>
-            <td><a href="" class="link-table">{{ player.lastname }}</a></td>
-            <td><a href="" class="link-table">{{ player.age }}</a></td>
-            <td><a href="" class="link-table">{{ player.games }}</a></td>
-            <td><a href="" class="link-table">{{ player.xg }}</a></td>
+          <th scope="row"><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.position }}</a></th>
+          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.number }}</a></td>
+          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.firstname }}</a></td>
+          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.lastname }}</a></td>
+          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.age }}</a></td>
+          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.games }}</a></td>
+          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.xg }}</a></td>
         </tr>
       </tbody>
     </table>

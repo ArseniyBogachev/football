@@ -7,6 +7,7 @@ import TeamsApp from "@/pages/TeamsApp";
 import ClubApp from "@/pages/ClubApp";
 import LineUp from "@/pages/LineUp";
 import MatchesApp from "@/pages/MatchesApp";
+import PlayerApp from "@/pages/PlayerApp";
 
 
 
@@ -43,6 +44,10 @@ const routes = [
     {
         path: '/teams/matches',
         component: MatchesApp,
+    },
+    {
+        path: '/teams/lineup/player',
+        component: PlayerApp,
     },
 ]
 

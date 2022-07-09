@@ -77,7 +77,7 @@ export default {
     display: block;
     width: 100%;
     height: 40px;
-    color: rgb(100,100,100);
+    color: rgb(80,80,80);
     text-decoration: none;
   }
   ul{

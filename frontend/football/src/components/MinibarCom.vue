@@ -12,8 +12,8 @@
         </ul>
       </li>
       <li class="nav-item">
-        <a v-if="tab_team.matches" class="nav-link active" href="#">Matches</a>
-        <a class="nav-link" href="#">Matches</a>
+        <a v-if="tab_team.matches" class="nav-link active" href="#" >Matches</a>
+        <a v-else class="nav-link" href="#" @click="$router.push('/teams/matches')">Matches</a>
       </li>
       <li class="nav-item">
         <a v-if="tab_team.line_up" class="nav-link active" href="#">Line-up</a>

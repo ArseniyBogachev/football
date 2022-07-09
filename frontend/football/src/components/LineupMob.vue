@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <MinibarMob v-bind:tab_team="tab_team"></MinibarMob>
-    <h5>Line-Up Zenit</h5>
+    <div class="title-sort">
+      <h5>Line-Up Zenit</h5>
+      <SeletedMob v-model="modelValue" v-bind:options="options" @change="sorted_func"></SeletedMob>
+    </div>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -34,12 +37,13 @@
 </template>
 
 <script>
-import MinibarMob from "@/components/MinibarMob";
-
+import MinibarMob from "@/components/UI/MinibarMob";
+import SeletedMob from "@/components/UI/SeletedMob";
 export default {
   name: "LineupMob",
   components:{
     MinibarMob,
+    SeletedMob,
   },
   props:{
     tab_team:{
@@ -48,7 +52,18 @@ export default {
     players:{
       type: Object,
     },
-  }
+    options:{
+      type:Object,
+    },
+    modelValue:{
+      type:String,
+    },
+  },
+  methods:{
+    sorted_func(event){
+      this.$emit('update:modelValue', event.target.value)
+    }
+  },
 }
 </script>
 
@@ -86,5 +101,9 @@ export default {
   .small{
     color: rgba(130,130,130,0.8);
     font-size: 7px;
+  }
+  .title-sort{
+    display: flex;
+    justify-content: space-between;
   }
 </style>

@@ -1,6 +1,16 @@
 <template>
-  <LineupCom class="d-none d-lg-block" v-bind:tab_team="tab_team" v-bind:players="players"></LineupCom>
-  <LineupMob class="d-lg-none" v-bind:tab_team="tab_team" v-bind:players="players"></LineupMob>
+  <LineupCom class="d-none d-lg-block"
+             v-bind:tab_team="tab_team"
+             v-bind:players="sorted"
+             v-model="selected_sort"
+             v-bind:options="options"
+  ></LineupCom>
+  <LineupMob class="d-lg-none"
+             v-bind:tab_team="tab_team"
+             v-bind:players="sorted"
+             v-model="selected_sort"
+             v-bind:options="options"
+  ></LineupMob>
 </template>
 
 <script>
@@ -19,6 +29,14 @@ export default {
         matches: false,
         line_up: true,
       },
+      selected_sort: 'Default',
+      options: [
+        {'name':'Default', 'value':'Default'},
+        {'name':'Lastname', 'value':'Lastname'},
+        {'name':'Age', 'value':'Age'},
+        {'name':'Matches', 'value':'Matches'},
+        {'name':'XG', 'value':'XG'},
+      ],
       players:[
         {'position':'Gk', 'number':41, 'firstname':'Mikhail', 'lastname':'Kerzhakov', 'age':35, 'games':19, 'xg':1.5},
         {'position':'Gk', 'number':71, 'firstname':'Daniil', 'lastname':'Odoevskiy', 'age':35, 'games':4, 'xg':1.2},
@@ -46,7 +64,25 @@ export default {
       ]
     }
   },
-
+  computed:{
+    sorted(){
+      if (this.selected_sort === 'Default'){
+        return [...this.players]
+      }
+      else if (this.selected_sort === 'Lastname'){
+        return [...this.players].sort((str1, str2) => (str1.lastname).localeCompare(str2.lastname))
+      }
+      else if (this.selected_sort === 'Age'){
+        return [...this.players].sort((str1, str2) => str2.age - str1.age)
+      }
+      else if (this.selected_sort === 'Matches'){
+        return [...this.players].sort((str1, str2) => str2.games - str1.games)
+      }
+      else{
+        return [...this.players].sort((str1, str2) => str2.xg - str1.xg)
+      }
+    }
+  }
 }
 </script>
 

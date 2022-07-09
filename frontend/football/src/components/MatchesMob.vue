@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import MinibarMob from "@/components/MinibarMob";
+import MinibarMob from "@/components/UI/MinibarMob";
 
 export default {
   name: "MatchesMob",

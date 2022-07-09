@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import MinibarCom from "@/components/MinibarCom";
+import MinibarCom from "@/components/UI/MinibarCom";
 export default {
   name: "MatchesCom",
   components:{

@@ -1,7 +1,10 @@
 <template>
   <div class="container-md">
     <MinibarCom v-bind:tab_team="tab_team"></MinibarCom>
-    <h3>Line-Up Zenit</h3>
+    <div class="title-sort">
+      <h3>Line-Up Zenit</h3>
+      <SelectedCom v-model="modelValue" v-bind:options="options" @change="sorted_func"></SelectedCom>
+    </div>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -36,11 +39,13 @@
 </template>
 
 <script>
-import MinibarCom from "@/components/MinibarCom";
+import MinibarCom from "@/components/UI/MinibarCom";
+import SelectedCom from "@/components/UI/SelectedCom";
 export default {
   name: "LineupCom",
   components:{
     MinibarCom,
+    SelectedCom,
   },
   props:{
     tab_team:{
@@ -49,7 +54,18 @@ export default {
     players:{
       type: Object,
     },
-  }
+    options:{
+      type:Object,
+    },
+    modelValue:{
+      type:String,
+    },
+  },
+  methods:{
+    sorted_func(event){
+      this.$emit('update:modelValue', event.target.value)
+    }
+  },
 }
 </script>
 
@@ -63,7 +79,6 @@ export default {
   }
   h3{
     margin-top: 20px;
-    text-align: center;
   }
   .link-table{
     display: block;
@@ -88,6 +103,10 @@ export default {
   }
   .small{
     color: rgba(130,130,130,0.8);
+  }
+  .title-sort{
+    display: flex;
+    justify-content: space-between;
   }
 </style>
 <!--v-on:click="$emit('tab_func', Object.keys(tab_team)[0])"-->

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <MinibarMob v-bind:tab_team="tab_team"></MinibarMob>
+    <MinibarMob v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarMob>
     <h3>Matches for Zenit</h3>
     <table class="table">
       <thead>
@@ -48,13 +48,17 @@ export default {
     matches:{
       type:Object,
     },
+    dropdown_menu:{
+      type:Array,
+    },
   },
 }
 </script>
 
 <style scoped>
   .container{
-    margin-bottom: 100px;
+    margin-top: 20px;
+    margin-bottom: 50px;
     min-height: 80em;
   }
   .table{

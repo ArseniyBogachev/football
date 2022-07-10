@@ -1,23 +1,15 @@
 <template>
   <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a v-if="tab_team.club" class="nav-link active" aria-current="page" href="#">Club</a>
-        <a v-else class="nav-link" aria-current="page" href="#" @click="$router.push('/teams/club')">Club</a>
+      <li class="nav-item" v-for="tab in tab_team">
+        <a v-if="tab.active" class="nav-link active" aria-current="page" href="#">{{ tab.name }}</a>
+        <a v-else class="nav-link" aria-current="page" href="#" @click="$router.push(`${tab.link}`)">{{ tab.name }}</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Season</a>
+      <li class="nav-item dropdown" v-for="drop in dropdown_menu">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{ drop.name }}</a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">2021-2022</a></li>
-          <li><a class="dropdown-item disabled" href="#">2022-2023</a></li>
+          <li v-for="item in drop.item"><a class="dropdown-item" href="#">{{ item }}</a></li>
+<!--          <li><a class="dropdown-item disabled" href="#">2022-2023</a></li>-->
         </ul>
-      </li>
-      <li class="nav-item">
-        <a v-if="tab_team.matches" class="nav-link active" href="#">Matches</a>
-        <a v-else class="nav-link" href="#" @click="$router.push('/teams/matches')">Matches</a>
-      </li>
-      <li class="nav-item">
-        <a v-if="tab_team.line_up" class="nav-link active" href="#">Line-up</a>
-        <a v-else class="nav-link" href="#" @click="$router.push('/teams/lineup')">Line-up</a>
       </li>
     </ul>
 </template>
@@ -28,7 +20,10 @@ export default {
   props:{
     tab_team:{
       type:Object,
-    }
+    },
+    dropdown_menu:{
+      type:Array,
+    },
   }
 }
 </script>

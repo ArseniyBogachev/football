@@ -1,80 +1,51 @@
 <template>
-  <div class="container-md">
-    <div class="container">
-      <div class="row">
-        <div class="col-4"><img src="../assets/teams/zenit/lovren.png" class="img-thumbnail" alt="..."></div>
-        <div class="col-8">
-          <ul>
-            <li><fa icon="fa-solid fa-circle-user"></fa><span>Dejan Lovren</span></li>
-            <hr>
-            <li><fa icon="fa-solid fa-calendar"></fa><span>11/05/1989</span></li>
-            <hr>
-            <li><fa icon="fa-solid fa-earth-europe"></fa><span>Chortia</span></li>
-            <hr>
-            <li><fa icon="fa-solid fa-city"></fa><span>Bratislava</span></li>
-            <hr>
-            <li><fa icon="fa-solid fa-trophy"></fa><span>8 × RPL</span><span>3 × Russian cup</span><span>6 × Supercup Russian</span><span>1 × Cup UEFA</span><span>1 × Supercup UEFA</span></li>
-            <hr>
-            <li><fa icon="fa-solid fa-futbol"></fa><span>Сentre-back</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <PlayerCom class="d-none d-lg-block"
+             v-bind:dropdown_menu="dropdown_menu"
+             v-bind:tab_team="tab_team"
+             v-on:tab_func="tab_func"
+             v-bind:total="total"
+             v-bind:position="position"
+  ></PlayerCom>
 </template>
 
 <script>
-import MinibarCom from "@/components/UI/MinibarCom";
+import PlayerCom from "@/components/PlayerCom";
 export default {
   name: "PlayerApp",
   components:{
-    MinibarCom,
+    PlayerCom,
+  },
+  data(){
+    return{
+      tab_team:[
+        {active: true, link: '/teams/lineup/player', name: 'Total'},
+        {active: false, link: '/teams/lineup/player', name: 'Position'},
+        {active: false, link: '/teams/lineup/player', name: 'Situation'},
+        {active: false, link: '/teams/lineup/player', name: 'Shot zones'},
+        {active: false, link: '/teams/lineup/player', name: 'Shot types'},
+      ],
+      dropdown_menu:[
+        {name: 'Season', item: ['2021-2022', '2022-2023']},
+      ],
+      total:[
+        {season: '2021-2022', team: 'Zenit', games: 14, min: 1224, goal: 0, assist: 0, 'sh90': 0.66, 'kp90': 0.07, 'xg': 0.86, 'xa': 0.06, 'xg90': 0.06, 'xa90': 0.00},
+        {season: '2020-2021', team: 'Zenit', games: 21, min: 1847, goal: 2, assist: 0, 'sh90': 1.02, 'kp90': 0.34, 'xg': 0.97, 'xa': 0.24, 'xg90': 0.05, 'xa90': 0.01},
+      ],
+      position:[
+        {position: 'CB', games: 151, min: 13233, goal: 7, assist: 3, 'sh90': 0.71, 'kp90': 0.23, 'xg': 7.89, 'xa': 2.84, 'xg90': 0.05, 'xa90': 0.02},
+      ]
+    }
+  },
+  methods:{
+    tab_func(name){
+      for (let i of this.tab_team){
+        let a = (i.name === name) ? i.active = true : i.active = false
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-  .container-md{
-    box-shadow: 0 0 5px 1px gray;
-  }
-  .container{
-    padding-top: 50px;
-  }
-  ul{
-    list-style: none;
-  }
-  span{
-    margin-left: 20px;
-  }
+
 </style>

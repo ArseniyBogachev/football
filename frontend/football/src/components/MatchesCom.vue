@@ -1,6 +1,6 @@
 <template>
   <div class="container-md">
-    <MinibarCom v-bind:tab_team="tab_team"></MinibarCom>
+    <MinibarCom v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarCom>
     <h3>Matches for Zenit</h3>
     <table class="table">
       <thead>
@@ -46,6 +46,9 @@ export default {
     },
     matches:{
       type:Object,
+    },
+    dropdown_menu:{
+      type:Array,
     },
   },
 }

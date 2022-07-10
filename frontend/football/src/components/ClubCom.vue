@@ -1,6 +1,6 @@
 <template>
   <div class="container-md">
-    <MinibarCom v-bind:tab_team="tab_team"></MinibarCom>
+    <MinibarCom v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarCom>
     <div class="container">
       <div class="row">
         <div class="col-4"><img src="../assets/teams/zenit.svg" class="img-thumbnail" alt="..."></div>
@@ -69,6 +69,9 @@ export default {
   props:{
     tab_team:{
       type:Object,
+    },
+    dropdown_menu:{
+      type:Array,
     }
   }
 }

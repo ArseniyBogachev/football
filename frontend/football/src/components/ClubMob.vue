@@ -1,6 +1,6 @@
 <template>
   <div class="container" style="margin-bottom: 100px;">
-    <MinibarMob v-bind:tab_team="tab_team"></MinibarMob>
+    <MinibarMob v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarMob>
     <div class="container">
       <div class="row">
         <div class="col-4">
@@ -71,7 +71,10 @@ export default {
   props:{
     tab_team:{
       type:Object,
-    }
+    },
+    dropdown_menu:{
+      type:Array,
+    },
   }
 }
 </script>

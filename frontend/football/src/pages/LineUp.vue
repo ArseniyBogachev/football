@@ -1,11 +1,13 @@
 <template>
   <LineupCom class="d-none d-lg-block"
+             v-bind:dropdown_menu="dropdown_menu"
              v-bind:tab_team="tab_team"
              v-bind:players="sorted"
              v-model="selected_sort"
              v-bind:options="options"
   ></LineupCom>
   <LineupMob class="d-lg-none"
+             v-bind:dropdown_menu="dropdown_menu"
              v-bind:tab_team="tab_team"
              v-bind:players="sorted"
              v-model="selected_sort"
@@ -24,11 +26,14 @@ export default {
   },
   data(){
     return{
-      tab_team:{
-        club: false,
-        matches: false,
-        line_up: true,
-      },
+      tab_team:[
+        {active: false, link: '/teams/club', name: 'Club'},
+        {active: false, link: '/teams/matches', name: 'Matches'},
+        {active: true, link: '/teams/lineup', name: 'Line-up'},
+      ],
+      dropdown_menu:[
+        {name: 'Season', item: ['2021-2022', '2022-2023']},
+      ],
       selected_sort: 'Default',
       options: [
         {'name':'Default', 'value':'Default'},

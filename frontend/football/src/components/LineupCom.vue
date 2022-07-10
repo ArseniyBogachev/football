@@ -1,6 +1,6 @@
 <template>
   <div class="container-md">
-    <MinibarCom v-bind:tab_team="tab_team"></MinibarCom>
+    <MinibarCom v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarCom>
     <div class="title-sort">
       <h3>Line-Up Zenit</h3>
       <SelectedCom v-model="modelValue" v-bind:options="options" @change="sorted_func"></SelectedCom>
@@ -59,6 +59,9 @@ export default {
     },
     modelValue:{
       type:String,
+    },
+    dropdown_menu:{
+      type: Array,
     },
   },
   methods:{

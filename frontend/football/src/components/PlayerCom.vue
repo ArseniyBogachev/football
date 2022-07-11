@@ -21,25 +21,32 @@
       </div>
     </div>
     <MinibarCom class="minibar" v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="Do_Something"></MinibarCom>
-    <TotalCom v-if="tab_team[0].active" class="d-none d-lg-block"
-                 v-bind:total="total"
-    ></TotalCom>
-    <PositionCom v-else-if="tab_team[1].active" class="d-none d-lg-block"
-                 v-bind:position="position"
-    ></PositionCom>
+    <TableCom v-if="tab_team[0].active" class="d-none d-lg-block"
+                 v-bind:table="total"
+    ></TableCom>
+    <TableCom v-else-if="tab_team[1].active" class="d-none d-lg-block"
+                 v-bind:table="position"
+    ></TableCom>
+    <TableCom v-else-if="tab_team[2].active" class="d-none d-lg-block"
+                 v-bind:table="situation"
+    ></TableCom>
+    <TableCom v-else-if="tab_team[3].active" class="d-none d-lg-block"
+                 v-bind:table="shot_zones"
+    ></TableCom>
+    <TableCom v-else-if="tab_team[4].active" class="d-none d-lg-block"
+                 v-bind:table="shot_types"
+    ></TableCom>
   </div>
 </template>
 
 <script>
 import MinibarCom from "@/components/UI/MinibarCom";
-import TotalCom from "@/components/TotalCom";
-import PositionCom from "@/components/PositionCom";
+import TableCom from "@/components/TableCom";
 export default {
   name: "PlayerCom",
   components:{
     MinibarCom,
-    TotalCom,
-    PositionCom,
+    TableCom,
   },
   props:{
     tab_team:{
@@ -52,6 +59,15 @@ export default {
       type:Array,
     },
     position:{
+      type:Array,
+    },
+    situation:{
+      type:Array,
+    },
+    shot_zones:{
+      type:Array,
+    },
+    shot_types:{
       type:Array,
     },
   },

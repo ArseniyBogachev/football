@@ -5,6 +5,9 @@
              v-on:tab_func="tab_func"
              v-bind:total="total"
              v-bind:position="position"
+             v-bind:situation="situation"
+             v-bind:shot_zones="shot_zones"
+             v-bind:shot_types="shot_types"
   ></PlayerCom>
 </template>
 
@@ -28,11 +31,27 @@ export default {
         {name: 'Season', item: ['2021-2022', '2022-2023']},
       ],
       total:[
-        {season: '2021-2022', team: 'Zenit', games: 14, min: 1224, goal: 0, assist: 0, 'sh90': 0.66, 'kp90': 0.07, 'xg': 0.86, 'xa': 0.06, 'xg90': 0.06, 'xa90': 0.00},
-        {season: '2020-2021', team: 'Zenit', games: 21, min: 1847, goal: 2, assist: 0, 'sh90': 1.02, 'kp90': 0.34, 'xg': 0.97, 'xa': 0.24, 'xg90': 0.05, 'xa90': 0.01},
+        {Season: '2021-2022', Team: 'Zenit', Apps: 14, Min: 1224, G: 0, A: 0, 'Sh90': 0.66, 'Kp90': 0.07, 'xG': 0.86, 'xA': 0.06, 'xG90': 0.06, 'xA90': 0.00},
+        {Season: '2020-2021', Team: 'Zenit', Apps: 21, Min: 1847, G: 2, A: 0, 'Sh90': 1.02, 'Kp90': 0.34, 'xG': 0.97, 'xA': 0.24, 'xG90': 0.05, 'xA90': 0.01},
       ],
       position:[
-        {position: 'CB', games: 151, min: 13233, goal: 7, assist: 3, 'sh90': 0.71, 'kp90': 0.23, 'xg': 7.89, 'xa': 2.84, 'xg90': 0.05, 'xa90': 0.02},
+        {Position: 'CB', Apps: 151, Min: 13233, G: 7, A: 3, 'Sh90': 0.71, 'Kp90': 0.23, 'xG': 7.89, 'xA': 2.84, 'xG90': 0.05, 'xA90': 0.02},
+      ],
+      situation:[
+        {Situation: 'From corner', Sh: 75, G: 4, Kp: 12, A: 1, xG: 5.79, xA: 0.71, xG90: 0.04, xA90: 0.00, 'xG/Sh': 0.08, 'xA/Kp': 0.06},
+        {Situation: 'Open play', Sh: 13, G: 0, Kp: 20, A: 1, xG: 0.20, xA: 1.18, xG90: 0.04, xA90: 0.01, 'xG/Sh': 0.02, 'xA/Kp': 0.06},
+        {Situation: 'Set piece', Sh: 17, G: 3, Kp: 2, A: 1, xG: 1.85, xA: 0.95, xG90: 0.01, xA90: 0.01, 'xG/Sh': 0.11, 'xA/Kp': 0.47},
+        {Situation: 'Direct Freekick', Sh: 4, G: 0, Kp: 0, A: 0, xG: 0.27, xA: 0.00, xG90: 0.01, xA90: 0.00, 'xG/Sh': 0.07, 'xA/Kp': 0.00},
+      ],
+      shot_zones:[
+        {'Shot zones': 'Out of box', Sh: 22, G: 0, Kp: 12, A: 0, xG: 0.54, xA: 0.25, 'xG/Sh': 0.02, 'xA/Kp': 0.02},
+        {'Shot zones': 'Penalty area', Sh: 76, G: 6, Kp: 19, A: 1, xG: 6.17, xA: 1.52, 'xG/Sh': 0.08, 'xA/Kp': 0.08},
+        {'Shot zones': 'Six-yard box', Sh: 11, G: 1, Kp: 3, A: 2, xG: 1.40, xA: 1.07, 'xG/Sh': 0.13, 'xA/Kp': 0.36},
+      ],
+      shot_types:[
+        {'Shot types': 'Head', Sh: 66, G: 5, Kp: 7, A: 2, xG: 4.56, xA: 1.21, 'xG/Sh': 0.07, 'xA/Kp': 0.17},
+        {'Shot types': 'Right foot', Sh: 30, G: 2, Kp: 16, A: 1, xG: 2.21, xA: 1.04, 'xG/Sh': 0.07, 'xA/Kp': 0.07},
+        {'Shot types': 'Left foot', Sh: 13, G: 0, Kp: 11, A: 0, xG: 1.35, xA: 0.59, 'xG/Sh': 0.10, 'xA/Kp': 0.05},
       ]
     }
   },

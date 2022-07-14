@@ -1,7 +1,6 @@
 <template>
-  <div class="container">
-    <MinibarMob v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarMob>
     <h3>Matches for Zenit</h3>
+
     <table class="table">
       <thead>
         <tr>
@@ -30,12 +29,10 @@
         </tr>
       </tbody>
     </table>
-  </div>
 </template>
 
 <script>
 import MinibarMob from "@/components/UI/MinibarMob";
-
 export default {
   name: "MatchesMob",
   components:{

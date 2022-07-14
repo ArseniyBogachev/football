@@ -5,8 +5,8 @@ import ProfileApp from "@/pages/ProfileApp";
 import ArticleApp from "@/pages/ArticleApp";
 import TeamsApp from "@/pages/TeamsApp";
 import ClubApp from "@/pages/ClubApp";
-import LineUp from "@/pages/LineUp";
-import MatchesApp from "@/pages/MatchesApp";
+// import LineUp from "@/pages/LineUp";
+// import MatchesApp from "@/pages/MatchesApp";
 import PlayerApp from "@/pages/PlayerApp";
 
 
@@ -37,14 +37,14 @@ const routes = [
         path: '/teams/club',
         component: ClubApp,
     },
-    {
-        path: '/teams/lineup',
-        component: LineUp,
-    },
-    {
-        path: '/teams/matches',
-        component: MatchesApp,
-    },
+    // {
+    //     path: '/teams/lineup',
+    //     component: LineUp,
+    // },
+    // {
+    //     path: '/teams/matches',
+    //     component: MatchesApp,
+    // },
     {
         path: '/teams/lineup/player',
         component: PlayerApp,

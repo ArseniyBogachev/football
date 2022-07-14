@@ -1,6 +1,4 @@
 <template>
-  <div class="container-md">
-    <MinibarCom v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarCom>
     <h3>Matches for Zenit</h3>
     <table class="table">
       <thead>
@@ -30,15 +28,16 @@
         </tr>
       </tbody>
     </table>
-  </div>
 </template>
 
 <script>
 import MinibarCom from "@/components/UI/MinibarCom";
+import TableCom from "@/components/UI/TableCom";
 export default {
   name: "MatchesCom",
   components:{
     MinibarCom,
+    TableCom,
   },
   props:{
     tab_team:{
@@ -55,11 +54,6 @@ export default {
 </script>
 
 <style scoped>
-  .container-md{
-    box-shadow: 0 0 5px 1px gray;
-    margin-bottom: 100px;
-    min-height: 80em;
-  }
   .table{
     margin-top: 20px;
     border-collapse: separate;

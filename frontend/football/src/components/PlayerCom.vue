@@ -41,7 +41,7 @@
 
 <script>
 import MinibarCom from "@/components/UI/MinibarCom";
-import TableCom from "@/components/TableCom";
+import TableCom from "@/components/UI/TableCom";
 export default {
   name: "PlayerCom",
   components:{
@@ -75,7 +75,7 @@ export default {
     Do_Something(name){
       this.$emit('tab_func', name)
     }
-  }
+  },
 }
 </script>
 

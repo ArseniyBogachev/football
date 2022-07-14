@@ -1,11 +1,7 @@
 <template>
-  <div class="container" style="margin-bottom: 100px;">
-    <MinibarMob v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarMob>
     <div class="container">
       <div class="row">
-        <div class="col-4">
-          <img src="../assets/teams/zenit.svg" class="img-thumbnail" alt="...">
-        </div>
+        <div class="col-4"><img src="../assets/teams/zenit.svg" class="img-thumbnail" alt="..."></div>
         <div class="col-8">
           <ul>
             <li><fa icon="fa-solid fa-people-group"></fa><span>Zenit</span></li>
@@ -18,7 +14,7 @@
             <hr>
             <li><fa icon="fa-solid fa-trophy"></fa><span>8 × RPL</span><span>3 × Russian cup</span><span>6 × Supercup Russian</span><span>1 × Cup UEFA</span><span>1 × Supercup UEFA</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-user-tie"></fa><a href="#" class="link" style="margin-left: 20px; font-size: 12px;">Sergey Semak</a></li>
+            <li><fa icon="fa-solid fa-user-tie"></fa><a href="#" class="link" style="margin-left: 20px">Sergey Semak</a></li>
           </ul>
         </div>
       </div>
@@ -58,15 +54,14 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
-import MinibarMob from "@/components/UI/MinibarMob";
+import MinibarCom from "@/components/UI/MinibarCom";
 export default {
-  name: "ClubMob",
+  name: "ClubCom",
   components:{
-    MinibarMob,
+    MinibarCom,
   },
   props:{
     tab_team:{
@@ -74,8 +69,13 @@ export default {
     },
     dropdown_menu:{
       type:Array,
-    },
-  }
+    }
+  },
+  methods:{
+    Do_Something(name){
+      this.$emit('tab_func', name)
+    }
+  },
 }
 </script>
 
@@ -89,7 +89,6 @@ export default {
   }
   span{
     margin-left: 20px;
-    font-size: 12px;
   }
   .link{
     color: rgb(50,50,50);

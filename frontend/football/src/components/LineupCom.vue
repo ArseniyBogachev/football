@@ -1,51 +1,51 @@
 <template>
-  <div class="container-md">
-    <MinibarCom v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarCom>
     <div class="title-sort">
       <h3>Line-Up Zenit</h3>
       <SelectedCom v-model="modelValue" v-bind:options="options" @change="sorted_func"></SelectedCom>
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Position</th>
-          <th scope="col">Number</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Age</th>
-          <th scope="col">Matches</th>
-          <th scope="col">XG</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="player in players">
-          <th scope="row"><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.position }}</a></th>
-          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.number }}</a></td>
-          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.firstname }}</a></td>
-          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.lastname }}</a></td>
-          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.age }}</a></td>
-          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.games }}</a></td>
-          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.xg }}</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <TableCom v-bind:table="players"></TableCom>
+<!--    <table class="table table-striped">-->
+<!--      <thead>-->
+<!--        <tr>-->
+<!--          <th scope="col">Position</th>-->
+<!--          <th scope="col">Number</th>-->
+<!--          <th scope="col">First</th>-->
+<!--          <th scope="col">Last</th>-->
+<!--          <th scope="col">Age</th>-->
+<!--          <th scope="col">Matches</th>-->
+<!--          <th scope="col">XG</th>-->
+<!--        </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--        <tr v-for="player in players">-->
+<!--          <th scope="row"><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.position }}</a></th>-->
+<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.number }}</a></td>-->
+<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.firstname }}</a></td>-->
+<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.lastname }}</a></td>-->
+<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.age }}</a></td>-->
+<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.games }}</a></td>-->
+<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.xg }}</a></td>-->
+<!--        </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
     <ul>
       <li class="small">Gk - Goalkeeper</li>
       <li class="small">Def - Defender</li>
       <li class="small">Mf - Midfielder</li>
       <li class="small">At - Attack</li>
     </ul>
-  </div>
 </template>
 
 <script>
 import MinibarCom from "@/components/UI/MinibarCom";
 import SelectedCom from "@/components/UI/SelectedCom";
+import TableCom from "@/components/UI/TableCom";
 export default {
   name: "LineupCom",
   components:{
     MinibarCom,
     SelectedCom,
+    TableCom,
   },
   props:{
     tab_team:{
@@ -73,10 +73,6 @@ export default {
 </script>
 
 <style scoped>
-  .container-md{
-    box-shadow: 0 0 5px 1px gray;
-    margin-bottom: 100px;
-  }
   .table{
     margin-top: 20px;
   }
@@ -112,4 +108,3 @@ export default {
     justify-content: space-between;
   }
 </style>
-<!--v-on:click="$emit('tab_func', Object.keys(tab_team)[0])"-->

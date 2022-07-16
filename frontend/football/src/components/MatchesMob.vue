@@ -1,6 +1,5 @@
 <template>
     <h3>Matches for Zenit</h3>
-
     <table class="table">
       <thead>
         <tr>

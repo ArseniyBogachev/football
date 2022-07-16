@@ -3,31 +3,18 @@
       <h3>Line-Up Zenit</h3>
       <SelectedCom v-model="modelValue" v-bind:options="options" @change="sorted_func"></SelectedCom>
     </div>
-    <TableCom v-bind:table="players"></TableCom>
-<!--    <table class="table table-striped">-->
-<!--      <thead>-->
-<!--        <tr>-->
-<!--          <th scope="col">Position</th>-->
-<!--          <th scope="col">Number</th>-->
-<!--          <th scope="col">First</th>-->
-<!--          <th scope="col">Last</th>-->
-<!--          <th scope="col">Age</th>-->
-<!--          <th scope="col">Matches</th>-->
-<!--          <th scope="col">XG</th>-->
-<!--        </tr>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-<!--        <tr v-for="player in players">-->
-<!--          <th scope="row"><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.position }}</a></th>-->
-<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.number }}</a></td>-->
-<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.firstname }}</a></td>-->
-<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.lastname }}</a></td>-->
-<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.age }}</a></td>-->
-<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.games }}</a></td>-->
-<!--          <td><a href="#" @click="$router.push('/teams/lineup/player')" class="link-table">{{ player.xg }}</a></td>-->
-<!--        </tr>-->
-<!--      </tbody>-->
-<!--    </table>-->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" v-for="i in Object.keys(players[0])">{{ i }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="player in players">
+          <td v-for="item in player"><a @click="$router.push(`/teams/lineup/${player.lastname}`)" class="link-table" href="">{{ item }}</a></td>
+        </tr>
+      </tbody>
+    </table>
     <ul>
       <li class="small">Gk - Goalkeeper</li>
       <li class="small">Def - Defender</li>

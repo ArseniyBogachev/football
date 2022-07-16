@@ -1,39 +1,28 @@
 <template>
-  <div class="container">
-    <MinibarMob v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu"></MinibarMob>
     <div class="title-sort">
       <h5>Line-Up Zenit</h5>
       <SeletedMob v-model="modelValue" v-bind:options="options" @change="sorted_func"></SeletedMob>
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Position</th>
-          <th scope="col">№</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Age</th>
-          <th scope="col">Games</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="player in players">
-            <td><a href="#" class="link-table">{{ player.position }}</a></td>
-            <td><a href="#" class="link-table">{{ player.number }}</a></td>
-            <td><a href="#" class="link-table">{{ player.firstname }}</a></td>
-            <td><a href="#" class="link-table">{{ player.lastname }}</a></td>
-            <td><a href="#" class="link-table">{{ player.age }}</a></td>
-            <td><a href="#" class="link-table">{{ player.games }}</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" v-for="i in Object.keys(players[0])">{{ i }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="player in players">
+            <td v-for="item in player"><a @click="$router.push(`/teams/lineup/${player.lastname}`)" class="link-table" href="">{{ item }}</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <ul>
       <li class="small">Gk - Goalkeeper</li>
       <li class="small">Def - Defender</li>
       <li class="small">Mf - Midfielder</li>
       <li class="small">At - Attack</li>
     </ul>
-  </div>
 </template>
 
 <script>

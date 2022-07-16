@@ -41,9 +41,9 @@ export default {
   data(){
     return{
       tab_team:[
-        {active: true, link: '/teams/club', name: 'Club'},
-        {active: false, link: '/teams/club', name: 'Matches'},
-        {active: false, link: '/teams/club', name: 'Line-up'},
+        {active: true, name: 'Club'},
+        {active: false, name: 'Matches'},
+        {active: false, name: 'Line-up'},
       ],
       dropdown_menu:[
         {name: 'Season', item: ['2021-2022', '2022-2023']},

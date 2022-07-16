@@ -21,19 +21,19 @@
       </div>
     </div>
     <MinibarCom class="minibar" v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="Do_Something"></MinibarCom>
-    <TableCom v-if="tab_team[0].active" class="d-none d-lg-block"
+    <TableCom v-if="tab_team[0].active"
                  v-bind:table="total"
     ></TableCom>
-    <TableCom v-else-if="tab_team[1].active" class="d-none d-lg-block"
+    <TableCom v-else-if="tab_team[1].active"
                  v-bind:table="position"
     ></TableCom>
-    <TableCom v-else-if="tab_team[2].active" class="d-none d-lg-block"
+    <TableCom v-else-if="tab_team[2].active"
                  v-bind:table="situation"
     ></TableCom>
-    <TableCom v-else-if="tab_team[3].active" class="d-none d-lg-block"
+    <TableCom v-else-if="tab_team[3].active"
                  v-bind:table="shot_zones"
     ></TableCom>
-    <TableCom v-else-if="tab_team[4].active" class="d-none d-lg-block"
+    <TableCom v-else-if="tab_team[4].active"
                  v-bind:table="shot_types"
     ></TableCom>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="height: 80em">
     <div class="container">
       <div class="row">
         <div class="col-4"><img src="../assets/teams/zenit/lovren.png" class="img-thumbnail" alt="..."></div>
@@ -13,13 +13,14 @@
             <hr>
             <li><fa icon="fa-solid fa-city"></fa><span>Bratislava</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-trophy"></fa><span>8 × RPL</span><span>3 × Russian cup</span><span>6 × Supercup Russian</span><span>1 × Cup UEFA</span><span>1 × Supercup UEFA</span></li>
+            <li><fa icon="fa-solid fa-shirt"></fa><span>Zenit</span></li>
             <hr>
             <li><fa icon="fa-solid fa-futbol"></fa><span>Сentre-back</span></li>
           </ul>
         </div>
       </div>
     </div>
+    <hr>
     <MinibarCom class="minibar" v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="Do_Something"></MinibarCom>
     <TableMob v-if="tab_team[0].active"
                  v-bind:table="total"
@@ -90,10 +91,13 @@ export default {
     margin-left: 20px;
   }
   .minibar{
-    margin-top: 50px;
+    margin-top: 20px;
     font-size: 10px;
   }
   li{
     font-size: 12px;
+  }
+  hr{
+    margin: 4% 0;
   }
 </style>

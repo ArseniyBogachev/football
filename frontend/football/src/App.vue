@@ -2,7 +2,7 @@
   <div class="app">
     <NavBar></NavBar>
     <router-view></router-view>
-    <FooTer></FooTer>
+    <FooTer class="footer"></FooTer>
   </div>
 </template>
 
@@ -19,5 +19,4 @@ export default {
 </script>
 
 <style>
-
 </style>

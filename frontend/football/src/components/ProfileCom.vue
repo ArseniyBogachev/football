@@ -35,22 +35,47 @@
           <p class="name-and-age-md">Arseniy Bogachev 22 age</p>
           <div class="line-custom-md"></div>
         </div>
-        <nav class="nav flex-column menu-md d-none d-md-block">
-          <a class="nav-link active" aria-current="page" href="#">My subscriptions</a>
-          <a class="nav-link" href="#">My article</a>
-          <a class="nav-link" href="#">Bookmarks</a>
+        <nav class="nav flex-column menu-md d-none d-md-block" v-for="tab in tab_profile">
+          <a v-if="tab.active" class="nav-link bg-dark active" aria-current="page" href="#">{{ tab.name }}</a>
+          <a v-else class="nav-link bg-dark" aria-current="page" href="#" @click.prevent="$emit('tab_func', tab.name)">{{ tab.name }}</a>
         </nav>
       </div>
       <div class="col-8">
-        <div></div>
+        <div>
+          <MysubscriptionsCom v-if="tab_profile[0].active" v-bind:subscriptions="subscriptions"></MysubscriptionsCom>
+          <MyarticleCom v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleCom>
+          <MybookmarksCom v-else v-bind:bookmarks="bookmarks"></MybookmarksCom>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import MyarticleCom from "@/components/MyarticleCom";
+import MybookmarksCom from "@/components/MybookmarksCom";
+import MysubscriptionsCom from "@/components/MysubscriptionsCom";
 export default {
-  name: "ProfileCom"
+  name: "ProfileCom",
+  components:{
+    MysubscriptionsCom,
+    MybookmarksCom,
+    MyarticleCom,
+  },
+  props:{
+    tab_profile:{
+      type:Array,
+    },
+    subscriptions:{
+      type:Array,
+    },
+    articles:{
+      type:Array,
+    },
+    bookmarks:{
+      type:Array,
+    },
+  },
 }
 </script>
 
@@ -91,17 +116,6 @@ export default {
     position: absolute;
     border-radius: 50%;
     top: -30px;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, 0);
-    box-shadow: 0 0 5px 1px black;
-  }
-  .image-user-xs{
-    max-width: 70px;
-    max-height: 70px;
-    position: absolute;
-    border-radius: 50%;
-    top: -20px;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, 0);
@@ -187,26 +201,18 @@ export default {
     margin-left: auto;
     margin-right: auto;
   }
-  .info-user-xs{
-    position: absolute;
-    font-size: 12px;
-    top: 50px;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, 0);
-    color: gray;
-  }
-  .menu-sm{
-    margin-top: 100%;
-    padding-left: 0;
-    text-align: right;
-  }
   .nav-link{
     margin-top: 30px;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
+    transition: 0.2s;
+    transform: translate(0, 0);
   }
-  .menu-xs{
-    margin-top: 140%;
-    text-align: right;
+  .nav-link:hover{
+    transform: translate(30px, 0);
+    transition: 0.2s;
+  }
+  .active{
+    transform: translate(30px, 0);
   }
   .menu-md{
     text-align: center;

@@ -13,7 +13,7 @@
             <hr>
             <li><fa icon="fa-solid fa-city"></fa><span>Bratislava</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-trophy"></fa><span>8 × RPL</span><span>3 × Russian cup</span><span>6 × Supercup Russian</span><span>1 × Cup UEFA</span><span>1 × Supercup UEFA</span></li>
+            <li><fa icon="fa-solid fa-shirt"></fa><span>Zenit</span></li>
             <hr>
             <li><fa icon="fa-solid fa-futbol"></fa><span>Сentre-back</span></li>
           </ul>

@@ -19,17 +19,18 @@
             </li>
             <li><a href="#" class="nav-link" @click="$router.push('/article')" style="color: gray">Article</a></li>
             <li><a href="#" @click="$router.push('/about')" class="nav-link" style="color: gray">About</a></li>
-            <li><a href="#" class="nav-link" style="color: gray">Link</a></li>
           </ul>
         </div>
 
         <div class="user_search">
           <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-bind:value="modelValue" v-on:input="input_func">
-            <button class="btn btn-outline-secondary" type="submit">Search</button>
+            <input class="form-control me-2" type="search" placeholder="Players" aria-label="Search" v-bind:value="modelValue" v-on:input="input_func">
+<!--            <button class="btn btn-outline-secondary" type="submit">Search</button>-->
           </form>
-          <ul class="search_item" v-if="modelValue && players.length > 0">
-            <li v-for="p in players" class="player"><a href="" class="link">{{p.lastname}}</a></li>
+          <ul class="nav flex-column search_item" v-if="modelValue && players.length > 0">
+            <li v-for="p in players.slice(0,5)" class="nav-item player">
+              <a href="" class="nav-link link"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
+            </li>
           </ul>
           <div v-if="false">
             <ul class="nav navbar-nav" style="margin-left: 10px;">
@@ -82,21 +83,21 @@ export default {
   .link{
     color: white;
     text-decoration: none;
-    border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
   }
-  .player{
-    border: 1px solid white;
-    padding: 5%;
-    width: 100%;
+  .link:hover{
+    background-color: #a4a0a2;
+    color: #1e1a1c;
   }
   .search_item{
     position: absolute;
-    width: 220px;
-    height: 400px;
-    background-color: gray;
+    width: 207px;
+    background-color: #474345;
     z-index: 2;
     top: 50px;
     list-style: none;
+    box-shadow: 0 0 5px 1px black;
   }
   .user_search{
     display: flex;
@@ -133,12 +134,5 @@ export default {
   }
   .form-control:focus{
     box-shadow: 0 0 5px 1px gray inset;
-  }
-  .image-user-m{
-    width: 17px;
-    height: 17px;
-    border-radius: 50%;
-    border: 1px solid gray;
-
   }
 </style>

@@ -3,7 +3,10 @@
              v-model="search"
              v-bind:players="search_players"
   ></NavbarCom>
-  <NavbarMob class="d-lg-none"></NavbarMob>
+  <NavbarMob class="d-lg-none"
+             v-model="search"
+             v-bind:players="search_players"
+  ></NavbarMob>
 </template>
 
 <script>

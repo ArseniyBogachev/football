@@ -4,6 +4,7 @@
               v-bind:subscriptions="subscriptions"
               v-bind:articles="articles"
               v-bind:bookmarks="bookmarks"
+              v-bind:user="user"
               v-on:tab_func="tab_func"
   ></ProfileCom>
   <ProfileMob class="d-md-none mob"
@@ -26,10 +27,14 @@ export default {
   },
   data(){
     return{
+      user:{
+        photo: 'kuwsh1n.jpg', firstname: 'Arseniy', lastname: 'Bogachev', nickname: 'kuwsh1n', age: 22,
+      },
       tab_profile:[
         {active: true, name: 'Subscriptions'},
         {active: false, name: 'Article'},
         {active: false, name: 'Bookmarks'},
+        {active: false, name: 'Settings'},
       ],
       subscriptions:[
         {firstname: 'Arseniy', lastname: 'Bogachev', nickname: 'kuwsh1n', article: 20, rate: 4.5, photo: 'kuwsh1n.jpg', display: false},

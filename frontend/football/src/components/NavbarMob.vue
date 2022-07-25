@@ -8,7 +8,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-m" style="left: 0">
             <li><a class="dropdown-item" href="#" @click="$router.push('/profile')">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#" @click="$router.push('/settings')">Settings</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Logout</a></li>
           </ul>

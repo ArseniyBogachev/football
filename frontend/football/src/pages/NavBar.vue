@@ -23,6 +23,8 @@ export default {
     NavbarMob,
     NavbarCom,
   },
+  methods:{
+  },
   created() {
     this.$store.dispatch('players_data')
   },

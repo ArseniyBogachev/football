@@ -44,7 +44,8 @@
         <div>
           <MysubscriptionsCom v-if="tab_profile[0].active" v-bind:subscriptions="subscriptions"></MysubscriptionsCom>
           <MyarticleCom v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleCom>
-          <MybookmarksCom v-else v-bind:bookmarks="bookmarks"></MybookmarksCom>
+          <MybookmarksCom v-else-if="tab_profile[2].active" v-bind:bookmarks="bookmarks"></MybookmarksCom>
+          <MysettingsCom v-else v-bind:user="user"></MysettingsCom>
         </div>
       </div>
     </div>
@@ -55,12 +56,14 @@
 import MyarticleCom from "@/components/MyarticleCom";
 import MybookmarksCom from "@/components/MybookmarksCom";
 import MysubscriptionsCom from "@/components/MysubscriptionsCom";
+import MysettingsCom from "@/components/MysettingsCom";
 export default {
   name: "ProfileCom",
   components:{
     MysubscriptionsCom,
     MybookmarksCom,
     MyarticleCom,
+    MysettingsCom,
   },
   props:{
     tab_profile:{
@@ -74,6 +77,9 @@ export default {
     },
     bookmarks:{
       type:Array,
+    },
+    user:{
+      type:Object,
     },
   },
 }

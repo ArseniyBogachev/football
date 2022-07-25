@@ -25,11 +25,10 @@
         <div class="user_search">
           <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Players" aria-label="Search" v-bind:value="modelValue" v-on:input="input_func">
-<!--            <button class="btn btn-outline-secondary" type="submit">Search</button>-->
           </form>
-          <ul class="nav flex-column search_item" v-if="modelValue && players.length > 0">
+          <ul class="nav flex-column search_item" v-if="modelValue && players.length > 0" @click="close_search">
             <li v-for="p in players.slice(0,5)" class="nav-item player">
-              <a href="" class="nav-link link"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
+              <a href="#" class="nav-link link" @click="$router.push(`/teams/lineup/${p.lastname}`); modelValue = '';"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
             </li>
           </ul>
           <div v-if="false">
@@ -48,7 +47,7 @@
                 </a>
                 <ul class="dropdown-menu bg-light" aria-labelledby="user">
                   <li><a class="dropdown-item" href="#" @click="$router.push('/profile')">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <li><a class="dropdown-item" href="#" @click="$router.push('/settings')">Settings</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Logout</a></li>
                 </ul>
@@ -69,12 +68,17 @@ export default {
     },
     players:{
       type: Array,
-    }
+    },
   },
   methods:{
     input_func(event){
       this.$emit('update:modelValue', event.target.value)
-    }
+    },
+    close_search(event){
+      if (!event){
+        this.modelValue = ''
+      }
+    },
   }
 }
 </script>

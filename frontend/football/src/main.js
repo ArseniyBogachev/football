@@ -10,6 +10,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons'
 const app = createApp(App)
 
+
 library.add(fas, faGithub, faInstagram, faTelegram )
 
 app

@@ -12,6 +12,7 @@
               v-bind:subscriptions="subscriptions"
               v-bind:articles="articles"
               v-bind:bookmarks="bookmarks"
+              v-bind:user="user"
               v-on:tab_func="tab_func"
   ></ProfileMob>
 </template>

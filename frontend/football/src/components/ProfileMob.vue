@@ -23,7 +23,8 @@
       <div>
         <MysubscriptionsMob v-if="tab_profile[0].active" v-bind:subscriptions="subscriptions"></MysubscriptionsMob>
         <MyarticleMob v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleMob>
-        <MybookmarksMob v-else v-bind:bookmarks="bookmarks"></MybookmarksMob>
+        <MybookmarksMob  v-else-if="tab_profile[2].active" v-bind:bookmarks="bookmarks"></MybookmarksMob>
+        <MysettingsMob v-else v-bind:user="user"></MysettingsMob>
       </div>
     </div>
   </div>
@@ -33,12 +34,14 @@
 import MybookmarksMob from "@/components/MybookmarksMob";
 import MyarticleMob from "@/components/MyarticleMob";
 import MysubscriptionsMob from "@/components/MysubscriptionsMob";
+import MysettingsMob from "@/components/MysettingsMob";
 export default {
   name: "ProfileMob",
   components:{
     MysubscriptionsMob,
     MybookmarksMob,
     MyarticleMob,
+    MysettingsMob,
   },
   props:{
     tab_profile:{
@@ -52,6 +55,9 @@ export default {
     },
     bookmarks:{
       type:Array,
+    },
+    user:{
+      type:Object,
     },
   },
 }

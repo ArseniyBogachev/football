@@ -4,10 +4,10 @@
       <li v-if="k === 'photo'" class="photo mb-3">
         <img v-if="this.files" v-bind:src="this.files" class="img-fluid img-thumbnail">
         <img v-else v-bind:src="require(`../assets/users/${u}`)" class="img-fluid img-thumbnail">
-        <input class="form-control" type="file" ref="formFile" style="margin-top: 162px;" @change="previewFiles($event)">
+        <input class="form-control" type="file" ref="formFile" style="margin-top: 162px; margin-left: 20px" @change="previewFiles($event)">
       </li>
       <li class="item" v-else>
-        <span>{{k.charAt(0).toUpperCase() + k.slice(1)}}</span>
+        <small class="text-muted">{{k.charAt(0).toUpperCase() + k.slice(1)}}</small>
         <input  type="text" class="form-control" v-bind:value="u"></li>
     </ul>
     <button type="button" class="btn btn-success"><fa icon="fa-solid fa-floppy-disk"></fa></button>
@@ -62,14 +62,10 @@ export default {
     padding: 0;
   }
   .item{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
     font-family: "Sitka Banner";
-    font-size: 21px;
   }
   .form-control{
-    max-width: 500px;
+    max-width: 100%;
     max-height: 38px;
   }
 </style>

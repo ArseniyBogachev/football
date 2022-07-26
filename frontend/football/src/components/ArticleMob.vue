@@ -4,7 +4,7 @@
     <hr>
     <div class="wrapper">
       <div class="card" style="width: 80%;">
-        <img src="../assets/tactial.jpg" class="card-img-top" alt="...">
+        <img src="../assets/tactical.jpg" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Tactical articles</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

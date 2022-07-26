@@ -2,23 +2,23 @@
   <nav class="navbar navbar-expand-lg navbar-default bg-dark" style="box-shadow: 0 0 5px 1px darkgray">
     <div class="container-lg">
         <div class="navbar-header">
-          <a href="#" class="navbar-brand" @click="$router.push('/')" style="color: gray">Football analytics</a>
+          <a href="#" class="navbar-brand" @click.prevent="$router.push('/')" style="color: gray">Football analytics</a>
         </div>
 
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#" @click="$router.push('/')" class="nav-link" style="color: gray">Home</a></li>
+            <li><a href="#" @click.prevent="$router.push('/')" class="nav-link" style="color: gray">Home</a></li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: gray">
                 Teams
               </a>
               <ul class="dropdown-menu bg-light" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#" @click="$router.push('/teams')">Russian PL</a></li>
-                <li><a class="dropdown-item" href="#" @click="$router.push('/teams')">FNL</a></li>
+                <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/teams')">Russian PL</a></li>
+                <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/teams')">FNL</a></li>
               </ul>
             </li>
-            <li><a href="#" class="nav-link" @click="$router.push('/article')" style="color: gray">Article</a></li>
-            <li><a href="#" @click="$router.push('/about')" class="nav-link" style="color: gray">About</a></li>
+            <li><a href="#" class="nav-link" @click.prevent="$router.push('/article')" style="color: gray">Article</a></li>
+            <li><a href="#" @click.prevent="$router.push('/about')" class="nav-link" style="color: gray">About</a></li>
           </ul>
         </div>
 
@@ -28,7 +28,7 @@
           </form>
           <ul class="nav flex-column search_item" v-if="modelValue && players.length > 0" @click="close_search">
             <li v-for="p in players.slice(0,5)" class="nav-item player">
-              <a href="#" class="nav-link link" @click="$router.push(`/teams/lineup/${p.lastname}`); modelValue = '';"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
+              <a href="#" class="nav-link link" @click.prevent="$router.push(`/teams/lineup/${p.lastname}`); modelValue = '';"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
             </li>
           </ul>
           <div v-if="false">
@@ -46,8 +46,8 @@
                   <span class="name">Arseniy</span>
                 </a>
                 <ul class="dropdown-menu bg-light" aria-labelledby="user">
-                  <li><a class="dropdown-item" href="#" @click="$router.push('/profile')">Profile</a></li>
-                  <li><a class="dropdown-item" href="#" @click="$router.push('/settings')">Settings</a></li>
+                  <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/profile')">Profile</a></li>
+<!--                  <li><a class="dropdown-item" href="#" @click="$router.push('/settings')">Settings</a></li>-->
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Logout</a></li>
                 </ul>

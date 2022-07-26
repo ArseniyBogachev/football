@@ -7,14 +7,14 @@
     <p class="d-sm-none sm-text">{{ n.text.slice(0,250) }}...</p>
     <button type="button" class="d-sm-none btn btn-secondary btn-sm">read</button>
   </li>
-  <div>
-    <a href="#" v-if="like" v-on:click="$emit('like_func')"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-up"></fa></a>
-    <a href="#" v-else v-on:click="$emit('like_func')"><fa class="like-dislike" icon="fa-solid fa-thumbs-up"></fa></a>
-    <span style="margin-left: 5px">{{like_count}}</span>
-    <a href="#" v-if="dislike" v-on:click="$emit('dislike_func')"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-down"></fa></a>
-    <a href="#" v-else v-on:click="$emit('dislike_func')"><fa class="like-dislike" icon="fa-solid fa-thumbs-down"></fa></a>
-    <span style="margin-left: 5px">{{dislike_count}}</span>
-  </div>
+<!--  <div>-->
+<!--    <a href="#" v-if="like" v-on:click="$emit('like_func')"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-up"></fa></a>-->
+<!--    <a href="#" v-else v-on:click="$emit('like_func')"><fa class="like-dislike" icon="fa-solid fa-thumbs-up"></fa></a>-->
+<!--    <span style="margin-left: 5px">{{like_count}}</span>-->
+<!--    <a href="#" v-if="dislike" v-on:click="$emit('dislike_func')"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-down"></fa></a>-->
+<!--    <a href="#" v-else v-on:click="$emit('dislike_func')"><fa class="like-dislike" icon="fa-solid fa-thumbs-down"></fa></a>-->
+<!--    <span style="margin-left: 5px">{{dislike_count}}</span>-->
+<!--  </div>-->
   <hr/>
 </template>
 

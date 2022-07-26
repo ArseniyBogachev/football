@@ -6,6 +6,7 @@ import ArticleApp from "@/pages/ArticleApp";
 import TeamsApp from "@/pages/TeamsApp";
 import ClubApp from "@/pages/ClubApp";
 import PlayerApp from "@/pages/PlayerApp";
+import CatArticlesCom from "@/components/CatArticlesCom";
 
 
 
@@ -38,6 +39,12 @@ const routes = [
     {
         path: '/teams/lineup/:slug',
         component: PlayerApp,
+    },
+    {
+        path: '/article/:slug',
+        component: CatArticlesCom,
+        name: 'article_cat',
+        props: true,
     },
 ]
 

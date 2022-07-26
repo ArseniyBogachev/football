@@ -6,7 +6,7 @@ import ArticleApp from "@/pages/ArticleApp";
 import TeamsApp from "@/pages/TeamsApp";
 import ClubApp from "@/pages/ClubApp";
 import PlayerApp from "@/pages/PlayerApp";
-import CatArticlesCom from "@/components/CatArticlesCom";
+import CatArticles from "@/components/CatArticles";
 
 
 
@@ -42,7 +42,7 @@ const routes = [
     },
     {
         path: '/article/:slug',
-        component: CatArticlesCom,
+        component: CatArticles,
         name: 'article_cat',
         props: true,
     },

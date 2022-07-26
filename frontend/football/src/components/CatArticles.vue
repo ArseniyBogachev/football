@@ -1,5 +1,13 @@
 <template>
-  <div class="container-md">
+  <div class="container-md d-none d-md-block">
+    <ul>
+      <NewsApp
+        v-for="n in articles"
+        v-bind:n="n"
+      ></NewsApp>
+    </ul>
+  </div>
+  <div class="container d-md-none">
     <ul>
       <NewsApp
         v-for="n in articles"
@@ -70,7 +78,7 @@ export default {
   ul{
     list-style: none;
   }
-  .wrapper-sm{
-    padding: 2%;
+  .container{
+    margin-bottom: 100px;
   }
 </style>

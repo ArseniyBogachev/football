@@ -32,63 +32,33 @@
 
 <script>
 import NewsApp from "@/components/NewsApp";
-import {mapActions } from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 export default {
   name: "HomeApp",
   data(){
     return{
       search: '',
-      like: false,
-      dislike: false,
-      like_count: 0,
-      dislike_count: 0,
     }
   },
   components:{
     NewsApp,
   },
   methods:{
-    like_func(){
-      if (this.like === this.dislike){
-        this.like = !this.like
-        this.like_count += 1
-      }
-      else{
-        if (this.like === true){
-          this.like = false
-          this.like_count -= 1
-        }
-        else{
-          this.like = !this.like
-          this.like_count += 1
-          this.dislike = !this.dislike
-          this.dislike_count -= 1
-        }
-      }
-    },
-    dislike_func(){
-      if (this.like === this.dislike){
-        this.dislike = !this.dislike
-        this.dislike_count += 1
-      }
-      else{
-        if (this.dislike === true){
-          this.dislike = false
-          this.dislike_count -= 1
-        }
-        else{
-          this.like = !this.like
-          this.like_count -= 1
-          this.dislike = !this.dislike
-          this.dislike_count += 1
-        }
-      }
-    }
+    ...mapMutations({
+      like_func: 'like_func',
+      dislike_func: 'dislike_func',
+    }),
   },
   created() {
     this.$store.dispatch('articles_data')
   },
   computed:{
+    ...mapGetters({
+        like: 'like',
+        dislike: 'dislike',
+        like_count: 'like_count',
+        dislike_count: 'dislike_count',
+    }),
     articles(){
       return [...this.$store.getters.articles_all,]
     }

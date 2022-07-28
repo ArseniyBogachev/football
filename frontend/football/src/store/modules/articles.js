@@ -7,6 +7,10 @@ export const articles = {
         articles_xg: [],
         articles_manager: [],
         articles_team: [],
+        like: false,
+        dislike: false,
+        like_count: 0,
+        dislike_count: 0,
     }),
     getters:{
         articles_all(state){
@@ -27,6 +31,18 @@ export const articles = {
         articles_team(state){
             return state.articles_team
         },
+        like(state){
+            return state.like
+        },
+        dislike(state){
+            return state.dislike
+        },
+        like_count(state){
+            return state.like_count
+        },
+        dislike_count(state){
+            return state.dislike_count
+        },
     },
     mutations:{
         updateArticles(state, articles){
@@ -36,7 +52,43 @@ export const articles = {
             state.articles_xg = [...articles].filter(item => item.category.includes('xg'))
             state.articles_manager = [...articles].filter(item => item.category.includes('manager'))
             state.articles_team = [...articles].filter(item => item.category.includes('team'))
-        }
+        },
+        like_func(state){
+          if (state.like === state.dislike){
+            state.like = !state.like
+            state.like_count += 1
+          }
+          else{
+            if (state.like === true){
+              state.like = false
+              state.like_count -= 1
+            }
+            else{
+              state.like = !state.like
+              state.like_count += 1
+              state.dislike = !state.dislike
+              state.dislike_count -= 1
+            }
+          }
+        },
+        dislike_func(state){
+          if (state.like === state.dislike){
+            state.dislike = !state.dislike
+            state.dislike_count += 1
+          }
+          else{
+            if (state.dislike === true){
+              state.dislike = false
+              state.dislike_count -= 1
+            }
+            else{
+              state.like = !state.like
+              state.like_count -= 1
+              state.dislike = !state.dislike
+              state.dislike_count += 1
+            }
+          }
+        },
     },
     actions: {
         articles_data(ctx){

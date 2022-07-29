@@ -1,18 +1,18 @@
 <template>
   <ProfileCom class="d-none d-md-block"
               v-bind:tab_profile="tab_profile"
-              v-bind:subscriptions="subscriptions"
+              v-bind:subscriptions="users"
               v-bind:articles="articles"
               v-bind:bookmarks="bookmarks"
-              v-bind:user="user"
+              v-bind:user="me"
               v-on:tab_func="tab_func"
   ></ProfileCom>
   <ProfileMob class="d-md-none mob"
               v-bind:tab_profile="tab_profile"
-              v-bind:subscriptions="subscriptions"
+              v-bind:subscriptions="users"
               v-bind:articles="articles"
               v-bind:bookmarks="bookmarks"
-              v-bind:user="user"
+              v-bind:user="me"
               v-on:tab_func="tab_func"
   ></ProfileMob>
 </template>
@@ -20,6 +20,7 @@
 <script>
 import ProfileCom from "@/components/ProfileCom";
 import ProfileMob from "@/components/ProfileMob";
+import {mapMutations, mapGetters} from 'vuex'
 export default {
   name: "ProfileApp",
   components:{
@@ -28,23 +29,11 @@ export default {
   },
   data(){
     return{
-      user:{
-        photo: 'kuwsh1n.jpg', firstname: 'Arseniy', lastname: 'Bogachev', nickname: 'kuwsh1n', age: 22,
-      },
       tab_profile:[
         {active: true, name: 'Subscriptions'},
         {active: false, name: 'Article'},
         {active: false, name: 'Bookmarks'},
         {active: false, name: 'Settings'},
-      ],
-      subscriptions:[
-        {firstname: 'Arseniy', lastname: 'Bogachev', nickname: 'kuwsh1n', article: 20, rate: 4.5, photo: 'kuwsh1n.jpg', display: false},
-        {firstname: 'Daniil', lastname: 'Grigoryevskiy', nickname: 'dany228', article: 10, rate: 4.1, photo: 'dany228.jpg', display: false},
-        {firstname: 'Dmitriy', lastname: 'Krinickiy', nickname: 'Mitay', article: 13, rate: 4.4, photo: '', display: false},
-        {firstname: 'Kirill', lastname: 'Zherdev', nickname: 'uzumaki', article: 26, rate: 4.3, photo: 'uzumaki.jpg', display: false},
-        {firstname: 'Daria', lastname: 'Utesheva', nickname: 'kuwsh1nka', article: 5, rate: 5, photo: 'kuwsh1nka.jpg', display: false},
-        // {firstname: 'Daria', lastname: 'Utesheva', nickname: 'kuwsh1nka', article: 5, rate: 5, photo: 'kuwsh1nka.jpg', display: false},
-        // {firstname: 'Daria', lastname: 'Utesheva', nickname: 'kuwsh1nka', article: 5, rate: 5, photo: 'kuwsh1nka.jpg', display: false},
       ],
       articles:[
         {title: 'Cristiano Ronaldo', text: "Вторая подряд победа в Серии А и новые рекорды (2019—2021)\n" +
@@ -109,11 +98,25 @@ export default {
     }
   },
   methods:{
+    ...mapMutations({
+      UpdateUsers: 'UpdateUsers',
+      UpdateMe: 'UpdateMe',
+    }),
     tab_func(name){
       for (let i of this.tab_profile){
         let a = (i.name === name) ? i.active = true : i.active = false
       }
     }
+  },
+  created() {
+    this.$store.dispatch('users_data')
+    this.$store.dispatch('me_data')
+  },
+  computed:{
+    ...mapGetters({
+      users: 'users',
+      me: 'me',
+    })
   }
 }
 </script>

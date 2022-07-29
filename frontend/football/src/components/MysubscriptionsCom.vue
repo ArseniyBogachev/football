@@ -14,7 +14,7 @@
                   <fa icon="fa-solid fa-ellipsis" class="settigs"></fa>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: s.nickname}}); updateMe({sub: this.subscriptions, nick: s.nickname})">Profile</a></li>
                   <li><a class="dropdown-item" href="#">Messege</a></li>
                   <li><a class="dropdown-item" href="#">Unsubscribe</a></li>
                 </ul>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
 export default {
   name: "MysubscriptionsCom",
   props:{
@@ -43,6 +44,11 @@ export default {
       type:Array,
     },
   },
+  methods:{
+    ...mapMutations({
+      updateMe: 'UpdateMe'
+    })
+  }
 }
 </script>
 

@@ -17,6 +17,7 @@
     "vue": "^3.2.13",
     "vue-photo-preview": "^1.1.3",
     "vue-router": "^4.0.3",
+    "vue-web-storage": "^6.1.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

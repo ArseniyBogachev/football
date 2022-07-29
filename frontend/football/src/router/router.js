@@ -21,8 +21,10 @@ const routes = [
         component: AboutApp,
     },
     {
-        path: '/profile',
+        path: '/profile/:slug',
         component: ProfileApp,
+        name: 'profile',
+        props: true,
     },
     {
         path: '/article',

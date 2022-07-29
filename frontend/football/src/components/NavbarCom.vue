@@ -4,7 +4,6 @@
         <div class="navbar-header">
           <a href="#" class="navbar-brand" @click.prevent="$router.push('/')" style="color: gray">Football analytics</a>
         </div>
-
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="#" @click.prevent="$router.push('/')" class="nav-link" style="color: gray">Home</a></li>
@@ -46,7 +45,7 @@
                   <span class="name">Arseniy</span>
                 </a>
                 <ul class="dropdown-menu bg-light" aria-labelledby="user">
-                  <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/profile')">Profile</a></li>
+                  <li><a class="dropdown-item" href="#" @click="$router.push({name: 'profile', params: {slug: user.nickname}})">Profile</a></li>
 <!--                  <li><a class="dropdown-item" href="#" @click="$router.push('/settings')">Settings</a></li>-->
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Logout</a></li>
@@ -69,6 +68,9 @@ export default {
     players:{
       type: Array,
     },
+    user:{
+      type: Object,
+    },
   },
   methods:{
     input_func(event){
@@ -79,7 +81,7 @@ export default {
         this.modelValue = ''
       }
     },
-  }
+  },
 }
 </script>
 

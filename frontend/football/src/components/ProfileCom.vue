@@ -26,13 +26,13 @@
           <span>Like</span>
         </p>
         <div class="info-user-lg d-none d-lg-block">
-          <span class="username">kuwsh1n</span>
-          <p class="name-and-age">Arseniy Bogachev 22 age</p>
+          <span class="username">{{user.nickname}}</span>
+          <p class="name-and-age">{{ user.firstname }} {{ user.lastname }} {{ user.age }} age</p>
           <div class="line-custom-lg"></div>
         </div>
         <div class="info-user-md d-none d-md-block d-lg-none">
-          <span class="username-md">kuwsh1n</span>
-          <p class="name-and-age-md">Arseniy Bogachev 22 age</p>
+          <span class="username-md">{{user.nickname}}</span>
+          <p class="name-and-age-md">{{ user.firstname }} {{ user.lastname }} {{ user.age }} age</p>
           <div class="line-custom-md"></div>
         </div>
         <nav class="nav flex-column menu-md d-none d-md-block" v-for="tab in tab_profile">

@@ -7,6 +7,8 @@ import TeamsApp from "@/pages/TeamsApp";
 import ClubApp from "@/pages/ClubApp";
 import PlayerApp from "@/pages/PlayerApp";
 import CatArticles from "@/components/CatArticles";
+import LoginApp from "@/pages/LoginApp";
+import RegisterApp from "@/pages/RegisterApp";
 
 
 
@@ -47,6 +49,14 @@ const routes = [
         component: CatArticles,
         name: 'article_cat',
         props: true,
+    },
+    {
+        path: '/login',
+        component: LoginApp,
+    },
+    {
+        path: '/register',
+        component: RegisterApp,
     },
 ]
 

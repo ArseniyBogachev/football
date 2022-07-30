@@ -30,10 +30,10 @@
               <a href="#" class="nav-link link" @click.prevent="$router.push(`/teams/lineup/${p.lastname}`); modelValue = '';"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
             </li>
           </ul>
-          <div v-if="false">
+          <div v-if="true">
             <ul class="nav navbar-nav" style="margin-left: 10px;">
-              <li><a href="#" class="nav-link"  style="color: gray">Login</a></li>
-              <li><a href="#" class="nav-link" style="color: gray">Register</a></li>
+              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click="$router.push('/login')">Login</a></li>
+              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click="$router.push('/register')">Register</a></li>
             </ul>
           </div>
           <div v-else>

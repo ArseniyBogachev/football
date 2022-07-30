@@ -4,9 +4,10 @@
     <hr>
     <div class="wrapper" v-for="i in category.length / 3">
       <div class="card" style="width: 18rem;" v-for="cat in category.slice(3*(i-1), 3*i)">
-        <img v-bind:src="require(`../assets/${cat.photo}`)" class="card-img-top" alt="...">
+<!--        <img v-bind:src="require(`../assets/${cat.photo}`)" class="card-img-top" alt="...">-->
+<!--        <img v-bind:src="require(`${cat.photo}`)" class="card-img-top" alt="...">-->
         <div class="card-body">
-          <h5 class="card-title">{{ cat.name }}</h5>
+          <h5 class="card-title">{{ cat.title }}</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
           <a href="#" @click.prevent="$router.push({name: 'article_cat', params:{slug: cat.link}})" class="btn btn-primary">Go somewhere</a>
         </div>

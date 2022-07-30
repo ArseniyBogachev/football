@@ -77,7 +77,7 @@ export default {
       else if (this.slug === 'xg') {
         return this.articles_xg
       }
-      else if (this.slug === 'manager') {
+      else if (this.slug === 'managers') {
         return this.articles_manager
       }
       else {

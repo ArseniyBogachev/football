@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'football.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'football_db',
+        'NAME': 'Football_db',
         'USER': 'postgres',
         'PASSWORD': 'Danny100',
         'HOST': 'localhost',
@@ -137,3 +137,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     # "http://192.168.0.3:8080/",
 ]
+
+AUTH_USER_MODEL = "startapp.Users"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

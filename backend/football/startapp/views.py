@@ -7,10 +7,17 @@ from .models import Articles
 from .serializers import *
 
 
-
-
 class ArticlesAPIList(generics.ListAPIView):
     queryset = Articles.objects.all()
     serializer_class = ArticleSerializer
 
+
+class ArticlesRelationAPIList(generics.ListAPIView):
+    queryset = ArticlesRelation.objects.all()
+    serializer_class = ArticlesRelationSerializer
+
+
+class ArticlesCategoryAPIList(generics.ListAPIView):
+    queryset = CategoryArticles.objects.all()
+    serializer_class = ArticlesCategorySerializer
 # Create your views here.

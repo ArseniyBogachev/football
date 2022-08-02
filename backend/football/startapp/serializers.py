@@ -9,9 +9,14 @@ class UsersSerializer(serializers.ModelSerializer):
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    author = serializers.SerializerMethodField()
+
     class Meta:
         model = Articles
-        fields = '__all__'
+        fields = ('title', 'text', 'date', 'cat', 'author')
+
+    def get_author(self, instance):
+        return instance.author.username
 
 
 class ArticlesRelationSerializer(serializers.ModelSerializer):

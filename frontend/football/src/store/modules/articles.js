@@ -60,7 +60,7 @@ export const articles = {
             state.articles_team = [...articles].filter(item => item.cat === 5)
         },
         updateCategory(state, category){
-            state.category = [...category].concat([{'title': 'all', 'link': 'all'}])
+            state.category = [{'title': 'all', 'link': 'all'}].concat([...category])
         },
         like_func(state){
           if (state.like === state.dislike){
@@ -102,11 +102,11 @@ export const articles = {
     actions: {
         async articles_data(ctx){
             const response = await axios.get('http://127.0.0.1:8000/api/v1/articles')
-            console.log(response.data)
             ctx.commit('updateArticles', response.data)
         },
         async category_data(ctx){
             const response = await axios.get('http://127.0.0.1:8000/api/v1/articlescategory')
+            console.log(response.data)
             ctx.commit('updateCategory', response.data)
         },
     },

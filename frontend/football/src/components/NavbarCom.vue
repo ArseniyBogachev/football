@@ -46,7 +46,6 @@
                 </a>
                 <ul class="dropdown-menu bg-light" aria-labelledby="user">
                   <li><a class="dropdown-item" href="#" @click="$router.push({name: 'profile', params: {slug: user.nickname}})">Profile</a></li>
-<!--                  <li><a class="dropdown-item" href="#" @click="$router.push('/settings')">Settings</a></li>-->
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Logout</a></li>
                 </ul>

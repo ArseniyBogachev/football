@@ -1,8 +1,9 @@
+import axios from 'axios'
 
 export const users = {
     state: () => ({
         users: [],
-        me: {},
+        me: null,
     }),
     getters:{
         users(state){
@@ -38,9 +39,9 @@ export const users = {
             ]
             ctx.commit('UpdateUsers', response)
         },
-        me_data(ctx){
-            const response = {photo: 'kuwsh1n.jpg', firstname: 'Arseniy', lastname: 'Bogachev', nickname: 'kuwsh1n', age: 22,}
-            ctx.commit('MeUser', response)
+        async me_data(ctx, access){
+            const response = await axios.get('http://127.0.0.1:8000/auth/users/me/', {headers: {"Authorization" : `Bearer ${access}`}})
+            ctx.commit('MeUser', response.data)
         }
     },
 }

@@ -2,8 +2,8 @@
   <div class="box">
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
       <div class="container-fluid">
-        <img class="image-user" src="../assets/user.jpg" alt="">
-<!--        <a class="navbar-brand" href="#"></a>-->
+        <img class="image-user" v-bind:src="user.image" alt="" v-if="user.image">
+        <img class="image-user" src="../assets/none_image.png" alt="" v-else>
         <ul class="nav justify-content-center" v-for="tab in tab_profile" style="padding-left: 1%; padding-right: 2%">
           <li class="nav-item">
             <a v-if="tab.active" class="nav-link active" aria-current="page" href="#">{{ tab.name }}</a>
@@ -13,7 +13,7 @@
       </div>
     </nav>
     <div class="nav-small">
-      <div class="name">kuwsh1n</div>
+      <div class="name">{{ user.username }}</div>
       <div class="rate">
         <div class="following"><fa icon="fa-solid fa-users"></fa><span style="line-height: 15px; margin-left: 4px">28k</span></div>
         <div class="likes" style="margin-left: 20%"><fa icon="fa-solid fa-heart"></fa><span style="line-height: 15px; margin-left: 4px">100k</span></div>
@@ -70,8 +70,8 @@ export default {
     margin-bottom: -16px;
   }
   .image-user{
-    max-width: 50px;
-    max-height: 50px;
+    width: 50px;
+    height: 50px;
     position: absolute;
     border-radius: 50%;
     top: -30px;

@@ -14,7 +14,7 @@
 <script>
 import NavbarCom from "@/components/NavbarCom";
 import NavbarMob from "@/components/NavbarMob";
-import {mapGetters} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 export default {
   name: "NavBar",
   data(){
@@ -27,14 +27,19 @@ export default {
     NavbarCom,
   },
   methods:{
+    ...mapActions({
+      players_data: 'players_data',
+      me_data: 'me_data'
+    })
   },
   created() {
-    this.$store.dispatch('players_data')
-    this.$store.dispatch('me_data')
+    this.me_data(this.$localStorage.get('access'))
+    this.players_data()
   },
   computed:{
     ...mapGetters({
-      me: 'me'
+      me: 'me',
+      access: 'access'
     }),
     search_players(){
       return [...this.$store.getters.players].filter(item => item.lastname.includes(this.search))

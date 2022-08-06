@@ -20,7 +20,7 @@
 <script>
 import ProfileCom from "@/components/ProfileCom";
 import ProfileMob from "@/components/ProfileMob";
-import {mapMutations, mapGetters} from 'vuex'
+import {mapMutations, mapGetters, mapActions} from 'vuex'
 export default {
   name: "ProfileApp",
   components:{
@@ -102,6 +102,10 @@ export default {
       UpdateUsers: 'UpdateUsers',
       UpdateMe: 'UpdateMe',
     }),
+    ...mapActions({
+      users_data: 'users_data',
+      me_data: 'me_data'
+    }),
     tab_func(name){
       for (let i of this.tab_profile){
         let a = (i.name === name) ? i.active = true : i.active = false
@@ -109,8 +113,8 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('users_data')
-    this.$store.dispatch('me_data')
+    this.users_data()
+    this.me_data(this.$localStorage.get('access'))
   },
   computed:{
     ...mapGetters({

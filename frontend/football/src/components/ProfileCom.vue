@@ -2,9 +2,16 @@
   <div class="container-md">
     <div class="row">
       <div class="col-4 bg-dark" style="height: 41em">
-        <img class="image-user-xxl d-none d-xxl-block" src="../assets/user.jpg" alt="">
-        <img class="image-user-lg d-none d-lg-block d-xxl-none" src="../assets/user.jpg" alt="">
-        <img class="image-user-md d-none d-md-block d-lg-none" src="../assets/user.jpg" alt="">
+        <div v-if="user.image">
+          <img class="image-user-xxl d-none d-xxl-block" v-bind:src="user.image" alt="">
+          <img class="image-user-lg d-none d-lg-block d-xxl-none" v-bind:src="user.image" alt="">
+          <img class="image-user-md d-none d-md-block d-lg-none" v-bind:src="user.image" alt="">
+        </div>
+        <div v-else>
+          <img class="image-user-xxl d-none d-xxl-block" src="../assets/none_image.png" alt="">
+          <img class="image-user-lg d-none d-lg-block d-xxl-none" src="../assets/none_image.png" alt="">
+          <img class="image-user-md d-none d-md-block d-lg-none" src="../assets/none_image.png" alt="">
+        </div>
         <p class="followers-md-none d-none d-lg-block">
           <span>58k</span>
           <br>
@@ -26,12 +33,12 @@
           <span>Like</span>
         </p>
         <div class="info-user-lg d-none d-lg-block">
-          <span class="username">{{user.nickname}}</span>
-          <p class="name-and-age">{{ user.firstname }} {{ user.lastname }} {{ user.age }} age</p>
+          <span class="username">{{user.username}}</span>
+          <p class="name-and-age">{{ user.first_name }} {{ user.last_name }} {{ user.age }} age</p>
           <div class="line-custom-lg"></div>
         </div>
         <div class="info-user-md d-none d-md-block d-lg-none">
-          <span class="username-md">{{user.nickname}}</span>
+          <span class="username-md">{{user.username}}</span>
           <p class="name-and-age-md">{{ user.firstname }} {{ user.lastname }} {{ user.age }} age</p>
           <div class="line-custom-md"></div>
         </div>
@@ -106,8 +113,8 @@ export default {
     box-shadow: 0 0 5px 1px black;
   }
   .image-user-lg{
-    max-width: 150px;
-    max-height: 150px;
+    width: 150px;
+    height: 150px;
     position: absolute;
     border-radius: 50%;
     top: -40px;
@@ -117,8 +124,8 @@ export default {
     box-shadow: 0 0 5px 1px black;
   }
   .image-user-md{
-    max-width: 100px;
-    max-height: 100px;
+    width: 100px;
+    height: 100px;
     position: absolute;
     border-radius: 50%;
     top: -30px;

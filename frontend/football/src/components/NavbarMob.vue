@@ -3,8 +3,8 @@
       <div class="container-fluid">
         <div class="nav-item dropdown" style="margin-top: 10px">
           <a class="nav-link dropdown" href="#" id="user-m" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: gray">
-            <fa class="icon-user" v-if="false" icon="user"></fa>
-            <img v-else class="image-user-m" src="../assets/user.jpg"/>
+            <img v-if="user.image" class="image-user-m" v-bind:src="user.image"/>
+            <fa class="icon-user" v-else icon="user"></fa>
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-m" style="left: 0">
             <li><a class="dropdown-item" href="#" @click="$router.push('/profile')">Profile</a></li>
@@ -68,7 +68,10 @@ export default {
     },
     players:{
       type: Array,
-    }
+    },
+    user:{
+      type: Object,
+    },
   },
   methods:{
     input_func(event){
@@ -116,6 +119,9 @@ export default {
   }
   .icon-user{
     color: gray;
+    border: 1px solid gray;
+    border-radius: 40%;
+    padding: 4px;
   }
   .image-user-m{
     width: 20px;

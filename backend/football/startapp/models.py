@@ -7,11 +7,11 @@ class Users(AbstractUser):
     last_name = models.CharField(max_length=10)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=10, unique=True)
-    image = models.ImageField(upload_to='image/users/%Y/%m/%d')
+    image = models.ImageField(upload_to='image/users/%Y/%m/%d', null=True)
     bookmarks = models.ManyToManyField('Articles', through='ArticlesRelation', related_name='bookmarks')
     likes = models.ManyToManyField('Articles', through='ArticlesLikes', related_name='likes')
 
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
+    REQUIRED_FIELDS = ['image', 'first_name', 'last_name', 'email', 'bookmarks']
 
     def __str__(self):
         return self.username

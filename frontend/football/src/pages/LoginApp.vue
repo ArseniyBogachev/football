@@ -42,8 +42,6 @@ export default {
         })
         this.$localStorage.set('access', response.data.access)
         this.$localStorage.set('refresh', response.data.refresh)
-        console.log(this.$localStorage.get('access'))
-        console.log(this.$localStorage.get('refresh'))
         location.reload()
       }
       catch (e) {

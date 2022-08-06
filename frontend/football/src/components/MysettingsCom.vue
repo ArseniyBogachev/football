@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <ul class="list" v-for="(u, k) in user">
-      <li v-if="k === 'photo'" class="photo mb-3">
+    <ul class="list" v-for="(u, k) in user" key="k">
+      <li v-if="k === 'image'" class="photo mb-3">
         <img v-if="this.files" v-bind:src="this.files" class="img-fluid img-thumbnail">
-        <img v-else v-bind:src="require(`../assets/users/${u}`)" class="img-fluid img-thumbnail">
+        <img v-else v-bind:src="u" class="img-fluid img-thumbnail">
         <input class="form-control" type="file" ref="formFile" style="margin-top: 162px; margin-left: 20px" @change="previewFiles($event)">
       </li>
-      <li class="item" v-else>
+      <li class="item" v-else-if="typeof(u) === 'string'">
         <small class="text-muted">{{k.charAt(0).toUpperCase() + k.slice(1)}}</small>
         <input  type="text" class="form-control" v-bind:value="u"></li>
     </ul>

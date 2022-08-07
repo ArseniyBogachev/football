@@ -3,7 +3,8 @@ import axios from 'axios'
 export const users = {
     state: () => ({
         users: [],
-        me: null,
+        me: {},
+        verify: false,
     }),
     getters:{
         users(state){
@@ -11,7 +12,10 @@ export const users = {
         },
         me(state){
             return state.me
-        }
+        },
+        verify(state){
+            return state.verify
+        },
     },
     mutations:{
         UpdateUsers(state, users){
@@ -26,7 +30,10 @@ export const users = {
         },
         UpdateMe(state, user){
             state.me = user['sub'].find(item => item.nickname.includes(user['nick']))
-        }
+        },
+        UpdateVerify(state, verify){
+            state.verify = verify
+        },
     },
     actions: {
         users_data(ctx){
@@ -39,9 +46,35 @@ export const users = {
             ]
             ctx.commit('UpdateUsers', response)
         },
+        async verify_fn(ctx, token){
+            try {
+                await axios.post('http://127.0.0.1:8000/api/token/verify/', {token: `${token.access}`})
+                ctx.dispatch('me_data', token.access)
+                ctx.commit('UpdateVerify', true)
+            }
+            catch (e){
+                ctx.dispatch('refresh_fn', token.refresh)
+            }
+        },
+        async refresh_fn(ctx, token){
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {"refresh": `${token}`})
+                window.localStorage.setItem('access', response.data.access)
+                ctx.dispatch('me_data', response.data.access)
+                ctx.commit('UpdateVerify', true)
+            }
+            catch (e){
+                ctx.commit('UpdateVerify', false)
+            }
+        },
         async me_data(ctx, access){
-            const response = await axios.get('http://127.0.0.1:8000/auth/users/me/', {headers: {"Authorization" : `Bearer ${access}`}})
-            ctx.commit('MeUser', response.data)
+            try{
+                const response = await axios.get('http://127.0.0.1:8000/auth/users/me/', {headers: {"Authorization" : `Bearer ${access}`}})
+                ctx.commit('MeUser', response.data)
+            }
+            catch (e) {
+                console.log(access)
+            }
         }
     },
 }

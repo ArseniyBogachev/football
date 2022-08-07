@@ -30,26 +30,27 @@
               <a href="#" class="nav-link link" @click.prevent="$router.push(`/teams/lineup/${p.lastname}`); modelValue = '';"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
             </li>
           </ul>
-          <div v-if="!user">
-            <ul class="nav navbar-nav" style="margin-left: 10px;">
-              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click="$router.push('/login')">Login</a></li>
-              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click="$router.push('/register')">Register</a></li>
-            </ul>
-          </div>
-          <div v-else>
+
+          <div v-if="verify">
             <ul class="nav navbar-nav" style="margin-left: 20px;">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown border-gray" href="#" role="button" id="user" data-bs-toggle="dropdown" aria-expanded="false">
-                  <fa class="icon-user" v-if="true" icon="user"></fa>
-                  <img v-else class="image-user" src="../assets/user.jpg"/>
+                  <fa class="icon-user" v-if="!user.image" icon="user"></fa>
+                  <img v-else class="image-user" v-bind:src="user.image"/>
                   <span class="name">{{ user.username }}</span>
                 </a>
                 <ul class="dropdown-menu bg-light" aria-labelledby="user">
                   <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: user.username}})">Profile</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Logout</a></li>
+                  <li><a class="dropdown-item" href="#" @click="$emit('logoutUser')">Logout</a></li>
                 </ul>
               </li>
+            </ul>
+          </div>
+          <div v-else>
+            <ul class="nav navbar-nav" style="margin-left: 10px;">
+              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click="$router.push('/login')">Login</a></li>
+              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click="$router.push('/register')">Register</a></li>
             </ul>
           </div>
         </div>
@@ -68,6 +69,9 @@ export default {
       type: Array,
     },
     user:{
+      type: Object,
+    },
+    verify:{
       type: Object,
     },
   },

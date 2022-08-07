@@ -104,7 +104,6 @@ export default {
     }),
     ...mapActions({
       users_data: 'users_data',
-      me_data: 'me_data'
     }),
     tab_func(name){
       for (let i of this.tab_profile){
@@ -114,7 +113,6 @@ export default {
   },
   created() {
     this.users_data()
-    this.me_data(this.$localStorage.get('access'))
   },
   computed:{
     ...mapGetters({

@@ -20,4 +20,18 @@ class ArticlesRelationAPIList(generics.ListAPIView):
 class ArticlesCategoryAPIList(generics.ListAPIView):
     queryset = CategoryArticles.objects.all()
     serializer_class = ArticlesCategorySerializer
+
+
+class ArticlesLikesAPIUpdate(generics.UpdateAPIView):
+    queryset = ArticlesLikes.objects.all()
+    serializer_class = ArticlesLikesSerializer
+    lookup_field = 'article'
+
+    def get_object(self):
+        obj, create = ArticlesLikes.objects.get_or_create(user=self.request.user,
+                                                          article_id=self.kwargs['article'],)
+
+        print(obj)
+
+        return obj
 # Create your views here.

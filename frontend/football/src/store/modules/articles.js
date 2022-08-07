@@ -101,11 +101,11 @@ export const articles = {
     },
     actions: {
         async articles_data(ctx){
-            const response = await axios.get('http://127.0.0.1:8000/api/v1/articles')
+            const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/')
             ctx.commit('updateArticles', response.data)
         },
         async category_data(ctx){
-            const response = await axios.get('http://127.0.0.1:8000/api/v1/articlescategory')
+            const response = await axios.get('http://127.0.0.1:8000/api/v1/articlescategory/')
             console.log(response.data)
             ctx.commit('updateCategory', response.data)
         },

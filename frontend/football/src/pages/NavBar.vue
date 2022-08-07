@@ -3,11 +3,15 @@
              v-model="search"
              v-bind:players="search_players"
              v-bind:user="me"
+             v-bind:verify="verify"
+             v-on:logoutUser="logoutUser"
   ></NavbarCom>
   <NavbarMob class="d-lg-none"
              v-model="search"
              v-bind:players="search_players"
              v-bind:user="me"
+             v-bind:verify="verify"
+             v-on:logoutUser="logoutUser"
   ></NavbarMob>
 </template>
 
@@ -29,17 +33,20 @@ export default {
   methods:{
     ...mapActions({
       players_data: 'players_data',
-      me_data: 'me_data'
-    })
+    }),
+    logoutUser(){
+      localStorage.removeItem('access')
+      localStorage.removeItem('refresh')
+      location.reload()
+    }
   },
   created() {
-    this.me_data(this.$localStorage.get('access'))
     this.players_data()
   },
   computed:{
     ...mapGetters({
       me: 'me',
-      access: 'access'
+      verify: 'verify',
     }),
     search_players(){
       return [...this.$store.getters.players].filter(item => item.lastname.includes(this.search))

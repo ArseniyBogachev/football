@@ -3,14 +3,18 @@
       <div class="container-fluid">
         <div class="nav-item dropdown" style="margin-top: 10px">
           <a class="nav-link dropdown" href="#" id="user-m" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: gray">
-            <img v-if="user.image" class="image-user-m" v-bind:src="user.image"/>
-            <fa class="icon-user" v-else icon="user"></fa>
+            <fa v-if="!user.image" class="icon-user" icon="user"></fa>
+            <img v-else class="image-user-m" v-bind:src="user.image"/>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-m" style="left: 0">
-            <li><a class="dropdown-item" href="#" @click="$router.push('/profile')">Profile</a></li>
-            <li><a class="dropdown-item" href="#" @click="$router.push('/settings')">Settings</a></li>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-m" style="left: 0" v-if="verify">
+            <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/profile')">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
+            <li><a class="dropdown-item" href="#" @click="$emit('logoutUser')">Logout</a></li>
+          </ul>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-m" style="left: 0" v-else>
+            <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/login')">Login</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/register')">Register</a></li>
           </ul>
         </div>
 
@@ -72,6 +76,9 @@ export default {
     user:{
       type: Object,
     },
+    verify:{
+      type: Object,
+    },
   },
   methods:{
     input_func(event){
@@ -120,8 +127,8 @@ export default {
   .icon-user{
     color: gray;
     border: 1px solid gray;
-    border-radius: 40%;
-    padding: 4px;
+    border-radius: 50%;
+    padding: 4px 5px;
   }
   .image-user-m{
     width: 20px;

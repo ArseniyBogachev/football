@@ -23,7 +23,7 @@
 
 <script>
 import axios from "axios";
-
+import {mapActions} from "vuex"
 export default {
   name: "LoginApp",
   data(){
@@ -34,14 +34,19 @@ export default {
     }
   },
   methods:{
+    ...mapActions({
+      me_data: 'me_data',
+      refresh_data: 'refresh_fn'
+    }),
     async login_axios(){
       try {
         const response = await axios.post('http://127.0.0.1:8000/api/token/', {
           'username': this.username,
           'password': this.password,
         })
-        this.$localStorage.set('access', response.data.access)
-        this.$localStorage.set('refresh', response.data.refresh)
+        localStorage.setItem("access", response.data.access);
+        localStorage.setItem("refresh", response.data.refresh);
+        this.me_data(localStorage.getItem('access'))
         location.reload()
       }
       catch (e) {

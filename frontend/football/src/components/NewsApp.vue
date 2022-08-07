@@ -9,12 +9,12 @@
     <button type="button" class="d-sm-none btn btn-secondary btn-sm">read</button>
   </li>
   <div>
-    <a href="#" v-if="like" v-on:click="$emit('like_func')"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-up"></fa></a>
-    <a href="#" v-else v-on:click="$emit('like_func')"><fa class="like-dislike" icon="fa-solid fa-thumbs-up"></fa></a>
-    <span style="margin-left: 5px">{{like_count}}</span>
-    <a href="#" v-if="dislike" v-on:click="$emit('dislike_func')"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-down"></fa></a>
+    <a href="#" v-if="n.like_true" v-on:click="$emit('like_fn', n.id)"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-up"></fa></a>
+    <a href="#" v-else v-on:click="$emit('like_fn', n.id)"><fa class="like-dislike" icon="fa-solid fa-thumbs-up"></fa></a>
+    <span style="margin-left: 5px">{{n.count_true}}</span>
+    <a href="#" v-if="n.like_false" v-on:click="$emit('dislike_func')"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-down"></fa></a>
     <a href="#" v-else v-on:click="$emit('dislike_func')"><fa class="like-dislike" icon="fa-solid fa-thumbs-down"></fa></a>
-    <span style="margin-left: 5px">{{dislike_count}}</span>
+    <span style="margin-left: 5px">{{n.count_false}}</span>
   </div>
   <hr/>
 </template>

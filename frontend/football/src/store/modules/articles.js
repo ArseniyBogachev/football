@@ -100,9 +100,19 @@ export const articles = {
         },
     },
     actions: {
+        async like_fn(ctx, id) {
+            const response = await axios.put(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+        },
         async articles_data(ctx){
-            const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/')
-            ctx.commit('updateArticles', response.data)
+            if (localStorage.getItem('access')){
+                const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/', {headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
+                ctx.commit('updateArticles', response.data)
+            }
+            else{
+                const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/')
+                ctx.commit('updateArticles', response.data)
+            }
+
         },
         async category_data(ctx){
             const response = await axios.get('http://127.0.0.1:8000/api/v1/articlescategory/')

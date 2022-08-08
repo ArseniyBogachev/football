@@ -4,7 +4,6 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
-          v-on:like_fn="this.like_fn"
       ></NewsApp>
     </ul>
   </div>
@@ -13,11 +12,6 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
-          v-bind:like="like"
-          v-bind:like_count="like_count"
-          v-bind:dislike_count="dislike_count"
-          v-bind:dislike="dislike"
-          v-on:like_fn="this.like_fn"
       ></NewsApp>
     </ul>
   </div>
@@ -37,25 +31,16 @@ export default {
   components:{
     NewsApp,
   },
-  methods:{
-    ...mapActions({
-      like_fn: 'like_fn'
-    }),
-    // ...mapMutations({
-    //   like_func: 'like_func',
-    //   dislike_func: 'dislike_func',
-    // }),
-  },
+  // methods:{
+  //   ...mapActions({
+  //     like_fn: 'like_fn',
+  //     dislike_fn: 'dislike_fn'
+  //   }),
+  // },
   created() {
     this.$store.dispatch('articles_data', localStorage.getItem('access'))
   },
   computed:{
-    // ...mapGetters({
-    //     like: 'like',
-    //     dislike: 'dislike',
-    //     like_count: 'like_count',
-    //     dislike_count: 'dislike_count',
-    // }),
     articles(){
       return [...this.$store.getters.articles_all,]
     }

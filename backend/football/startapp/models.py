@@ -49,8 +49,8 @@ class CategoryArticles(models.Model):
 
 
 class ArticlesLikes(models.Model):
-    user = models.ForeignKey(Users, on_delete=models.CASCADE, blank=True)
-    article = models.ForeignKey(Articles, on_delete=models.CASCADE, blank=True)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    article = models.ForeignKey(Articles, on_delete=models.CASCADE)
     likes = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ['article', 'likes']

@@ -10,10 +10,6 @@ export const articles = {
         articles_manager: [],
         articles_team: [],
         category: [],
-        like: false,
-        dislike: false,
-        like_count: 0,
-        dislike_count: 0,
     }),
     getters:{
         articles_all(state){
@@ -37,18 +33,6 @@ export const articles = {
         category(state){
             return state.category
         },
-        like(state){
-            return state.like
-        },
-        dislike(state){
-            return state.dislike
-        },
-        like_count(state){
-            return state.like_count
-        },
-        dislike_count(state){
-            return state.dislike_count
-        },
     },
     mutations:{
         updateArticles(state, articles){
@@ -62,46 +46,53 @@ export const articles = {
         updateCategory(state, category){
             state.category = [{'title': 'all', 'link': 'all'}].concat([...category])
         },
-        like_func(state){
-          if (state.like === state.dislike){
-            state.like = !state.like
-            state.like_count += 1
-          }
-          else{
-            if (state.like === true){
-              state.like = false
-              state.like_count -= 1
-            }
-            else{
-              state.like = !state.like
-              state.like_count += 1
-              state.dislike = !state.dislike
-              state.dislike_count -= 1
-            }
-          }
-        },
-        dislike_func(state){
-          if (state.like === state.dislike){
-            state.dislike = !state.dislike
-            state.dislike_count += 1
-          }
-          else{
-            if (state.dislike === true){
-              state.dislike = false
-              state.dislike_count -= 1
-            }
-            else{
-              state.like = !state.like
-              state.like_count -= 1
-              state.dislike = !state.dislike
-              state.dislike_count += 1
-            }
-          }
-        },
     },
     actions: {
-        async like_fn(ctx, id) {
-            const response = await axios.put(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+        async like_fn(ctx, id){
+            let article = ctx.state.articles_all.find(item => item.id === id)
+
+            if (article.like_true === article.like_false){
+                article.like_true = 1
+                article.count_true += 1
+                await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+            }
+            else{
+                if (article.like_true === 1){
+                    article.like_true = 0
+                    article.count_true -= 1
+                    await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                }
+                else{
+                    article.like_true = 1
+                    article.count_true += 1
+                    article.like_false = 0
+                    article.count_false -= 1
+                    await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                }
+            }
+        },
+        async dislike_fn(ctx, id){
+            let article = ctx.state.articles_all.find(item => item.id === id)
+
+            if (article.like_true === article.like_false){
+                article.like_false = 1
+                article.count_false += 1
+                await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+            }
+            else{
+                if (article.like_false === 1){
+                    article.like_false = 0
+                    article.count_false -= 1
+                    await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                }
+                else{
+                    article.like_false = 1
+                    article.count_false += 1
+                    article.like_true = 0
+                    article.count_true -= 1
+                    await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                }
+            }
         },
         async articles_data(ctx){
             if (localStorage.getItem('access')){

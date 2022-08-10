@@ -65,12 +65,14 @@ export const users = {
             }
             catch (e){
                 ctx.commit('UpdateVerify', false)
+                localStorage.removeItem('access')
+                localStorage.removeItem('refresh')
             }
         },
         async me_data(ctx, access){
             try{
-                const response = await axios.get('http://127.0.0.1:8000/auth/users/me/', {headers: {"Authorization" : `Bearer ${access}`}})
-                ctx.commit('MeUser', response.data)
+                const response = await axios.get('http://127.0.0.1:8000/api/v1/me/', {headers: {"Authorization" : `Bearer ${access}`}})
+                ctx.commit('MeUser', response.data[0])
             }
             catch (e) {
                 console.log(access)

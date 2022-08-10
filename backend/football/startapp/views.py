@@ -34,4 +34,13 @@ class ArticlesLikesAPIUpdate(generics.UpdateAPIView):
         obj, create = ArticlesLikes.objects.get_or_create(user=self.request.user,
                                                           article_id=self.kwargs['article'],)
         return obj
+
+
+class UsersAPIList(generics.ListAPIView):
+    serializer_class = UsersSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        query = Users.objects.filter(username=self.request.user)
+        return query
 # Create your views here.

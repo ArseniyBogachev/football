@@ -1,8 +1,8 @@
 <template>
-  <a href="#" v-if="n.like_true" v-on:click.prevent="like_fn(n.id)"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-up"></fa></a>
+  <a href="#" v-if="n.like_dislike.like" v-on:click.prevent="like_fn(n.id)"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-up"></fa></a>
   <a href="#" v-else v-on:click.prevent="like_fn(n.id)"><fa class="like-dislike" icon="fa-solid fa-thumbs-up"></fa></a>
   <span style="margin-left: 5px">{{n.count_true}}</span>
-  <a href="#" v-if="n.like_false" v-on:click.prevent="dislike_fn(n.id)"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-down"></fa></a>
+  <a href="#" v-if="n.like_dislike.dislike" v-on:click.prevent="dislike_fn(n.id)"><fa class="like-dislike-active" icon="fa-solid fa-thumbs-down"></fa></a>
   <a href="#" v-else v-on:click.prevent="dislike_fn(n.id)"><fa class="like-dislike" icon="fa-solid fa-thumbs-down"></fa></a>
   <span style="margin-left: 5px">{{n.count_false}}</span>
 </template>

@@ -20,7 +20,6 @@
 
 <script>
 import NewsApp from "@/components/NewsApp";
-import {mapGetters, mapMutations, mapActions} from 'vuex'
 export default {
   name: "HomeApp",
   data(){
@@ -31,12 +30,6 @@ export default {
   components:{
     NewsApp,
   },
-  // methods:{
-  //   ...mapActions({
-  //     like_fn: 'like_fn',
-  //     dislike_fn: 'dislike_fn'
-  //   }),
-  // },
   created() {
     this.$store.dispatch('articles_data', localStorage.getItem('access'))
   },

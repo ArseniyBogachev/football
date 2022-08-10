@@ -36,6 +36,7 @@ export const articles = {
     },
     mutations:{
         updateArticles(state, articles){
+            console.log('1')
             state.articles_all = articles
             state.articles_tactical = [...articles].filter(item => item.cat === 1)
             state.articles_player = [...articles].filter(item => item.cat === 2)
@@ -95,11 +96,11 @@ export const articles = {
             }
         },
         async articles_data(ctx){
-            if (localStorage.getItem('access')){
-                const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/', {headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/', {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                 ctx.commit('updateArticles', response.data)
             }
-            else{
+            catch{
                 const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/')
                 ctx.commit('updateArticles', response.data)
             }

@@ -2,8 +2,9 @@
   <div class="box">
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
       <div class="container-fluid">
-        <img class="image-user" v-bind:src="user.image" alt="" v-if="user.image">
-        <img class="image-user" src="../assets/none_image.png" alt="" v-else>
+          <img class="image-user" v-bind:src="user.image" alt="" v-if="user.image">
+          <img class="image-user" src="../assets/none_image.png" alt="" v-else>
+
         <ul class="nav justify-content-center" v-for="tab in tab_profile" style="padding-left: 1%; padding-right: 2%">
           <li class="nav-item">
             <a v-if="tab.active" class="nav-link active" aria-current="page" href="#">{{ tab.name }}</a>

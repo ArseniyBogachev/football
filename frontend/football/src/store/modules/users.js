@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '@/router/router';
 
 export const users = {
     state: () => ({
@@ -36,6 +37,27 @@ export const users = {
         },
     },
     actions: {
+        async bookmarks_true(ctx, id){
+            if (localStorage.getItem('access')){
+                let user = ctx.state.me
+                user.bookmarks.push(id)
+                await axios.patch(`http://127.0.0.1:8000/api/v1/articlesrelation/${id}/`, {'bookmarks': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+            }
+            else{
+                router.push('/login')
+            }
+        },
+        async bookmarks_false(ctx, id){
+            if (localStorage.getItem('access')){
+                let user = ctx.state.me
+                let index = user.bookmarks.indexOf(id)
+                delete user.bookmarks[index]
+                await axios.patch(`http://127.0.0.1:8000/api/v1/articlesrelation/${id}/`, {'bookmarks': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+            }
+            else{
+                router.push('/login')
+            }
+        },
         users_data(ctx){
             const response = [
                 // {firstname: 'Arseniy', lastname: 'Bogachev', nickname: 'kuwsh1n', article: 20, rate: 4.5, photo: 'kuwsh1n.jpg'},
@@ -59,7 +81,7 @@ export const users = {
         async refresh_fn(ctx, token){
             try {
                 const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {"refresh": `${token}`})
-                window.localStorage.setItem('access', response.data.access)
+                localStorage.setItem('access', response.data.access)
                 ctx.dispatch('me_data', response.data.access)
                 ctx.commit('UpdateVerify', true)
             }
@@ -75,7 +97,7 @@ export const users = {
                 ctx.commit('MeUser', response.data[0])
             }
             catch (e) {
-                console.log(access)
+                ctx.commit('MeUser', {bookmarks: []})
             }
         }
     },

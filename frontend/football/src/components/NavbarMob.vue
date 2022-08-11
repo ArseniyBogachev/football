@@ -7,7 +7,7 @@
             <img v-else class="image-user-m" v-bind:src="user.image"/>
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-m" style="left: 0" v-if="verify">
-            <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/profile')">Profile</a></li>
+            <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: user.username}})">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#" @click="$emit('logoutUser')">Logout</a></li>
           </ul>
@@ -36,25 +36,20 @@
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link" aria-current="page" href="#" v-on:click.prevent="$router.push({name: 'home'})">Home</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Teams
-                </a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Teams</a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="position: absolute">
-                  <li><a class="dropdown-item" href="#" @click="$router.push('/teams')">Russian PL</a></li>
-                  <li><a class="dropdown-item" href="#" @click="$router.push('/teams')">FNL</a></li>
+                  <li><a class="dropdown-item" href="#" v-on:click.prevent="$router.push({name: 'teams'})">Russian PL</a></li>
+                  <li><a class="dropdown-item" href="#" v-on:click.prevent="$router.push({name: 'teams'})">FNL</a></li>
                 </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" @click="$router.push('/article')">Article</a>
+                <a class="nav-link" href="#" v-on:click.prevent="$router.push({name: 'article'})">Article</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#" v-on:click.prevent="$router.push({name: 'about'})">About</a>
               </li>
             </ul>
           </div>
@@ -83,8 +78,12 @@ export default {
   methods:{
     input_func(event){
       this.$emit('update:modelValue', event.target.value)
-    }
+    },
+    console_true(){
+      console.log('true')
+    },
   },
+
 }
 </script>
 

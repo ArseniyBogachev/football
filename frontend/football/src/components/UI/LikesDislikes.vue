@@ -34,6 +34,12 @@ export default {
     color: crimson;
     margin-left: 10px;
   }
+  .like-dislike:hover{
+    opacity: 0.9;
+  }
+  .like-dislike-active:hover{
+    opacity: 0.9;
+  }
   span{
     color: darkgrey;
     font-family: Arial, Verdana, Sans-Serif;

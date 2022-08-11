@@ -1,56 +1,15 @@
 <template>
-  <div>
+  <div class="container-md">
     <h1 class="title">Category Article</h1>
     <hr>
-    <div class="wrapper">
-      <div class="card" style="width: 80%;">
-        <img src="../assets/tactical.jpg" class="card-img-top" alt="...">
+    <div class="wrapper" v-for="i in category.length / 3">
+      <div class="card" style="width: 18rem;" v-for="cat in category.slice(3*(i-1), 3*i)">
+        <img v-if="cat.image" v-bind:src="cat.image" class="card-img-top" alt="...">
+        <img v-else v-bind:src="require('../assets/all.jpg')" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">Tactical articles</h5>
+          <h5 class="card-title">{{ cat.title }}</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card" style="width: 80%;">
-        <img src="../assets/player.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Articles about player</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card" style="width: 80%">
-        <img src="../assets/team.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Articles about team</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    <div class="wrapper">
-      <div class="card" style="width: 80%;">
-        <img src="../assets/xg2.webp" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Articles about XG</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card" style="width: 80%;">
-        <img src="../assets/manager.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Articles about managers</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card" style="width: 80%;">
-        <img src="../assets/transfer.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Articles about transfers</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <a href="#" @click.prevent="$router.push({name: 'article_cat', params:{slug: cat.link}})" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
     </div>
@@ -60,6 +19,11 @@
 <script>
 export default {
   name: "ArticleApp",
+  props:{
+    category:{
+      type: Array,
+    },
+  },
 }
 </script>
 

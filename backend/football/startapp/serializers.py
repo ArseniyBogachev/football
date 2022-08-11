@@ -4,6 +4,7 @@ from .models import *
 
 class UsersSerializer(serializers.ModelSerializer):
     my_articles = serializers.SerializerMethodField()
+    bookmarks = serializers.SerializerMethodField()
 
     class Meta:
         model = Users
@@ -11,7 +12,9 @@ class UsersSerializer(serializers.ModelSerializer):
 
     def get_my_articles(self, instance):
         return Articles.objects.filter(author=instance.id).values_list('id', flat=True)
-        # return Articles.objects.filter(author=instance.id).values()
+
+    def get_bookmarks(self, instance):
+        return ArticlesRelation.objects.filter(user=instance, bookmarks=True).values_list('article', flat=True)
 
 
 class ArticleSerializer(serializers.ModelSerializer):

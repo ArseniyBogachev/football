@@ -36,7 +36,6 @@ export const articles = {
     },
     mutations:{
         updateArticles(state, articles){
-            console.log('1')
             state.articles_all = articles
             state.articles_tactical = [...articles].filter(item => item.cat === 1)
             state.articles_player = [...articles].filter(item => item.cat === 2)
@@ -113,9 +112,13 @@ export const articles = {
             }
         },
         async category_data(ctx){
-            const response = await axios.get('http://127.0.0.1:8000/api/v1/articlescategory/')
-            console.log(response.data)
-            ctx.commit('updateCategory', response.data)
+            try{
+                const response = await axios.get('http://127.0.0.1:8000/api/v1/articlescategory/')
+                ctx.commit('updateCategory', response.data)
+            }
+            catch (e) {
+                console.log(e)
+            }
         },
     },
 }

@@ -31,6 +31,7 @@ export default {
   .container-md{
     box-shadow: 0 0 5px 1px grey;
     margin-bottom: 100px;
+    min-height: 70em;
   }
   .wrapper{
     padding-top: 70px;

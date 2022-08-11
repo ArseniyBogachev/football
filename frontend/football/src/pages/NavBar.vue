@@ -33,6 +33,7 @@ export default {
   methods:{
     ...mapActions({
       players_data: 'players_data',
+      me_data: 'me_data'
     }),
     logoutUser(){
       localStorage.removeItem('access')
@@ -42,14 +43,16 @@ export default {
   },
   created() {
     this.players_data()
+    this.me_data(localStorage.getItem('access'))
   },
   computed:{
     ...mapGetters({
       me: 'me',
       verify: 'verify',
+      players: 'players'
     }),
     search_players(){
-      return [...this.$store.getters.players].filter(item => item.lastname.includes(this.search))
+      return [...this.players].filter(item => item.lastname.includes(this.search))
     }
   }
 }

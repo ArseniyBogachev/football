@@ -4,7 +4,7 @@
     <div class="container">
       <div class="card border-secondary mb-3" style="max-width: 50rem;" v-for="bookmark in bookmarks">
         <div class="card-header bg-transparent border-secondary">
-          <small class="text-muted">{{ bookmark.username }} | {{ bookmark.date }}</small>
+          <small class="text-muted">{{ bookmark.author }} | {{ bookmark.date }}</small>
           <div>
             <a href="#"><fa icon="fa-solid fa-trash-can" class="icon-trash"></fa></a>
           </div>
@@ -25,7 +25,7 @@ export default {
   props:{
     bookmarks:{
       type:Array,
-    },
+    }
   },
 }
 </script>

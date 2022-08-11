@@ -5,7 +5,7 @@ from .views import *
 
 urlpatterns = [
     path('api/v1/articles/', ArticlesAPIList.as_view(), name='article_list'),
-    path('api/v1/articlesrelation/', ArticlesRelationAPIList.as_view(), name='relation_list'),
+    path('api/v1/articlesrelation/<int:article>/', ArticlesRelationAPIUpdate.as_view(), name='relation_list'),
     path('api/v1/articlescategory/', ArticlesCategoryAPIList.as_view(), name='category_list'),
     path('api/v1/articleslikes/<int:article>/', ArticlesLikesAPIUpdate.as_view(), name='likes_update'),
     path('api/v1/me/', UsersAPIList.as_view(), name='likes_update'),

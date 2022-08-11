@@ -4,12 +4,7 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
-          v-bind:like="like"
-          v-bind:dislike="dislike"
-          v-bind:like_count="like_count"
-          v-bind:dislike_count="dislike_count"
-          v-on:like_func="like_func"
-          v-on:dislike_func="dislike_func">
+          v-bind:bookmarks="me.bookmarks"
       ></NewsApp>
     </ul>
   </div>
@@ -18,12 +13,7 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
-          v-bind:like="like"
-          v-bind:dislike="dislike"
-          v-bind:like_count="like_count"
-          v-bind:dislike_count="dislike_count"
-          v-on:like_func="like_func"
-          v-on:dislike_func="dislike_func">
+          v-bind:bookmarks="me.bookmarks"
       ></NewsApp>
     </ul>
   </div>
@@ -31,7 +21,7 @@
 
 <script>
 import NewsApp from "@/components/NewsApp";
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 export default {
   name: "CatArticlesCom",
   components:{
@@ -43,13 +33,12 @@ export default {
     },
   },
   methods:{
-    ...mapMutations({
-        like_func: 'like_func',
-        dislike_func: 'dislike_func',
+    ...mapActions({
+      articles_data: 'articles_data',
     }),
   },
   created() {
-    this.$store.dispatch('articles_data')
+    this.articles_data()
   },
   computed:{
     ...mapGetters({
@@ -59,10 +48,7 @@ export default {
         articles_xg: 'articles_xg',
         articles_manager: 'articles_manager',
         articles_team: 'articles_team',
-        like: 'like',
-        dislike: 'dislike',
-        like_count: 'like_count',
-        dislike_count: 'dislike_count',
+        me: 'me'
     }),
     articles(){
       if (this.slug === 'all') {

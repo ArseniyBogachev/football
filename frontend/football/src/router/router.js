@@ -1,3 +1,4 @@
+import store from '@/store'
 import {createRouter, createWebHistory} from "vue-router"
 import HomeApp from "@/pages/HomeApp";
 import AboutApp from "@/pages/AboutApp";
@@ -17,10 +18,12 @@ const routes = [
     {
         path: '/',
         component: HomeApp,
+        name: 'home'
     },
     {
         path: '/about',
         component: AboutApp,
+        name: 'about'
     },
     {
         path: '/profile/:slug',
@@ -31,18 +34,22 @@ const routes = [
     {
         path: '/article',
         component: ArticleApp,
+        name: 'article'
     },
     {
         path: '/teams',
         component: TeamsApp,
+        name: 'teams'
     },
     {
         path: '/teams/club',
         component: ClubApp,
+        name: 'club'
     },
     {
         path: '/teams/lineup/:slug',
         component: PlayerApp,
+        name: 'lineup'
     },
     {
         path: '/article/:slug',
@@ -53,17 +60,30 @@ const routes = [
     {
         path: '/login',
         component: LoginApp,
+        name: 'login'
     },
     {
         path: '/register',
         component: RegisterApp,
+        name: 'register'
     },
 ]
 
-
 const router = createRouter({
     routes,
-    history: createWebHistory(process.env.BASE_URL)
+    history: createWebHistory(process.env.BASE_URL),
+})
+
+router.beforeEach((to, from, next)=>{
+    if ( to.name === 'profile' && !store.state.users.verify){
+        next({
+            path: '/login',
+            replace: true
+        })
+    }
+    else {
+        next();
+    }
 })
 
 export default router

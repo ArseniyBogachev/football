@@ -28,20 +28,9 @@ import {mapGetters} from 'vuex'
 export default {
   name: "MyarticleCom",
   props:{
-    id:{
+    articles:{
       type:Array,
     },
-  },
-  computed:{
-    ...mapGetters({
-      articles_all: 'articles_all'
-    }),
-    articles(){
-      return [...this.articles_all,].filter(item => this.id.includes(item.id))
-    }
-  },
-  created() {
-    this.$store.dispatch('articles_data', localStorage.getItem('access'))
   },
 }
 </script>

@@ -50,7 +50,7 @@
       <div class="col-8">
         <div>
           <MysubscriptionsCom v-if="tab_profile[0].active" v-bind:subscriptions="subscriptions"></MysubscriptionsCom>
-          <MyarticleCom v-else-if="tab_profile[1].active" v-bind:id="user.my_articles"></MyarticleCom>
+          <MyarticleCom v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleCom>
           <MybookmarksCom v-else-if="tab_profile[2].active" v-bind:bookmarks="bookmarks"></MybookmarksCom>
           <MysettingsCom v-else v-bind:user="user"></MysettingsCom>
         </div>
@@ -64,6 +64,7 @@ import MyarticleCom from "@/components/MyarticleCom";
 import MybookmarksCom from "@/components/MybookmarksCom";
 import MysubscriptionsCom from "@/components/MysubscriptionsCom";
 import MysettingsCom from "@/components/MysettingsCom";
+import {mapGetters, mapActions} from "vuex";
 export default {
   name: "ProfileCom",
   components:{
@@ -79,13 +80,35 @@ export default {
     subscriptions:{
       type:Array,
     },
-    bookmarks:{
-      type:Array,
-    },
     user:{
       type:Object,
     },
+    articles:{
+      type:Array,
+    },
+    bookmarks:{
+      type:Array,
+    },
   },
+  // methods:{
+  //   ...mapActions({
+  //     articles_data: 'articles_data',
+  //   }),
+  // },
+  // computed:{
+  //   ...mapGetters({
+  //     articles_all: 'articles_all'
+  //   }),
+  //   articles(){
+  //     return [...this.articles_all,].filter(item => this.user.my_articles.includes(item.id))
+  //   },
+  //   bookmarks(){
+  //     return [...this.articles_all,].filter(item => this.user.bookmarks.includes(item.id))
+  //   }
+  // },
+  // created() {
+  //   this.articles_data(localStorage.getItem('access'))
+  // },
 }
 </script>
 

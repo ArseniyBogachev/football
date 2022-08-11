@@ -4,6 +4,7 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
+          v-bind:bookmarks="me.bookmarks"
       ></NewsApp>
     </ul>
   </div>
@@ -12,6 +13,7 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
+          v-bind:bookmarks="me.bookmarks"
       ></NewsApp>
     </ul>
   </div>
@@ -20,6 +22,7 @@
 
 <script>
 import NewsApp from "@/components/NewsApp";
+import {mapGetters, mapActions} from 'vuex'
 export default {
   name: "HomeApp",
   data(){
@@ -31,12 +34,21 @@ export default {
     NewsApp,
   },
   created() {
-    this.$store.dispatch('articles_data', localStorage.getItem('access'))
+    this.articles_data()
+    this.me_data(localStorage.getItem('access'))
   },
   computed:{
-    articles(){
-      return [...this.$store.getters.articles_all,]
-    }
+    ...mapGetters({
+      me: 'me',
+      articles: 'articles_all',
+      category: 'category'
+    }),
+  },
+  methods:{
+    ...mapActions({
+      me_data: 'me_data',
+      articles_data: 'articles_data'
+    }),
   }
 }
 </script>
@@ -45,11 +57,13 @@ export default {
   .container-md{
     box-shadow: 0 0 5px 1px grey;
     margin-bottom: 100px;
+    min-height: 80em;
   }
   ul{
     list-style: none;
   }
   .wrapper-sm{
     padding: 2%;
+    min-height: 80em;
   }
 </style>

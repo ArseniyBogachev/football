@@ -23,7 +23,9 @@
 
 <script>
 import axios from "axios";
+import router from "@/router/router";
 import {mapActions} from "vuex"
+import {nextTick} from "vue";
 export default {
   name: "LoginApp",
   data(){
@@ -35,8 +37,9 @@ export default {
   },
   methods:{
     ...mapActions({
+      verify_fn: 'verify_fn',
       me_data: 'me_data',
-      refresh_data: 'refresh_fn'
+      articles_data: 'articles_data'
     }),
     async login_axios(){
       try {
@@ -46,11 +49,12 @@ export default {
         })
         localStorage.setItem("access", response.data.access);
         localStorage.setItem("refresh", response.data.refresh);
+        this.verify_fn({access: localStorage.getItem('access'), refresh: localStorage.getItem('refresh')})
         this.me_data(localStorage.getItem('access'))
-        location.reload()
+        this.articles_data()
+        await nextTick(router.push('/'))
       }
       catch (e) {
-        console.log(e)
         this.axios_error = e.response.data.detail
       }
     }

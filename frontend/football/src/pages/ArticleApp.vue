@@ -9,7 +9,7 @@
 <script>
 import ArticleMob from "@/components/ArticleMob";
 import ArticleCom from "@/components/ArticleCom";
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 export default {
   name: "ArticleApp",
   components:{
@@ -17,7 +17,12 @@ export default {
     ArticleCom,
   },
   created() {
-    this.$store.dispatch('category_data')
+    this.category_data()
+  },
+  methods:{
+    ...mapActions({
+      category_data: 'category_data'
+    }),
   },
   computed:{
     ...mapGetters({

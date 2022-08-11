@@ -25,7 +25,7 @@
           <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Players" aria-label="Search" v-bind:value="modelValue" v-on:input="input_func">
           </form>
-          <ul class="nav flex-column search_item" v-if="modelValue && players.length > 0" @click="close_search">
+          <ul class="nav flex-column search_item" v-if="modelValue && players.length > 0">
             <li v-for="p in players.slice(0,5)" class="nav-item player">
               <a href="#" class="nav-link link" @click.prevent="$router.push(`/teams/lineup/${p.lastname}`); modelValue = '';"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
             </li>
@@ -49,8 +49,8 @@
           </div>
           <div v-else>
             <ul class="nav navbar-nav" style="margin-left: 10px;">
-              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click="$router.push('/login')">Login</a></li>
-              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click="$router.push('/register')">Register</a></li>
+              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click.prevent="$router.push('/login')">Login</a></li>
+              <li><a href="#" class="nav-link" style="color: gray; height: 45px;" @click.prevent="$router.push('/register')">Register</a></li>
             </ul>
           </div>
         </div>
@@ -78,11 +78,6 @@ export default {
   methods:{
     input_func(event){
       this.$emit('update:modelValue', event.target.value)
-    },
-    close_search(event){
-      if (!event){
-        this.modelValue = ''
-      }
     },
   },
 }

@@ -14,9 +14,16 @@ class ArticlesAPIList(generics.ListAPIView):
 
 
 # изменить view bookmarks с list на update
-class ArticlesRelationAPIList(generics.ListAPIView):
+class ArticlesRelationAPIUpdate(generics.UpdateAPIView):
     queryset = ArticlesRelation.objects.all()
     serializer_class = ArticlesRelationSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'article'
+
+    def get_object(self):
+        obj, create = ArticlesRelation.objects.get_or_create(user=self.request.user,
+                                                          article_id=self.kwargs['article'], )
+        return obj
 
 
 class ArticlesCategoryAPIList(generics.ListAPIView):

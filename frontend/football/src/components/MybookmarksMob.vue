@@ -10,8 +10,8 @@
           </div>
         </div>
         <div class="card-body text-dark">
-          <h5 class="card-title" style="font-size: 15px;">{{ bookmark.title }}</h5>
-          <p class="card-text" style="font-size: 13px;">{{ bookmark.text.slice(0,100) }}...</p>
+          <h5 class="card-title">{{ bookmark.title }}</h5>
+          <p class="card-text">{{ bookmark.text.slice(0,100) }}...</p>
         </div>
         <a href="#" class="card-footer bg-transparent border-secondary"><span>Open</span></a>
       </div>

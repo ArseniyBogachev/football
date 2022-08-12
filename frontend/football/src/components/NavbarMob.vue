@@ -1,29 +1,25 @@
 <template>
   <nav class="navbar expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <div class="nav-item dropdown" style="margin-top: 10px" v-if="verify">
-          <a class="nav-link dropdown" href="#" id="user-c" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: gray">
+        <div class="nav-item dropdown" style="margin-top: 10px">
+          <a class="nav-link dropdown" href="#" id="user-m" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: gray">
             <fa v-if="!user.image" class="icon-user" icon="user"></fa>
             <img v-else class="image-user-m" v-bind:src="user.image"/>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-c" style="left: 0; box-shadow: 0 0 10px 1px black">
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-m" style="left: 0" v-if="verify">
             <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: user.username}})">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#" @click="$emit('logoutUser')">Logout</a></li>
           </ul>
-        </div>
-        <div class="nav-item dropdown" style="margin-top: 10px" v-else>
-          <a class="nav-link dropdown" href="#" id="user-m" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: gray">
-            <fa class="icon-user" icon="user"></fa>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-m" style="left: 0; box-shadow: 0 0 10px 1px gray">
-            <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'login'})">Login</a></li>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="user-m" style="left: 0" v-else>
+            <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/login')">Login</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'register'})">Register</a></li>
+            <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/register')">Register</a></li>
           </ul>
         </div>
 
         <div class="user_search">
+
           <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Players" aria-label="Search" v-bind:value="modelValue" v-on:input="input_func">
           </form>

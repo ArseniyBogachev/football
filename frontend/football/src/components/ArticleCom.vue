@@ -9,7 +9,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ cat.title }}</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" @click.prevent="$router.push({name: 'article_cat', params:{slug: cat.link}})" class="btn btn-primary shadow-none">Go somewhere</a>
+          <a href="#" @click.prevent="$router.push({name: 'article_cat', params:{slug: cat.link}})" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
     </div>
@@ -28,18 +28,6 @@ export default {
 </script>
 
 <style scoped>
-  .btn{
-    border: 1px solid black;
-  }
-  .btn:hover{
-    opacity: 0.9;
-    background-color: gray;
-    border: 1px solid black;
-  }
-  .btn:focus{
-    background-color: gray;
-    border: 1px solid black;
-  }
   .container-md{
     box-shadow: 0 0 5px 1px grey;
     margin-bottom: 100px;

@@ -6,6 +6,7 @@ export const users = {
         users: [],
         me: {},
         verify: false,
+        user: {},
     }),
     getters:{
         users(state){
@@ -16,6 +17,9 @@ export const users = {
         },
         verify(state){
             return state.verify
+        },
+        user(state){
+            return state.user
         },
     },
     mutations:{
@@ -30,11 +34,14 @@ export const users = {
             state.me = me
         },
         UpdateMe(state, user){
-            state.me = user['sub'].find(item => item.nickname.includes(user['nick']))
+            state.me = user['sub'].find(item => item.username.includes(user['nick']))
         },
         UpdateVerify(state, verify){
             state.verify = verify
         },
+        UpdateUser(state, user){
+            state.user = user
+        }
     },
     actions: {
         async bookmarks_true(ctx, id){
@@ -73,18 +80,18 @@ export const users = {
         users_data(ctx){
             const response = [
                 // {firstname: 'Arseniy', lastname: 'Bogachev', nickname: 'kuwsh1n', article: 20, rate: 4.5, photo: 'kuwsh1n.jpg'},
-                {firstname: 'Daniil', lastname: 'Grigoryevskiy', nickname: 'dany228', article: 10, rate: 4.1, photo: 'dany228.jpg', age: 22,},
-                {firstname: 'Dmitriy', lastname: 'Krinickiy', nickname: 'Mitay', article: 13, rate: 4.4, photo: '', age: 22,},
-                {firstname: 'Kirill', lastname: 'Zherdev', nickname: 'uzumaki', article: 26, rate: 4.3, photo: 'uzumaki.jpg', age: 22,},
-                {firstname: 'Daria', lastname: 'Utesheva', nickname: 'kuwsh1nka', article: 5, rate: 5, photo: 'kuwsh1nka.jpg', age: 22,},
+                {firstname: 'Daniil', lastname: 'Grigoryevskiy', username: 'dany228', article: 10, rate: 4.1, photo: 'dany228.jpg', age: 22,},
+                {firstname: 'Dmitriy', lastname: 'Krinickiy', username: 'Mitay', article: 13, rate: 4.4, photo: '', age: 22,},
+                {firstname: 'Kirill', lastname: 'Zherdev', username: 'uzumaki', article: 26, rate: 4.3, photo: 'uzumaki.jpg', age: 22,},
+                {firstname: 'Daria', lastname: 'Utesheva', username: 'kuwsh1nka', article: 5, rate: 5, photo: 'kuwsh1nka.jpg', age: 22,},
             ]
             ctx.commit('UpdateUsers', response)
         },
         async verify_fn(ctx, token){
             try {
                 await axios.post('http://127.0.0.1:8000/api/token/verify/', {token: `${token.access}`})
-                ctx.dispatch('me_data', token.access)
-                ctx.dispatch('articles_data')
+                await ctx.dispatch('me_data', token.access)
+                await ctx.dispatch('articles_data')
                 ctx.commit('UpdateVerify', true)
             }
             catch (e){
@@ -95,8 +102,8 @@ export const users = {
             try {
                 const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {"refresh": `${token}`})
                 localStorage.setItem('access', response.data.access)
-                ctx.dispatch('me_data', response.data.access)
-                ctx.dispatch('articles_data')
+                await ctx.dispatch('me_data', response.data.access)
+                await ctx.dispatch('articles_data')
                 ctx.commit('UpdateVerify', true)
             }
             catch (e){
@@ -123,6 +130,15 @@ export const users = {
             }
             catch (e) {
                 ctx.commit('MeUser', {bookmarks: []})
+            }
+        },
+        async user_data(ctx, user){
+            try{
+                const response = await axios.get(`http://127.0.0.1:8000/api/v1/user/${user}/`, {headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
+                ctx.commit('UpdateUser', response.data)
+            }
+            catch (e) {
+                console.log(e)
             }
         }
     },

@@ -59,6 +59,9 @@
 </template>
 
 <script>
+import {nextTick} from "vue";
+import router from "@/router/router";
+import {mapActions, mapGetters} from 'vuex';
 export default {
   name: "NavbarCom",
   props:{
@@ -76,10 +79,18 @@ export default {
     },
   },
   methods:{
+    ...mapActions({
+      me_data: 'me_data'
+    }),
     input_func(event){
       this.$emit('update:modelValue', event.target.value)
     },
   },
+  computed:{
+    ...mapGetters({
+      me: 'me',
+    })
+  }
 }
 </script>
 

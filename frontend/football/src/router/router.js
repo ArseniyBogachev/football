@@ -79,7 +79,7 @@ const router = createRouter({
 // })
 
 router.beforeEach((to, from, next)=>{
-    if ( to.name === 'profile' && !store.state.users.verify){
+    if ( to.name === 'profile' && !localStorage.getItem('access')){
         next({
             path: '/login',
             replace: true

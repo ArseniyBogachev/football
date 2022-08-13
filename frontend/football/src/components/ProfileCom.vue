@@ -1,4 +1,5 @@
 <template>
+  {{user}}
   <div class="container-md">
     <div class="row">
       <div class="col-4 bg-dark" style="height: 41em">
@@ -34,12 +35,12 @@
         </p>
         <div class="info-user-lg d-none d-lg-block">
           <span class="username">{{user.username}}</span>
-          <p class="name-and-age">{{ user.first_name }} {{ user.last_name }} {{ user.age }} age</p>
+          <p class="name-and-age">{{ user.first_name }} {{ user.last_name }} 22 age</p>
           <div class="line-custom-lg"></div>
         </div>
         <div class="info-user-md d-none d-md-block d-lg-none">
           <span class="username-md">{{user.username}}</span>
-          <p class="name-and-age-md">{{ user.firstname }} {{ user.lastname }} {{ user.age }} age</p>
+          <p class="name-and-age-md">{{ user.firstname }} {{ user.lastname }} 22 age</p>
           <div class="line-custom-md"></div>
         </div>
         <nav class="nav flex-column menu-md d-none d-md-block" v-for="tab in tab_profile">
@@ -75,19 +76,19 @@ export default {
   },
   props:{
     tab_profile:{
-      type:Array,
+      type: Array,
     },
     subscriptions:{
-      type:Array,
+      type: Array,
     },
     user:{
-      type:Object,
+      type: Object,
     },
     articles:{
-      type:Array,
+      type: Array,
     },
     bookmarks:{
-      type:Array,
+      type: Array,
     },
   },
 }

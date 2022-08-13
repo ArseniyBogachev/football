@@ -10,7 +10,7 @@
       <fa  icon="fa-solid fa-bookmark" class="d-xs-none icon-sm" style="color: black"></fa>
     </a>
     <h5 class="d-sm-none">{{ n.title }}</h5>
-    <span>{{n.author}}|{{n.date}}</span>
+    <span><a href="#" v-on:click="$router.push({name: 'profile', params: {slug: n.author}})">{{n.author}}</a>|{{n.date}}</span>
     <p class="d-none d-sm-block">{{ n.text.slice(0,500) }}<button type="button" class="btn btn-link">read...</button></p>
     <p class="d-sm-none sm-text">{{ n.text.slice(0,250) }}...</p>
     <button type="button" class="d-sm-none btn btn-secondary btn-sm">read</button>
@@ -24,6 +24,8 @@
 <script>
 import LikesDislikes from "@/components/UI/LikesDislikes";
 import {mapActions, mapGetters} from 'vuex'
+import router from "@/router/router";
+import {nextTick} from "vue";
 export default {
   name: "NewsApp",
   props:{
@@ -40,7 +42,7 @@ export default {
   methods:{
     ...mapActions({
       bookmarks_true: 'bookmarks_true',
-      bookmarks_false: 'bookmarks_false'
+      bookmarks_false: 'bookmarks_false',
     }),
   },
   computed:{

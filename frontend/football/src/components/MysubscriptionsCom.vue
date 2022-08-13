@@ -14,7 +14,7 @@
                   <fa icon="fa-solid fa-ellipsis" class="settigs"></fa>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-                  <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: s.nickname}}); updateMe({sub: this.subscriptions, nick: s.nickname})">Profile</a></li>
+                  <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: s.username}}); updateMe({sub: this.subscriptions, nick: s.username})">Profile</a></li>
                   <li><a class="dropdown-item" href="#">Messege</a></li>
                   <li><a class="dropdown-item" href="#">Unsubscribe</a></li>
                 </ul>
@@ -23,7 +23,7 @@
               <span class="card-title">{{ s.firstname }} {{ s.lastname }}</span>
               <hr>
               <ul class="info">
-                <li><fa icon="fa-solid fa-user" class="icon"></fa><span class="text">{{ s.nickname }}</span></li>
+                <li><fa icon="fa-solid fa-user" class="icon"></fa><span class="text">{{ s.username }}</span></li>
                 <li><fa icon="fa-solid fa-chart-column" class="icon"></fa><span class="text">{{ s.rate }}</span></li>
                 <li><fa icon="fa-solid fa-newspaper" class="icon"></fa><span class="text">{{ s.article }}</span></li>
               </ul>

@@ -34,14 +34,17 @@ export default {
     NewsApp,
   },
   created() {
-    this.articles_data()
-    this.me_data(localStorage.getItem('access'))
+    if (!this.verify){
+      this.articles_data()
+      this.me_data(localStorage.getItem('access'))
+    }
   },
   computed:{
     ...mapGetters({
       me: 'me',
       articles: 'articles_all',
-      category: 'category'
+      category: 'category',
+      verify: 'verify'
     }),
   },
   methods:{
@@ -64,6 +67,5 @@ export default {
   }
   .wrapper-sm{
     padding: 2%;
-    min-height: 80em;
   }
 </style>

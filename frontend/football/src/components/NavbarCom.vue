@@ -32,14 +32,14 @@
           </ul>
 
           <div v-if="verify">
-            <ul class="nav navbar-nav" style="margin-left: 20px;">
+            <ul class="nav navbar-nav" style="margin-left: 20px; box-shadow: 0 0 10px 1px black">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown border-gray" href="#" role="button" id="user" data-bs-toggle="dropdown" aria-expanded="false">
                   <fa class="icon-user" v-if="!user.image" icon="user"></fa>
                   <img v-else class="image-user" v-bind:src="user.image"/>
                   <span class="name">{{ user.username }}</span>
                 </a>
-                <ul class="dropdown-menu bg-light" aria-labelledby="user">
+                <ul class="dropdown-menu bg-light" aria-labelledby="user" style="box-shadow: 0 0 10px 1px black">
                   <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: user.username}})">Profile</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#" @click="$emit('logoutUser')">Logout</a></li>
@@ -133,7 +133,7 @@ export default {
     height: 45px;
     text-align: center;
   }
-  .border-gray:focus{
+  .border-gray:active{
     box-shadow: 0 0 5px 1px black inset;
   }
   .form-control:focus{

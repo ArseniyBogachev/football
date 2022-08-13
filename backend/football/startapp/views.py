@@ -13,7 +13,6 @@ class ArticlesAPIList(generics.ListAPIView):
     serializer_class = ArticleSerializer
 
 
-# изменить view bookmarks с list на update
 class ArticlesRelationAPIUpdate(generics.UpdateAPIView):
     queryset = ArticlesRelation.objects.all()
     serializer_class = ArticlesRelationSerializer
@@ -31,7 +30,7 @@ class ArticlesCategoryAPIList(generics.ListAPIView):
     serializer_class = ArticlesCategorySerializer
 
 
-class ArticlesLikesAPIUpdate(generics.UpdateAPIView):
+class ArticlesLikesAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = ArticlesLikes.objects.all()
     serializer_class = ArticlesLikesSerializer
     permission_classes = (IsAuthenticated, )
@@ -44,10 +43,21 @@ class ArticlesLikesAPIUpdate(generics.UpdateAPIView):
 
 
 class UsersAPIList(generics.ListAPIView):
-    serializer_class = UsersSerializer
+    serializer_class = MeSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         query = Users.objects.filter(username=self.request.user)
+        return query
+
+
+class UsersAPIRetrieve(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'user'
+
+    def get_object(self):
+        query = Users.objects.get(username=self.kwargs['user'])
+
         return query
 # Create your views here.

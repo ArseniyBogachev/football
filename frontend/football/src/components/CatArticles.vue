@@ -35,10 +35,14 @@ export default {
   methods:{
     ...mapActions({
       articles_data: 'articles_data',
+      me_data: 'me_data'
     }),
   },
   created() {
-    this.articles_data()
+    if (!this.verify){
+      this.articles_data()
+      this.me_data(localStorage.getItem('access'))
+    }
   },
   computed:{
     ...mapGetters({
@@ -48,7 +52,8 @@ export default {
         articles_xg: 'articles_xg',
         articles_manager: 'articles_manager',
         articles_team: 'articles_team',
-        me: 'me'
+        me: 'me',
+        verify: 'verify'
     }),
     articles(){
       if (this.slug === 'all') {

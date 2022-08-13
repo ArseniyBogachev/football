@@ -90,25 +90,6 @@ export default {
       type:Array,
     },
   },
-  // methods:{
-  //   ...mapActions({
-  //     articles_data: 'articles_data',
-  //   }),
-  // },
-  // computed:{
-  //   ...mapGetters({
-  //     articles_all: 'articles_all'
-  //   }),
-  //   articles(){
-  //     return [...this.articles_all,].filter(item => this.user.my_articles.includes(item.id))
-  //   },
-  //   bookmarks(){
-  //     return [...this.articles_all,].filter(item => this.user.bookmarks.includes(item.id))
-  //   }
-  // },
-  // created() {
-  //   this.articles_data(localStorage.getItem('access'))
-  // },
 }
 </script>
 

@@ -28,6 +28,18 @@ export default {
 </script>
 
 <style scoped>
+  .btn{
+    border: 1px solid black;
+  }
+  .btn:hover{
+    opacity: 0.9;
+    background-color: gray;
+    border: 1px solid black;
+  }
+  .btn:focus{
+    background-color: gray;
+    border: 1px solid black;
+  }
   .container-md{
     box-shadow: 0 0 5px 1px grey;
     margin-bottom: 100px;

@@ -43,7 +43,6 @@ export default {
   },
   created() {
     this.players_data()
-    this.me_data(localStorage.getItem('access'))
   },
   computed:{
     ...mapGetters({

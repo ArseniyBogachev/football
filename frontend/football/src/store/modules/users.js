@@ -38,24 +38,36 @@ export const users = {
     },
     actions: {
         async bookmarks_true(ctx, id){
-            if (localStorage.getItem('access')){
-                let user = ctx.state.me
-                user.bookmarks.push(id)
-                await axios.patch(`http://127.0.0.1:8000/api/v1/articlesrelation/${id}/`, {'bookmarks': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+            try{
+                if (localStorage.getItem('access')){
+                    await axios.patch(`http://127.0.0.1:8000/api/v1/articlesrelation/${id}/`, {'bookmarks': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    let user = ctx.state.me
+                    user.bookmarks.push(id)
+                }
+                else{
+                    router.push('/login')
+                }
             }
-            else{
-                router.push('/login')
+            catch (e) {
+                await ctx.dispatch('refresh_without_reboot')
+                await ctx.dispatch('bookmarks_true', id)
             }
         },
         async bookmarks_false(ctx, id){
-            if (localStorage.getItem('access')){
-                let user = ctx.state.me
-                let index = user.bookmarks.indexOf(id)
-                delete user.bookmarks[index]
-                await axios.patch(`http://127.0.0.1:8000/api/v1/articlesrelation/${id}/`, {'bookmarks': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+            try{
+                if (localStorage.getItem('access')){
+                    await axios.patch(`http://127.0.0.1:8000/api/v1/articlesrelation/${id}/`, {'bookmarks': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    let user = ctx.state.me
+                    let index = user.bookmarks.indexOf(id)
+                    delete user.bookmarks[index]
+                }
+                else{
+                    router.push('/login')
+                }
             }
-            else{
-                router.push('/login')
+            catch (e) {
+                await ctx.dispatch('refresh_without_reboot')
+                await ctx.dispatch('bookmarks_false', id)
             }
         },
         users_data(ctx){
@@ -72,6 +84,7 @@ export const users = {
             try {
                 await axios.post('http://127.0.0.1:8000/api/token/verify/', {token: `${token.access}`})
                 ctx.dispatch('me_data', token.access)
+                ctx.dispatch('articles_data')
                 ctx.commit('UpdateVerify', true)
             }
             catch (e){
@@ -83,12 +96,24 @@ export const users = {
                 const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {"refresh": `${token}`})
                 localStorage.setItem('access', response.data.access)
                 ctx.dispatch('me_data', response.data.access)
+                ctx.dispatch('articles_data')
                 ctx.commit('UpdateVerify', true)
             }
             catch (e){
                 ctx.commit('UpdateVerify', false)
                 localStorage.removeItem('access')
                 localStorage.removeItem('refresh')
+            }
+        },
+        async refresh_without_reboot(ctx){
+            try{
+                const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {"refresh": `${localStorage.getItem('refresh')}`})
+                localStorage.setItem('access', response.data.access)
+            }
+            catch (e) {
+                localStorage.removeItem('access')
+                localStorage.removeItem('refresh')
+                ctx.commit('UpdateVerify', false)
             }
         },
         async me_data(ctx, access){

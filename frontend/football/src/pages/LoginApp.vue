@@ -49,14 +49,17 @@ export default {
         })
         localStorage.setItem("access", response.data.access);
         localStorage.setItem("refresh", response.data.refresh);
-        this.verify_fn({access: localStorage.getItem('access'), refresh: localStorage.getItem('refresh')})
-        this.me_data(localStorage.getItem('access'))
-        this.articles_data()
+        await this.verify_fn({access: localStorage.getItem('access'), refresh: localStorage.getItem('refresh')})
         await nextTick(router.push('/'))
       }
       catch (e) {
         this.axios_error = e.response.data.detail
       }
+    }
+  },
+  created() {
+    if (!this.verify){
+      this.me_data(localStorage.getItem('access'))
     }
   }
 }

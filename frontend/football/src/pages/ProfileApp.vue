@@ -40,8 +40,7 @@ export default {
   methods:{
     ...mapActions({
       users_data: 'users_data',
-      me_data: 'me_data',
-      articles_data: 'articles_data',
+      // me_data: 'me_data',
     }),
     tab_func(name){
       for (let i of this.tab_profile){
@@ -51,8 +50,6 @@ export default {
   },
   created() {
     this.users_data()
-    this.me_data(localStorage.getItem('access'))
-    this.articles_data(localStorage.getItem('access'))
   },
   computed:{
     ...mapGetters({

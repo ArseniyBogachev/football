@@ -1,5 +1,6 @@
 import axios from 'axios';
 import router from '@/router/router';
+import {nextTick} from "vue";
 
 export const articles = {
     state: () => ({
@@ -50,63 +51,77 @@ export const articles = {
     actions: {
         async like_fn(ctx, id){
             let article = ctx.state.articles_all.find(item => item.id === id)
-
-            if (localStorage.getItem('access')) {
-                if (article.like_dislike.like === article.like_dislike.dislike) {
-                    article.like_dislike.like = 1
-                    article.count_true += 1
-                    await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-                } else {
-                    if (article.like_dislike.like === 1) {
-                        article.like_dislike.like = 0
-                        article.count_true -= 1
-                        await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-                    } else {
+            try{
+                if (localStorage.getItem('access')) {
+                    if (article.like_dislike.like === article.like_dislike.dislike) {
+                        await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                         article.like_dislike.like = 1
                         article.count_true += 1
-                        article.like_dislike.dislike = 0
-                        article.count_false -= 1
-                        await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    }
+                    else {
+                        if (article.like_dislike.like === 1) {
+                            await axios.delete(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                            article.like_dislike.like = 0
+                            article.count_true -= 1
+                        }
+                        else {
+                            await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                            article.like_dislike.like = 1
+                            article.count_true += 1
+                            article.like_dislike.dislike = 0
+                            article.count_false -= 1
+                        }
                     }
                 }
+                else{
+                    router.push('/login')
+                }
             }
-            else{
-                router.push('/login')
+            catch (e){
+                await ctx.dispatch('refresh_without_reboot')
+                await ctx.dispatch('like_fn', id)
             }
         },
         async dislike_fn(ctx, id){
             let article = ctx.state.articles_all.find(item => item.id === id)
-            if (localStorage.getItem('access')){
-                if (article.like_dislike.like === article.like_dislike.dislike){
-                    article.like_dislike.dislike = 1
-                    article.count_false += 1
-                    await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-                }
-                else{
-                    if (article.like_dislike.dislike === 1){
-                        article.like_dislike.dislike = 0
-                        article.count_false -= 1
-                        await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-                    }
-                    else{
+            try{
+                if (localStorage.getItem('access')){
+                    if (article.like_dislike.like === article.like_dislike.dislike){
+                        await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                         article.like_dislike.dislike = 1
                         article.count_false += 1
-                        article.like_dislike.like = 0
-                        article.count_true -= 1
-                        await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    }
+                    else{
+                        if (article.like_dislike.dislike === 1){
+                            await axios.delete(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                            article.like_dislike.dislike = 0
+                            article.count_false -= 1
+                        }
+                        else{
+                            await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                            article.like_dislike.dislike = 1
+                            article.count_false += 1
+                            article.like_dislike.like = 0
+                            article.count_true -= 1
+                        }
                     }
                 }
+                else{
+                    router.push('/login')
+                }
             }
-            else{
-                router.push('/login')
+
+            catch (e){
+                await ctx.dispatch('refresh_without_reboot')
+                await ctx.dispatch('dislike_fn', id)
             }
         },
         async articles_data(ctx){
-            if (localStorage.getItem('access')){
+            try{
                 const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/', {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                 ctx.commit('updateArticles', response.data)
             }
-            else{
+            catch{
                 const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/')
                 ctx.commit('updateArticles', response.data)
             }

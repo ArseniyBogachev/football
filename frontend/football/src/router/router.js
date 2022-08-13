@@ -74,6 +74,10 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
 })
 
+// router.afterEach((to, from, failure) => {
+//   store.dispatch('verify_fn', {access: localStorage.getItem('access'), refresh: localStorage.getItem('refresh')})
+// })
+
 router.beforeEach((to, from, next)=>{
     if ( to.name === 'profile' && !store.state.users.verify){
         next({

@@ -50,7 +50,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" v-on:click.prevent="$router.push({name: 'article'})">Article</a>
+                <a class="nav-link" href="#" v-on:click.prevent="$router.push({name: 'category'})">Article</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" v-on:click.prevent="$router.push({name: 'about'})">About</a>
@@ -133,11 +133,17 @@ export default {
     border-radius: 50%;
     padding: 4px 5px;
   }
+  .icon-user:active{
+    box-shadow: 0 0 5px 3px black inset;
+  }
   .image-user-m{
     width: 20px;
     height: 20px;
     border-radius: 50%;
     border: 1px solid gray;
     margin-bottom: 10px;
+  }
+  .navbar-toggler:focus{
+    box-shadow: 0 0 10px 1px black inset;
   }
 </style>

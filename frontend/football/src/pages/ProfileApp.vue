@@ -1,7 +1,6 @@
 <template>
   <ProfileCom class="d-none d-md-block"
               v-bind:tab_profile="tab_profile"
-              v-bind:subscriptions="users"
               v-bind:user="me"
               v-bind:bookmarks="bookmarks"
               v-bind:articles="articles"
@@ -9,7 +8,6 @@
   ></ProfileCom>
   <ProfileMob class="d-md-none mob"
               v-bind:tab_profile="tab_profile"
-              v-bind:subscriptions="users"
               v-bind:user="me"
               v-bind:bookmarks="bookmarks"
               v-bind:articles="articles"
@@ -21,8 +19,6 @@
 import ProfileCom from "@/components/ProfileCom";
 import ProfileMob from "@/components/ProfileMob";
 import {mapMutations, mapGetters, mapActions} from 'vuex'
-import {nextTick} from "vue";
-
 export default {
   name: "ProfileApp",
   props: {
@@ -44,24 +40,15 @@ export default {
       ],
     }
   },
-  methods:{
-    ...mapActions({
-      users_data: 'users_data',
-      me_data: 'me_data',
-      user_data: 'user_data',
-    }),
-    tab_func(name){
-      for (let i of this.tab_profile){
+  methods: {
+    tab_func(name) {
+      for (let i of this.tab_profile) {
         let a = (i.name === name) ? i.active = true : i.active = false
       }
     },
   },
-  created() {
-    this.users_data()
-  },
   computed:{
     ...mapGetters({
-      users: 'users',
       me: 'me',
       articles_all: 'articles_all',
     }),

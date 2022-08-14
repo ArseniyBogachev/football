@@ -1,3 +1,4 @@
+from itertools import chain
 from rest_framework import serializers
 from .models import *
 
@@ -5,10 +6,11 @@ from .models import *
 class MeSerializer(serializers.ModelSerializer):
     my_articles = serializers.SerializerMethodField()
     bookmarks = serializers.SerializerMethodField()
+    sub_user = serializers.SerializerMethodField()
 
     class Meta:
         model = Users
-        fields = ('image', 'first_name', 'last_name', 'email', 'bookmarks', 'my_articles', 'username')
+        fields = ('image', 'first_name', 'last_name', 'email', 'bookmarks', 'my_articles', 'username', 'sub_user')
 
     def get_my_articles(self, instance):
         return Articles.objects.filter(author=instance.id).values_list('id', flat=True)
@@ -16,16 +18,31 @@ class MeSerializer(serializers.ModelSerializer):
     def get_bookmarks(self, instance):
         return ArticlesRelation.objects.filter(user=instance, bookmarks=True).values_list('article', flat=True)
 
+    def get_sub_user(self, instance):
+        sub1 = UsersSub.objects.filter(subscription=instance, add=True).values_list('user', flat=True)
+        sub2 = UsersSub.objects.filter(user=instance, add=True).values_list('subscription', flat=True)
+        users = list(chain(sub1, sub2))
+        sub_all = Users.objects.filter(pk__in=users).values('first_name', 'last_name', 'username', 'image')
+        return sub_all
+
 
 class UserSerializer(serializers.ModelSerializer):
     my_articles = serializers.SerializerMethodField()
+    sub_user = serializers.SerializerMethodField()
 
     class Meta:
         model = Users
-        fields = ('image', 'first_name', 'last_name', 'my_articles', 'username')
+        fields = ('image', 'first_name', 'last_name', 'my_articles', 'username', 'sub_user')
 
     def get_my_articles(self, instance):
         return Articles.objects.filter(author=instance.id).values_list('id', flat=True)
+
+    def get_sub_user(self, instance):
+        sub1 = UsersSub.objects.filter(subscription=instance, add=True).values_list('user', flat=True)
+        sub2 = UsersSub.objects.filter(user=instance, add=True).values_list('subscription', flat=True)
+        users = list(chain(sub1, sub2))
+        sub_all = Users.objects.filter(pk__in=users).values('first_name', 'last_name', 'username', 'image')
+        return sub_all
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -65,6 +82,14 @@ class ArticleSerializer(serializers.ModelSerializer):
             return result
 
 
+class CreateArticleSerializer(serializers.ModelSerializer):
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Articles
+        fields = ('title', 'text', 'date', 'cat', 'author')
+
+
 class ArticlesRelationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticlesRelation
@@ -80,6 +105,12 @@ class ArticlesCategorySerializer(serializers.ModelSerializer):
 class ArticlesLikesSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticlesLikes
+        fields = '__all__'
+
+
+class UsersSubSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UsersSub
         fields = '__all__'
 
 

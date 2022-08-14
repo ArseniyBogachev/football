@@ -22,10 +22,15 @@ class AdminLikes(admin.ModelAdmin):
     list_display = ('id', 'user', 'article', 'likes')
 
 
+class AdminSub(admin.ModelAdmin):
+    list_display = ('id', 'user', 'subscription', 'add')
+
+
 admin.site.register(Articles, AdminArticles)
 admin.site.register(Users, AdminUsers)
 admin.site.register(ArticlesRelation, AdminRelation)
 admin.site.register(CategoryArticles, AdminCategory)
 admin.site.register(ArticlesLikes, AdminLikes)
+admin.site.register(UsersSub, AdminSub)
 
 # Register your models here.

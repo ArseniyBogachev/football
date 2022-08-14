@@ -1,19 +1,17 @@
 <template>
   <li>
     <h3 class="d-none d-sm-block">{{ n.title }}</h3>
-    <a href="#" v-if="this.bookmarks.includes(n.id) && verify" v-on:click.prevent="bookmarks_false(n.id)">
-      <fa icon="fa-solid fa-bookmark" class="d-none d-xs-block icon" style="color: #216bff"></fa>
-      <fa icon="fa-solid fa-bookmark" class="d-xs-none icon-sm" style="color: #216bff"></fa>
-    </a>
-    <a href="#" v-else v-on:click.prevent="bookmarks_true(n.id)">
-      <fa  icon="fa-solid fa-bookmark" class="d-none d-xs-block icon" style="color: black"></fa>
-      <fa  icon="fa-solid fa-bookmark" class="d-xs-none icon-sm" style="color: black"></fa>
-    </a>
+    <MyBookmarks class="d-none d-xs-block icon"
+                 v-bind:article="n"
+    ></MyBookmarks>
+    <MyBookmarks class="d-xs-none icon-sm"
+                 v-bind:article="n"
+    ></MyBookmarks>
     <h5 class="d-sm-none">{{ n.title }}</h5>
     <span><a href="#" class="author" v-on:click.prevent="$router.push({name: 'user', params: {slug: n.author}})">{{n.author}}</a> | {{n.date}}</span>
-    <p class="d-none d-sm-block">{{ n.text.slice(0,500) }}<button type="button" class="btn btn-link">read...</button></p>
+    <p class="d-none d-sm-block">{{ n.text.slice(0,500) }}<button type="button" class="btn btn-link" v-on:click.prevent="$router.push({name: 'article', params: {slug: n.title}})">read...</button></p>
     <p class="d-sm-none sm-text">{{ n.text.slice(0,250) }}...</p>
-    <button type="button" class="d-sm-none btn btn-secondary btn-sm">read</button>
+    <button type="button" class="d-sm-none btn btn-secondary btn-sm" v-on:click.prevent="$router.push({name: 'article', params: {slug: n.title}})">read</button>
   </li>
   <div>
     <LikesDislikes v-bind:n="n"></LikesDislikes>
@@ -23,33 +21,18 @@
 
 <script>
 import LikesDislikes from "@/components/UI/LikesDislikes";
-import {mapActions, mapGetters} from 'vuex'
-import router from "@/router/router";
-import {nextTick} from "vue";
+import MyBookmarks from "@/components/UI/MyBookmarks";
 export default {
   name: "NewsApp",
   props:{
     n:{
       type: Object,
     },
-    bookmarks:{
-      type: Array,
-    }
   },
   components:{
     LikesDislikes,
+    MyBookmarks,
   },
-  methods:{
-    ...mapActions({
-      bookmarks_true: 'bookmarks_true',
-      bookmarks_false: 'bookmarks_false',
-    }),
-  },
-  computed:{
-    ...mapGetters({
-      verify: 'verify'
-    }),
-  }
 }
 </script>
 

@@ -3,15 +3,11 @@ import router from '@/router/router';
 
 export const users = {
     state: () => ({
-        users: [],
         me: {},
         verify: false,
         user: {},
     }),
     getters:{
-        users(state){
-            return state.users
-        },
         me(state){
             return state.me
         },
@@ -23,13 +19,6 @@ export const users = {
         },
     },
     mutations:{
-        UpdateUsers(state, users){
-            state.users = []
-            for (let i of users){
-                i['display'] = false
-                state.users.push(i)
-            }
-        },
         MeUser(state, me){
             state.me = me
         },
@@ -41,7 +30,7 @@ export const users = {
         },
         UpdateUser(state, user){
             state.user = user
-        }
+        },
     },
     actions: {
         async bookmarks_true(ctx, id){
@@ -63,7 +52,7 @@ export const users = {
         async bookmarks_false(ctx, id){
             try{
                 if (localStorage.getItem('access')){
-                    await axios.patch(`http://127.0.0.1:8000/api/v1/articlesrelation/${id}/`, {'bookmarks': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    await axios.delete(`http://127.0.0.1:8000/api/v1/articlesrelation/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                     let user = ctx.state.me
                     let index = user.bookmarks.indexOf(id)
                     delete user.bookmarks[index]
@@ -76,16 +65,6 @@ export const users = {
                 await ctx.dispatch('refresh_without_reboot')
                 await ctx.dispatch('bookmarks_false', id)
             }
-        },
-        users_data(ctx){
-            const response = [
-                // {firstname: 'Arseniy', lastname: 'Bogachev', nickname: 'kuwsh1n', article: 20, rate: 4.5, photo: 'kuwsh1n.jpg'},
-                {firstname: 'Daniil', lastname: 'Grigoryevskiy', username: 'dany228', article: 10, rate: 4.1, photo: 'dany228.jpg', age: 22,},
-                {firstname: 'Dmitriy', lastname: 'Krinickiy', username: 'Mitay', article: 13, rate: 4.4, photo: '', age: 22,},
-                {firstname: 'Kirill', lastname: 'Zherdev', username: 'uzumaki', article: 26, rate: 4.3, photo: 'uzumaki.jpg', age: 22,},
-                {firstname: 'Daria', lastname: 'Utesheva', username: 'kuwsh1nka', article: 5, rate: 5, photo: 'kuwsh1nka.jpg', age: 22,},
-            ]
-            ctx.commit('UpdateUsers', response)
         },
         async verify_fn(ctx, token){
             try {
@@ -140,6 +119,6 @@ export const users = {
             catch (e) {
                 console.log(e)
             }
-        }
+        },
     },
 }

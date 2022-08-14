@@ -1,0 +1,105 @@
+<template>
+  <div class="container-md">
+    <h3 class="d-none d-sm-block">{{ this.article.title }}</h3>
+    <MyBookmarks class="d-none d-xs-block icon"
+                 v-bind:article="article"
+    ></MyBookmarks>
+    <MyBookmarks class="d-xs-none icon-sm"
+                 v-bind:article="article"
+    ></MyBookmarks>
+    <h5 class="d-sm-none">{{ this.article.title }}</h5>
+    <span><a href="#" class="author" v-on:click.prevent="$router.push({name: 'user', params: {slug: this.article.author}})">{{this.article.author}}</a> | {{this.article.date}}</span>
+    <p class="d-none d-sm-block">{{ this.article.text }}</p>
+    <p class="d-sm-none sm-text">{{ this.article.text}}</p>
+    <div>
+      <LikesDislikes v-bind:n="this.article"></LikesDislikes>
+    </div>
+  </div>
+</template>
+
+<script>
+import {mapGetters, mapActions} from 'vuex'
+import LikesDislikes from "@/components/UI/LikesDislikes";
+import MyBookmarks from "@/components/UI/MyBookmarks";
+export default {
+  name: "OpenarticleApp",
+  props: {
+    slug: String,
+  },
+  components:{
+    LikesDislikes,
+    MyBookmarks,
+  },
+  methods:{
+    ...mapActions({
+      bookmarks_true: 'bookmarks_true',
+      bookmarks_false: 'bookmarks_false',
+    }),
+  },
+  computed:{
+    ...mapGetters({
+      articles_all: 'articles_all',
+      verify: 'verify',
+      me: 'me',
+    }),
+    article(){
+      return [...this.articles_all].find(item => item.title === this.slug)
+    }
+  }
+}
+</script>
+
+<style scoped>
+  .container-md{
+    box-shadow: 0 0 5px 1px grey;
+    margin-bottom: 100px;
+    min-height: 658px;
+  }
+  h3{
+    text-align: center;
+    padding-top: 5%;
+  }
+  .sm-text{
+    font-size: 14px;
+  }
+  .author{
+    text-decoration: none;
+    color: darkgrey;
+  }
+  .author:hover{
+    color: #676365;
+    text-decoration: underline;
+  }
+  div{
+    position: relative;
+  }
+  .icon{
+    position: absolute;
+    right: 30px;
+    top: 70px;
+  }
+  .icon-sm{
+    position: absolute;
+    right: 20px;
+    top: 40px;
+  }
+  .icon:hover{
+    opacity: 0.8;
+  }
+  .icon-sm:hover{
+    opacity: 0.8;
+  }
+  h5{
+    text-align: center;
+    padding-top: 13%;
+  }
+  span{
+    color: darkgrey;
+    font-family: Arial, Verdana, Sans-Serif;
+    font-size: 12px;
+  }
+  p{
+    font-size: 17px;
+    font-family: "Arial Narrow";
+  }
+</style>

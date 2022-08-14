@@ -17,7 +17,7 @@
           <h5 class="card-title" style="font-size: 15px;">{{ article.title }}</h5>
           <p class="card-text" style="font-size: 13px;">{{ article.text.slice(0,100) }}...</p>
         </div>
-        <a href="#" class="card-footer bg-transparent border-secondary"><span>Open</span></a>
+        <a href="#" class="card-footer bg-transparent border-secondary" v-on:click.prevent="$router.push({name: 'article', params: {slug: article.title}})"><span>Open</span></a>
       </div>
     </div>
   </div>

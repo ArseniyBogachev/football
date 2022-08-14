@@ -4,7 +4,6 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
-          v-bind:bookmarks="me.bookmarks"
       ></NewsApp>
     </ul>
   </div>
@@ -13,7 +12,6 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
-          v-bind:bookmarks="me.bookmarks"
       ></NewsApp>
     </ul>
   </div>

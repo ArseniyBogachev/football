@@ -43,7 +43,6 @@ export default {
   },
   methods:{
     ...mapActions({
-      users_data: 'users_data',
       user_data: 'user_data',
     }),
     tab_func(name){
@@ -54,7 +53,6 @@ export default {
   },
   created() {
     this.user_data(this.slug)
-    this.users_data()
   },
   computed:{
     ...mapGetters({

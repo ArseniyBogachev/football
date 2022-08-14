@@ -13,7 +13,7 @@ class ArticlesAPIList(generics.ListAPIView):
     serializer_class = ArticleSerializer
 
 
-class ArticlesRelationAPIUpdate(generics.UpdateAPIView):
+class ArticlesRelationAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = ArticlesRelation.objects.all()
     serializer_class = ArticlesRelationSerializer
     permission_classes = (IsAuthenticated,)
@@ -21,7 +21,7 @@ class ArticlesRelationAPIUpdate(generics.UpdateAPIView):
 
     def get_object(self):
         obj, create = ArticlesRelation.objects.get_or_create(user=self.request.user,
-                                                          article_id=self.kwargs['article'], )
+                                                             article_id=self.kwargs['article'], )
         return obj
 
 
@@ -51,7 +51,7 @@ class UsersAPIList(generics.ListAPIView):
         return query
 
 
-class UsersAPIRetrieve(generics.RetrieveAPIView):
+class UsersSubAPIRetrieve(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = 'user'
@@ -60,4 +60,22 @@ class UsersAPIRetrieve(generics.RetrieveAPIView):
         query = Users.objects.get(username=self.kwargs['user'])
 
         return query
+
+
+class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UsersSub.objects.all()
+    serializer_class = UsersSubSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'user'
+
+    def get_object(self):
+        obj, create = UsersSub.objects.get_or_create(user=self.request.user,
+                                                     subscription_id=self.kwargs['user'], )
+        return obj
+
+
+class ArticleAPIPost(generics.CreateAPIView):
+    queryset = Articles.objects.all()
+    serializer_class = CreateArticleSerializer
+    permission_classes = (IsAuthenticated,)
 # Create your views here.

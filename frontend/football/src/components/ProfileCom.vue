@@ -8,9 +8,9 @@
           <img class="image-user-md d-none d-md-block d-lg-none" v-bind:src="user.image" alt="">
         </div>
         <div v-else>
-          <img class="image-user-xxl d-none d-xxl-block" src="../assets/none_image.png" alt="">
-          <img class="image-user-lg d-none d-lg-block d-xxl-none" src="../assets/none_image.png" alt="">
-          <img class="image-user-md d-none d-md-block d-lg-none" src="../assets/none_image.png" alt="">
+          <img class="image-user-xxl d-none d-xxl-block" src="../assets/none.png" alt="">
+          <img class="image-user-lg d-none d-lg-block d-xxl-none" src="../assets/none.png" alt="">
+          <img class="image-user-md d-none d-md-block d-lg-none" src="../assets/none.png" alt="">
         </div>
         <p class="followers-md-none d-none d-lg-block">
           <span>58k</span>
@@ -49,7 +49,7 @@
       </div>
       <div class="col-8">
         <div>
-          <MysubscriptionsCom v-if="tab_profile[0].active" v-bind:subscriptions="subscriptions"></MysubscriptionsCom>
+          <MysubscriptionsCom v-if="tab_profile[0].active" v-bind:subscriptions="user.sub_user"></MysubscriptionsCom>
           <MyarticleCom v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleCom>
           <MybookmarksCom v-else-if="tab_profile[2].active" v-bind:bookmarks="bookmarks"></MybookmarksCom>
           <MysettingsCom v-else v-bind:user="user"></MysettingsCom>
@@ -75,9 +75,6 @@ export default {
   },
   props:{
     tab_profile:{
-      type: Array,
-    },
-    subscriptions:{
       type: Array,
     },
     user:{

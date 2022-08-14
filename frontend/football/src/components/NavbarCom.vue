@@ -16,7 +16,7 @@
                 <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/teams')">FNL</a></li>
               </ul>
             </li>
-            <li><a href="#" class="nav-link" @click.prevent="$router.push('/article')" style="color: gray">Article</a></li>
+            <li><a href="#" class="nav-link" @click.prevent="$router.push('/category')" style="color: gray">Article</a></li>
             <li><a href="#" @click.prevent="$router.push('/about')" class="nav-link" style="color: gray">About</a></li>
           </ul>
         </div>

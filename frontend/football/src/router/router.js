@@ -11,6 +11,7 @@ import CatArticles from "@/components/CatArticles";
 import LoginApp from "@/pages/LoginApp";
 import RegisterApp from "@/pages/RegisterApp";
 import UserApp from "@/pages/UserApp";
+import OpenarticleApp from "@/pages/OpenarticleApp";
 
 
 
@@ -33,9 +34,9 @@ const routes = [
         props: true,
     },
     {
-        path: '/article',
+        path: '/category',
         component: ArticleApp,
-        name: 'article'
+        name: 'category'
     },
     {
         path: '/teams',
@@ -53,9 +54,9 @@ const routes = [
         name: 'lineup'
     },
     {
-        path: '/article/:slug',
+        path: '/category/:slug',
         component: CatArticles,
-        name: 'article_cat',
+        name: 'category_articles',
         props: true,
     },
     {
@@ -74,16 +75,18 @@ const routes = [
         name: 'user',
         props: true,
     },
+    {
+        path: '/article/:slug',
+        component: OpenarticleApp,
+        name: 'article',
+        props: true,
+    },
 ]
 
 const router = createRouter({
     routes,
     history: createWebHistory(process.env.BASE_URL),
 })
-
-// router.afterEach((to, from, failure) => {
-//   store.dispatch('verify_fn', {access: localStorage.getItem('access'), refresh: localStorage.getItem('refresh')})
-// })
 
 router.beforeEach((to, from, next)=>{
     if ( to.name === 'profile' && !localStorage.getItem('access')){

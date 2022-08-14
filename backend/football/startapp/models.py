@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
+# добавить поле age!!!!!!!!!!!!!!!!!
 class Users(AbstractUser):
     first_name = models.CharField(max_length=10)
     last_name = models.CharField(max_length=10)
@@ -9,8 +9,9 @@ class Users(AbstractUser):
     username = models.CharField(max_length=10, unique=True)
     image = models.ImageField(upload_to='image/users/%Y/%m/%d', null=True)
     bookmarks = models.ManyToManyField('Articles', through='ArticlesRelation', related_name='bookmarks')
+    sub_user = models.ManyToManyField('Users', through='UsersSub', related_name='subscriptions')
 
-    REQUIRED_FIELDS = ['image', 'first_name', 'last_name', 'email', 'bookmarks']
+    REQUIRED_FIELDS = ['image', 'first_name', 'last_name', 'email', 'bookmarks', 'sub_user']
 
     def __str__(self):
         return self.username
@@ -57,4 +58,10 @@ class ArticlesLikes(models.Model):
 
     def __str__(self):
         return f'user: {self.user} articles: {self.article} likes: {self.likes}'
+
+
+class UsersSub(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, related_name='user')
+    subscription = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, related_name='sub')
+    add = models.BooleanField(default=False)
 # Create your models here.

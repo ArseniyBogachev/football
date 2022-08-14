@@ -40,7 +40,7 @@
                   <span class="name">{{ user.username }}</span>
                 </a>
                 <ul class="dropdown-menu bg-light" aria-labelledby="user" style="box-shadow: 0 0 10px 1px black">
-                  <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: user.username}})">Profile</a></li>
+                  <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params:{slug: user.username}})">Profile</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#" @click="$emit('logoutUser')">Logout</a></li>
                 </ul>
@@ -64,6 +64,11 @@ import router from "@/router/router";
 import {mapActions, mapGetters} from 'vuex';
 export default {
   name: "NavbarCom",
+  data(){
+    return{
+      me_data: this.user
+    }
+  },
   props:{
     modelValue:{
       type: String,
@@ -79,9 +84,6 @@ export default {
     },
   },
   methods:{
-    ...mapActions({
-      me_data: 'me_data'
-    }),
     input_func(event){
       this.$emit('update:modelValue', event.target.value)
     },

@@ -35,10 +35,10 @@ export default {
     margin-left: 10px;
   }
   .like-dislike:hover{
-    opacity: 0.9;
+    opacity: 0.8;
   }
   .like-dislike-active:hover{
-    opacity: 0.9;
+    opacity: 0.8;
   }
   span{
     color: darkgrey;

@@ -50,9 +50,10 @@
       <div class="col-8">
         <div>
           <MysubscriptionsCom v-if="tab_profile[0].active" v-bind:subscriptions="subscriptions"></MysubscriptionsCom>
-          <MyarticleCom v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleCom>
-          <MybookmarksCom v-else-if="tab_profile[2].active" v-bind:bookmarks="bookmarks"></MybookmarksCom>
-          <MysettingsCom v-else v-bind:user="user"></MysettingsCom>
+          <MyarticleCom v-else-if="tab_profile[1].active"
+                        v-bind:articles="articles"
+                        v-bind:crud="crud"
+          ></MyarticleCom>
         </div>
       </div>
     </div>
@@ -61,17 +62,12 @@
 
 <script>
 import MyarticleCom from "@/components/MyarticleCom";
-import MybookmarksCom from "@/components/MybookmarksCom";
 import MysubscriptionsCom from "@/components/MysubscriptionsCom";
-import MysettingsCom from "@/components/MysettingsCom";
-import {mapGetters, mapActions} from "vuex";
 export default {
-  name: "ProfileCom",
+  name: "UserCom",
   components:{
-    MysubscriptionsCom,
-    MybookmarksCom,
     MyarticleCom,
-    MysettingsCom,
+    MysubscriptionsCom,
   },
   props:{
     tab_profile:{
@@ -86,8 +82,8 @@ export default {
     articles:{
       type: Array,
     },
-    bookmarks:{
-      type: Array,
+    crud:{
+      type: Boolean,
     },
   },
 }

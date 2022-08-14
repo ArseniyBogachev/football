@@ -5,7 +5,7 @@
       <div class="card border-secondary mb-3" style="max-width: 50rem;" v-for="article in articles">
         <div class="card-header bg-transparent border-secondary">
           <small class="text-muted">{{ article.date }}</small>
-          <div>
+          <div v-if="this.crud">
             <a href="#"><fa icon="fa-solid fa-pen" style="margin-right: 20px;" class="icon-pen"></fa></a>
             <a href="#"><fa icon="fa-solid fa-trash-can" class="icon-trash"></fa></a>
           </div>
@@ -31,6 +31,10 @@ export default {
     articles:{
       type:Array,
     },
+    crud:{
+      type: Boolean,
+      default: true,
+    }
   },
 }
 </script>

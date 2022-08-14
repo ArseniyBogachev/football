@@ -1,53 +1,49 @@
 <template>
-  <ProfileCom class="d-none d-md-block"
+  <UserCom class="d-none d-md-block"
               v-bind:tab_profile="tab_profile"
               v-bind:subscriptions="users"
-              v-bind:user="me"
-              v-bind:bookmarks="bookmarks"
+              v-bind:user="user"
+              v-bind:crud="crud"
               v-bind:articles="articles"
               v-on:tab_func="tab_func"
-  ></ProfileCom>
-  <ProfileMob class="d-md-none mob"
+  ></UserCom>
+  <UserMob class="d-md-none mob"
               v-bind:tab_profile="tab_profile"
               v-bind:subscriptions="users"
-              v-bind:user="me"
-              v-bind:bookmarks="bookmarks"
+              v-bind:user="user"
+              v-bind:crud="crud"
               v-bind:articles="articles"
               v-on:tab_func="tab_func"
-  ></ProfileMob>
+  ></UserMob>
 </template>
 
 <script>
-import ProfileCom from "@/components/ProfileCom";
-import ProfileMob from "@/components/ProfileMob";
-import {mapMutations, mapGetters, mapActions} from 'vuex'
-import {nextTick} from "vue";
-
+import UserCom from "@/components/UserCom";
+import UserMob from "@/components/UserMob";
+import {mapActions, mapGetters} from "vuex";
 export default {
-  name: "ProfileApp",
+  name: "UserApp",
+  components:{
+    UserCom,
+    UserMob
+  },
   props: {
     slug:{
       type: String,
     },
-  },
-  components:{
-    ProfileCom,
-    ProfileMob,
   },
   data(){
     return{
       tab_profile:[
         {active: true, name: 'Subscriptions'},
         {active: false, name: 'Article'},
-        {active: false, name: 'Bookmarks'},
-        {active: false, name: 'Settings'},
       ],
+      crud: false,
     }
   },
   methods:{
     ...mapActions({
       users_data: 'users_data',
-      me_data: 'me_data',
       user_data: 'user_data',
     }),
     tab_func(name){
@@ -57,20 +53,18 @@ export default {
     },
   },
   created() {
+    this.user_data(this.slug)
     this.users_data()
   },
   computed:{
     ...mapGetters({
       users: 'users',
-      me: 'me',
       articles_all: 'articles_all',
+      user: 'user',
     }),
     articles(){
-      return [...this.articles_all,].filter(item => this.me.my_articles.includes(item.id))
+      return [...this.articles_all,].filter(item => this.user.my_articles.includes(item.id))
     },
-    bookmarks(){
-      return [...this.articles_all,].filter(item => this.me.bookmarks.includes(item.id))
-    }
   }
 }
 </script>

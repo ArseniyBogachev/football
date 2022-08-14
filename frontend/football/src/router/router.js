@@ -10,6 +10,7 @@ import PlayerApp from "@/pages/PlayerApp";
 import CatArticles from "@/components/CatArticles";
 import LoginApp from "@/pages/LoginApp";
 import RegisterApp from "@/pages/RegisterApp";
+import UserApp from "@/pages/UserApp";
 
 
 
@@ -26,7 +27,7 @@ const routes = [
         name: 'about'
     },
     {
-        path: '/profile/:slug',
+        path: `/profile/:slug`,
         component: ProfileApp,
         name: 'profile',
         props: true,
@@ -66,6 +67,12 @@ const routes = [
         path: '/register',
         component: RegisterApp,
         name: 'register'
+    },
+    {
+        path: '/user/:slug',
+        component: UserApp,
+        name: 'user',
+        props: true,
     },
 ]
 

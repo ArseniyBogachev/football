@@ -1,6 +1,5 @@
 import axios from 'axios';
 import router from '@/router/router';
-import {nextTick} from "vue";
 
 export const articles = {
     state: () => ({
@@ -135,5 +134,14 @@ export const articles = {
                 console.log(e)
             }
         },
+        async article_create(ctx, data){
+            try{
+                const response = await axios.post('http://127.0.0.1:8000/api/v1/article/', data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                location.reload()
+            }
+            catch (e) {
+                console.log(e)
+            }
+        }
     },
 }

@@ -17,7 +17,7 @@
         <a href="#" class="card-footer bg-transparent border-secondary" v-on:click.prevent="$router.push({name: 'article', params: {slug: article.title}})"><span>Open</span></a>
       </div>
     </div>
-    <button type="button" class="btn btn-primary">
+    <button type="button" class="btn btn-primary" v-on:click.prevent="$router.push({name: 'create-article', params: {slug: me.username}})">
       <fa icon="fa-solid fa-plus"></fa>
     </button>
   </div>
@@ -36,6 +36,11 @@ export default {
       default: true,
     }
   },
+  computed:{
+    ...mapGetters({
+      me: 'me',
+    }),
+  }
 }
 </script>
 

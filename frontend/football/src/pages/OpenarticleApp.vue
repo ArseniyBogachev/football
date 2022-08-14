@@ -11,7 +11,7 @@
     <span><a href="#" class="author" v-on:click.prevent="$router.push({name: 'user', params: {slug: this.article.author}})">{{this.article.author}}</a> | {{this.article.date}}</span>
     <p class="d-none d-sm-block">{{ this.article.text }}</p>
     <p class="d-sm-none sm-text">{{ this.article.text}}</p>
-    <div>
+    <div style="padding-bottom: 50px;">
       <LikesDislikes v-bind:n="this.article"></LikesDislikes>
     </div>
   </div>

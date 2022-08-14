@@ -1,4 +1,3 @@
-import store from '@/store'
 import {createRouter, createWebHistory} from "vue-router"
 import HomeApp from "@/pages/HomeApp";
 import AboutApp from "@/pages/AboutApp";
@@ -12,6 +11,7 @@ import LoginApp from "@/pages/LoginApp";
 import RegisterApp from "@/pages/RegisterApp";
 import UserApp from "@/pages/UserApp";
 import OpenarticleApp from "@/pages/OpenarticleApp";
+import CreatearticlesApp from "@/pages/CreatearticlesApp";
 
 
 
@@ -79,6 +79,12 @@ const routes = [
         path: '/article/:slug',
         component: OpenarticleApp,
         name: 'article',
+        props: true,
+    },
+    {
+        path: '/profile/:slug/create',
+        component: CreatearticlesApp,
+        name: 'create-article',
         props: true,
     },
 ]

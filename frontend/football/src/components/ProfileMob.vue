@@ -22,7 +22,10 @@
     </div>
     <div class="content">
       <div>
-        <MysubscriptionsMob v-if="tab_profile[0].active" v-bind:subscriptions="user.sub_user"></MysubscriptionsMob>
+        <MysubscriptionsMob v-if="tab_profile[0].active"
+                            v-bind:subscriptions="user.sub_user"
+                            v-bind:crud="crud"
+        ></MysubscriptionsMob>
         <MyarticleMob v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleMob>
         <MybookmarksMob  v-else-if="tab_profile[2].active" v-bind:bookmarks="bookmarks"></MybookmarksMob>
         <MysettingsMob v-else v-bind:user="user"></MysettingsMob>
@@ -56,6 +59,9 @@ export default {
     },
     user:{
       type:Object,
+    },
+    crud:{
+      type: Boolean,
     },
   },
 }

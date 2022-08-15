@@ -53,7 +53,6 @@ class UsersAPIList(generics.ListAPIView):
 
 class UsersSubAPIRetrieve(generics.RetrieveAPIView):
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated,)
     lookup_field = 'user'
 
     def get_object(self):

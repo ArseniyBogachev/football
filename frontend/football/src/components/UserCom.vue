@@ -35,11 +35,49 @@
         <div class="info-user-lg d-none d-lg-block">
           <span class="username">{{user.username}}</span>
           <p class="name-and-age">{{ user.first_name }} {{ user.last_name }} 22 age</p>
+          <div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom: 20px;">
+            <button v-if="sub" class="btn btn-danger" type="button" v-on:click="this.user_unsubscribe_reject(user.id); delete_fn()">Unsubscribe</button>
+
+            <div v-else-if="user.subscriber_user" class="btn-group">
+              <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Request
+              </button>
+              <ul v-if="user.choice_user" class="dropdown-menu">
+                <li><a class="dropdown-item" href="#" v-on:click="this.user_accept(user.id); location.reload()">Accept</a></li>
+                <li><a class="dropdown-item" href="#" v-on:click="this.user_unsubscribe_reject(user.id); user.subscriber_user = false;">Reject</a></li>
+              </ul>
+              <ul v-else class="dropdown-menu">
+                <li><a class="dropdown-item" href="#" v-on:click="this.user_unsubscribe_reject(user.id); user.subscriber_user = false;">Reject</a></li>
+              </ul>
+            </div>
+
+            <button v-else class="btn btn-primary" type="button" v-on:click="this.user_subscriber(user.id); user.subscriber_user = true;">Subscribe</button>
+
+          </div>
           <div class="line-custom-lg"></div>
         </div>
         <div class="info-user-md d-none d-md-block d-lg-none">
           <span class="username-md">{{user.username}}</span>
           <p class="name-and-age-md">{{ user.firstname }} {{ user.lastname }} 22 age</p>
+          <div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom: 20px;">
+            <button v-if="sub" class="btn btn-danger" type="button" v-on:click="this.user_unsubscribe_reject(user.id); delete_fn()">Unsubscribe</button>
+
+            <div v-else-if="user.subscriber_user" class="btn-group">
+              <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Request
+              </button>
+              <ul v-if="user.choice_user" class="dropdown-menu">
+                <li><a class="dropdown-item" href="#" v-on:click="this.user_accept(user.id); location.reload()">Accept</a></li>
+                <li><a class="dropdown-item" href="#" v-on:click="this.user_unsubscribe_reject(user.id); user.subscriber_user = false;">Reject</a></li>
+              </ul>
+              <ul v-else class="dropdown-menu">
+                <li><a class="dropdown-item" href="#" v-on:click="this.user_unsubscribe_reject(user.id); user.subscriber_user = false;">Reject</a></li>
+              </ul>
+            </div>
+
+            <button v-else class="btn btn-primary" type="button" v-on:click="this.user_subscriber(user.id); user.subscriber_user = true;">Subscribe</button>
+
+          </div>
           <div class="line-custom-md"></div>
         </div>
         <nav class="nav flex-column menu-md d-none d-md-block" v-for="tab in tab_profile">
@@ -66,6 +104,7 @@
 <script>
 import MyarticleCom from "@/components/MyarticleCom";
 import MysubscriptionsCom from "@/components/MysubscriptionsCom";
+import {mapGetters, mapActions} from 'vuex';
 export default {
   name: "UserCom",
   components:{
@@ -86,6 +125,26 @@ export default {
       type: Boolean,
     },
   },
+  methods:{
+    ...mapActions({
+      user_subscriber: 'user_subscriber',
+      user_unsubscribe_reject: 'user_unsubscribe_reject',
+      user_accept: 'user_accept',
+    }),
+    delete_fn(){
+      let a = [...this.user.sub_user,].findIndex(item => item.username === this.me.username)
+      delete this.user.sub_user[a]
+    }
+  },
+  computed:{
+    ...mapGetters({
+      me: 'me',
+    }),
+    sub(){
+      return Boolean([...this.user.sub_user,].filter(item => item.username === this.me.username).length)
+    }
+  },
+
 }
 </script>
 
@@ -108,6 +167,7 @@ export default {
     margin-right: -50%;
     transform: translate(-50%, 0);
     box-shadow: 0 0 5px 1px black;
+    border: 3px solid gray;
   }
   .image-user-lg{
     width: 150px;
@@ -119,6 +179,7 @@ export default {
     margin-right: -50%;
     transform: translate(-50%, 0);
     box-shadow: 0 0 5px 1px black;
+    border: 3px solid gray;
   }
   .image-user-md{
     width: 100px;
@@ -130,6 +191,7 @@ export default {
     margin-right: -50%;
     transform: translate(-50%, 0);
     box-shadow: 0 0 5px 1px black;
+    border: 3px solid gray;
   }
   .followers-md-none{
     position: absolute;

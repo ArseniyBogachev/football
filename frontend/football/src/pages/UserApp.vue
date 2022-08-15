@@ -1,7 +1,6 @@
 <template>
   <UserCom class="d-none d-md-block"
               v-bind:tab_profile="tab_profile"
-              v-bind:subscriptions="users"
               v-bind:user="user"
               v-bind:crud="crud"
               v-bind:articles="articles"
@@ -9,7 +8,6 @@
   ></UserCom>
   <UserMob class="d-md-none mob"
               v-bind:tab_profile="tab_profile"
-              v-bind:subscriptions="users"
               v-bind:user="user"
               v-bind:crud="crud"
               v-bind:articles="articles"
@@ -56,7 +54,6 @@ export default {
   },
   computed:{
     ...mapGetters({
-      users: 'users',
       articles_all: 'articles_all',
       user: 'user',
     }),

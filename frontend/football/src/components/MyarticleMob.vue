@@ -1,7 +1,7 @@
 <template>
   <div class="base">
     <h3>Article</h3>
-    <button type="button" class="btn btn-primary">
+    <button v-if="this.crud" type="button" class="btn btn-primary" v-on:click.prevent="$router.push({name: 'create-article', params: {slug: me.username}})">
       <fa icon="fa-solid fa-plus"></fa>
     </button>
     <div class="container">
@@ -36,17 +36,11 @@ export default {
       default: true,
     },
   },
-  // computed:{
-  //   ...mapGetters({
-  //     articles_all: 'articles_all'
-  //   }),
-  //   articles(){
-  //     return [...this.articles_all,].filter(item => this.id.includes(item.id))
-  //   }
-  // },
-  // created() {
-  //   this.$store.dispatch('articles_data', localStorage.getItem('access'))
-  // },
+  computed:{
+    ...mapGetters({
+      me: 'me',
+    }),
+  }
 }
 </script>
 

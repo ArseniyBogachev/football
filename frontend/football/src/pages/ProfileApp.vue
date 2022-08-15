@@ -2,6 +2,7 @@
   <ProfileCom class="d-none d-md-block"
               v-bind:tab_profile="tab_profile"
               v-bind:user="me"
+              v-bind:crud="crud"
               v-bind:bookmarks="bookmarks"
               v-bind:articles="articles"
               v-on:tab_func="tab_func"
@@ -9,6 +10,7 @@
   <ProfileMob class="d-md-none mob"
               v-bind:tab_profile="tab_profile"
               v-bind:user="me"
+              v-bind:crud="crud"
               v-bind:bookmarks="bookmarks"
               v-bind:articles="articles"
               v-on:tab_func="tab_func"
@@ -38,6 +40,7 @@ export default {
         {active: false, name: 'Bookmarks'},
         {active: false, name: 'Settings'},
       ],
+      crud: true,
     }
   },
   methods: {

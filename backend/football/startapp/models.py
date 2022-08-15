@@ -11,7 +11,7 @@ class Users(AbstractUser):
     bookmarks = models.ManyToManyField('Articles', through='ArticlesRelation', related_name='bookmarks')
     sub_user = models.ManyToManyField('Users', through='UsersSub', related_name='subscriptions')
 
-    REQUIRED_FIELDS = ['image', 'first_name', 'last_name', 'email', 'bookmarks', 'sub_user']
+    REQUIRED_FIELDS = ['image', 'first_name', 'last_name', 'email', 'bookmarks', 'sub_user', 'id']
 
     def __str__(self):
         return self.username

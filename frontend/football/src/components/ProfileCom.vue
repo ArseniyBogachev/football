@@ -49,7 +49,10 @@
       </div>
       <div class="col-8">
         <div>
-          <MysubscriptionsCom v-if="tab_profile[0].active" v-bind:subscriptions="user.sub_user"></MysubscriptionsCom>
+          <MysubscriptionsCom v-if="tab_profile[0].active"
+                              v-bind:subscriptions="user.sub_user"
+                              v-bind:crud="crud"
+          ></MysubscriptionsCom>
           <MyarticleCom v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleCom>
           <MybookmarksCom v-else-if="tab_profile[2].active" v-bind:bookmarks="bookmarks"></MybookmarksCom>
           <MysettingsCom v-else v-bind:user="user"></MysettingsCom>
@@ -85,6 +88,9 @@ export default {
     },
     bookmarks:{
       type: Array,
+    },
+    crud:{
+      type: Boolean,
     },
   },
 }

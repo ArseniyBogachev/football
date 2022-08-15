@@ -5,7 +5,7 @@
       <div class="card mb-3" style="max-width: 640px;" v-for="s in subscriptions">
         <div class="row g-0">
           <div class="col-md-3">
-              <img v-if="s.image" v-bind:src="s.image" class="img-fluid rounded-start" alt="../assets/users/none.png">
+              <img v-if="s.image" v-bind:src="`http://127.0.0.1:8000/media/${s.image}`" class="img-fluid rounded-start" alt="...">
               <img v-else src="../assets/none.png" class="img-fluid rounded-start" alt="../assets/users/none.png">
           </div>
           <div class="col-md-9">
@@ -14,9 +14,8 @@
                   <fa icon="fa-solid fa-ellipsis" class="settings"></fa>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-                  <li v-if="this.crud"><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'user', params: {slug: s.username}})">Profile</a></li>
-                  <li v-else><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: s.username}})">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Messege</a></li>
+                  <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'user', params: {slug: s.username}}); next(s)">Profile</a></li>
+                  <li><a class="dropdown-item" href="#">Message</a></li>
                   <li><a class="dropdown-item" href="#">Unsubscribe</a></li>
                 </ul>
               </div>
@@ -37,7 +36,8 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapActions} from 'vuex'
+
 export default {
   name: "MysubscriptionsCom",
   props:{
@@ -50,10 +50,15 @@ export default {
     },
   },
   methods:{
-    ...mapMutations({
-      updateMe: 'UpdateMe'
-    })
-  }
+    ...mapActions({
+      user_data: 'user_data',
+    }),
+    next(s){
+      if (!this.crud){
+        this.user_data(s.username)
+      }
+    },
+  },
 }
 </script>
 

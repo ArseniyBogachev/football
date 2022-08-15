@@ -29,10 +29,12 @@ class MeSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     my_articles = serializers.SerializerMethodField()
     sub_user = serializers.SerializerMethodField()
+    subscriber_user = serializers.SerializerMethodField()
+    choice_user = serializers.SerializerMethodField()
 
     class Meta:
         model = Users
-        fields = ('image', 'first_name', 'last_name', 'my_articles', 'username', 'sub_user')
+        fields = ('image', 'first_name', 'last_name', 'my_articles', 'username', 'sub_user', 'subscriber_user', 'id', 'choice_user')
 
     def get_my_articles(self, instance):
         return Articles.objects.filter(author=instance.id).values_list('id', flat=True)
@@ -43,6 +45,22 @@ class UserSerializer(serializers.ModelSerializer):
         users = list(chain(sub1, sub2))
         sub_all = Users.objects.filter(pk__in=users).values('first_name', 'last_name', 'username', 'image')
         return sub_all
+
+    def get_subscriber_user(self, instance):
+        try:
+            sub1 = UsersSub.objects.filter(user=self.context['request'].user, subscription=instance, add=False).values_list(flat=True)
+            sub2 = UsersSub.objects.filter(user=instance, subscription=self.context['request'].user, add=False).values_list(flat=True)
+            subscription = list(chain(sub1, sub2))
+            return bool(subscription)
+        except:
+            return False
+
+    def get_choice_user(self, instance):
+        try:
+            sub = UsersSub.objects.filter(user=instance, subscription=self.context['request'].user, add=False).values_list(flat=True)
+            return bool(sub)
+        except:
+            return False
 
 
 class ArticleSerializer(serializers.ModelSerializer):

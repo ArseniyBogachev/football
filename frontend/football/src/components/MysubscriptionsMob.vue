@@ -14,9 +14,8 @@
                   <fa icon="fa-solid fa-ellipsis" class="settigs"></fa>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li v-if="this.crud"><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'user', params: {slug: s.username}})">Profile</a></li>
-                  <li v-else><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'profile', params: {slug: s.username}})">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Messege</a></li>
+                  <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'user', params: {slug: s.username}}); next(s)">Profile</a></li>
+                  <li><a class="dropdown-item" href="#">Message</a></li>
                   <li><a class="dropdown-item" href="#">Unsubscribe</a></li>
                 </ul>
             </div>
@@ -37,6 +36,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   name: "MysubscriptionsMob",
   props:{
@@ -46,6 +47,16 @@ export default {
     crud:{
       type: Boolean,
       default: true,
+    },
+  },
+  methods:{
+    ...mapActions({
+      user_data: 'user_data',
+    }),
+    next(s){
+      if (!this.crud) {
+        this.user_data(s.username)
+      }
     },
   },
 }

@@ -117,6 +117,31 @@ export const users = {
                 ctx.commit('UpdateUser', response.data)
             }
             catch (e) {
+                const response = await axios.get(`http://127.0.0.1:8000/api/v1/user/${user}/`)
+                ctx.commit('UpdateUser', response.data)
+            }
+        },
+        async user_subscriber(ctx, id){
+            try{
+                await axios.patch(`http://127.0.0.1:8000/api/v1/subscription/${id}/`, {'add': false}, {headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
+        async user_unsubscribe_reject(ctx, id){
+            try{
+                await axios.delete(`http://127.0.0.1:8000/api/v1/subscription/${id}/`,{headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
+        async user_accept(ctx, id){
+            try{
+                await axios.patch(`http://127.0.0.1:8000/api/v1/subscription/${id}/`,{'add': true},{headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
+            }
+            catch (e) {
                 console.log(e)
             }
         },

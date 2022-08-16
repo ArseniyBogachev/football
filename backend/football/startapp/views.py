@@ -68,9 +68,19 @@ class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'user'
 
     def get_object(self):
+        sub = UsersSub.objects.filter(user_id=self.kwargs['user'], subscription=self.request.user, add=False).values_list(flat=True)
+
+        if bool(sub):
+            obj, create = UsersSub.objects.get_or_create(user_id=self.kwargs['user'],
+                                                         subscription=self.request.user, )
+
+            return obj
+
         obj, create = UsersSub.objects.get_or_create(user=self.request.user,
                                                      subscription_id=self.kwargs['user'], )
+
         return obj
+
 
 
 class ArticleAPIPost(generics.CreateAPIView):

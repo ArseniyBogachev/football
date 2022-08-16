@@ -67,7 +67,7 @@
                 Request
               </button>
               <ul v-if="user.choice_user" class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" v-on:click="this.user_accept(user.id); location.reload()">Accept</a></li>
+                <li><a class="dropdown-item" href="#" v-on:click="this.accept_fn(user.id)">Accept</a></li>
                 <li><a class="dropdown-item" href="#" v-on:click="this.user_unsubscribe_reject(user.id); user.subscriber_user = false;">Reject</a></li>
               </ul>
               <ul v-else class="dropdown-menu">
@@ -134,6 +134,10 @@ export default {
     delete_fn(){
       let a = [...this.user.sub_user,].findIndex(item => item.username === this.me.username)
       delete this.user.sub_user[a]
+    },
+    accept_fn(id){
+      this.user_accept(id)
+      location.reload()
     }
   },
   computed:{
@@ -144,7 +148,6 @@ export default {
       return Boolean([...this.user.sub_user,].filter(item => item.username === this.me.username).length)
     }
   },
-
 }
 </script>
 

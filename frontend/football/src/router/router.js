@@ -12,6 +12,8 @@ import RegisterApp from "@/pages/RegisterApp";
 import UserApp from "@/pages/UserApp";
 import OpenarticleApp from "@/pages/OpenarticleApp";
 import CreatearticlesApp from "@/pages/CreatearticlesApp";
+import store from "@/store";
+import slug from "@/pages/UserApp"
 
 
 
@@ -98,6 +100,12 @@ router.beforeEach((to, from, next)=>{
     if ( to.name === 'profile' && !localStorage.getItem('access')){
         next({
             path: '/login',
+            replace: true
+        })
+    }
+    else if (to.name === 'user' && to.params.slug === store.getters.me.username) {
+        next({
+            path: `/profile/${to.params.slug}`,
             replace: true
         })
     }

@@ -4,6 +4,9 @@
               v-bind:user="user"
               v-bind:crud="crud"
               v-bind:articles="articles"
+              v-on:delete_fn="delete_fn"
+              v-on:accept_fn="accept_fn"
+              v-on:subscript_fn="subscript_fn"
               v-on:tab_func="tab_func"
   ></UserCom>
   <UserMob class="d-md-none mob"
@@ -11,6 +14,9 @@
               v-bind:user="user"
               v-bind:crud="crud"
               v-bind:articles="articles"
+              v-on:delete_fn="delete_fn"
+              v-on:accept_fn="accept_fn"
+              v-on:subscript_fn="subscript_fn"
               v-on:tab_func="tab_func"
   ></UserMob>
 </template>
@@ -42,11 +48,26 @@ export default {
   methods:{
     ...mapActions({
       user_data: 'user_data',
+      user_subscriber: 'user_subscriber',
+      user_unsubscribe_reject: 'user_unsubscribe_reject',
+      user_accept: 'user_accept',
     }),
     tab_func(name){
       for (let i of this.tab_profile){
         let a = (i.name === name) ? i.active = true : i.active = false
       }
+    },
+    async delete_fn(id, user){
+      await this.user_unsubscribe_reject(id)
+      await this.user_data(user)
+    },
+    async accept_fn(id, user){
+      await this.user_accept(id)
+      await this.user_data(user)
+    },
+    async subscript_fn(id, user){
+      await this.user_subscriber(id)
+      await this.user_data(user)
     },
   },
   created() {

@@ -8,7 +8,6 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons'
-// import StoragePlugin from 'vue-web-storage';
 const app = createApp(App)
 
 

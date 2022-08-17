@@ -5,7 +5,7 @@
       <div class="card mb-3" style="width: 100%;" v-for="s in subscriptions">
         <div class="row g-0">
           <div class="col-3">
-              <img v-if="s.image" v-bind:src="s.image" class="img-fluid rounded-start" alt="../assets/users/none.png">
+              <img v-if="s.image" v-bind:src="`http://127.0.0.1:8000/media/${s.image}`" class="img-fluid rounded-start" alt="...">
               <img v-else src="../assets/none.png" class="img-fluid rounded-start" alt="../assets/users/none.png">
           </div>
           <div class="col-9">

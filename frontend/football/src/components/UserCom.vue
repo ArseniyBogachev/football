@@ -36,22 +36,22 @@
           <span class="username">{{user.username}}</span>
           <p class="name-and-age">{{ user.first_name }} {{ user.last_name }} 22 age</p>
           <div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom: 20px;">
-            <button v-if="sub" class="btn btn-danger" type="button" v-on:click="this.user_unsubscribe_reject(user.id); delete_fn()">Unsubscribe</button>
+            <button v-if="sub" class="btn btn-danger" type="button" v-on:click="$emit('delete_fn', user.id, user.username)">Unsubscribe</button>
 
             <div v-else-if="user.subscriber_user" class="btn-group">
               <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 Request
               </button>
               <ul v-if="user.choice_user" class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" v-on:click="this.user_accept(user.id); location.reload()">Accept</a></li>
-                <li><a class="dropdown-item" href="#" v-on:click="this.user_unsubscribe_reject(user.id); user.subscriber_user = false;">Reject</a></li>
+                <li><a class="dropdown-item" href="#" v-on:click="$emit('accept_fn', user.id, user.username)">Accept</a></li>
+                <li><a class="dropdown-item" href="#" v-on:click="$emit('delete_fn', user.id, user.username)">Reject</a></li>
               </ul>
               <ul v-else class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" v-on:click="this.user_unsubscribe_reject(user.id); user.subscriber_user = false;">Reject</a></li>
+                <li><a class="dropdown-item" href="#" v-on:click="$emit('delete_fn', user.id, user.username)">Reject</a></li>
               </ul>
             </div>
 
-            <button v-else class="btn btn-primary" type="button" v-on:click="this.user_subscriber(user.id); user.subscriber_user = true;">Subscribe</button>
+            <button v-else class="btn btn-primary" type="button" v-on:click="$emit('subscript_fn', user.id, user.username)">Subscribe</button>
 
           </div>
           <div class="line-custom-lg"></div>
@@ -60,22 +60,22 @@
           <span class="username-md">{{user.username}}</span>
           <p class="name-and-age-md">{{ user.firstname }} {{ user.lastname }} 22 age</p>
           <div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom: 20px;">
-            <button v-if="sub" class="btn btn-danger" type="button" v-on:click="this.user_unsubscribe_reject(user.id); delete_fn()">Unsubscribe</button>
+            <button v-if="sub" class="btn btn-danger" type="button" v-on:click="$emit('delete_fn', user.id, user.username)">Unsubscribe</button>
 
             <div v-else-if="user.subscriber_user" class="btn-group">
               <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 Request
               </button>
               <ul v-if="user.choice_user" class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" v-on:click="this.accept_fn(user.id)">Accept</a></li>
-                <li><a class="dropdown-item" href="#" v-on:click="this.user_unsubscribe_reject(user.id); user.subscriber_user = false;">Reject</a></li>
+                <li><a class="dropdown-item" href="#" v-on:click="$emit('accept_fn', user.id, user.username)">Accept</a></li>
+                <li><a class="dropdown-item" href="#" v-on:click="$emit('delete_fn', user.id, user.username)">Reject</a></li>
               </ul>
               <ul v-else class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" v-on:click="this.user_unsubscribe_reject(user.id); user.subscriber_user = false;">Reject</a></li>
+                <li><a class="dropdown-item" href="#" v-on:click="$emit('delete_fn', user.id, user.username)">Reject</a></li>
               </ul>
             </div>
 
-            <button v-else class="btn btn-primary" type="button" v-on:click="this.user_subscriber(user.id); user.subscriber_user = true;">Subscribe</button>
+            <button v-else class="btn btn-primary" type="button" v-on:click="$emit('subscript_fn', user.id, user.username)">Subscribe</button>
 
           </div>
           <div class="line-custom-md"></div>
@@ -104,7 +104,7 @@
 <script>
 import MyarticleCom from "@/components/MyarticleCom";
 import MysubscriptionsCom from "@/components/MysubscriptionsCom";
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters} from 'vuex';
 export default {
   name: "UserCom",
   components:{
@@ -125,21 +125,6 @@ export default {
       type: Boolean,
     },
   },
-  methods:{
-    ...mapActions({
-      user_subscriber: 'user_subscriber',
-      user_unsubscribe_reject: 'user_unsubscribe_reject',
-      user_accept: 'user_accept',
-    }),
-    delete_fn(){
-      let a = [...this.user.sub_user,].findIndex(item => item.username === this.me.username)
-      delete this.user.sub_user[a]
-    },
-    accept_fn(id){
-      this.user_accept(id)
-      location.reload()
-    }
-  },
   computed:{
     ...mapGetters({
       me: 'me',
@@ -154,7 +139,7 @@ export default {
 <style scoped>
   .container-md{
     box-shadow: 0 -5px 5px 1px grey;
-    height: 41em;
+    min-height: 41em;
     margin-top: 102px;
   }
   .bg-dark{

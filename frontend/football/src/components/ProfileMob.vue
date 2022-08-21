@@ -15,10 +15,7 @@
     </nav>
     <div class="nav-small">
       <div class="name">{{ user.username }}</div>
-      <div class="rate">
-        <div class="following"><fa icon="fa-solid fa-users"></fa><span style="line-height: 15px; margin-left: 4px">28k</span></div>
-        <div class="likes" style="margin-left: 20%"><fa icon="fa-solid fa-heart"></fa><span style="line-height: 15px; margin-left: 4px">100k</span></div>
-      </div>
+      <FollowersLikesCountMob v-bind:user="user"></FollowersLikesCountMob>
     </div>
     <div class="content">
       <div>
@@ -39,6 +36,7 @@ import MybookmarksMob from "@/components/MybookmarksMob";
 import MyarticleMob from "@/components/MyarticleMob";
 import MysubscriptionsMob from "@/components/MysubscriptionsMob";
 import MysettingsMob from "@/components/MysettingsMob";
+import FollowersLikesCountMob from "@/components/UI/FollowersLikesCountMob";
 export default {
   name: "ProfileMob",
   components:{
@@ -46,6 +44,7 @@ export default {
     MybookmarksMob,
     MyarticleMob,
     MysettingsMob,
+    FollowersLikesCountMob,
   },
   props:{
     tab_profile:{
@@ -95,23 +94,6 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 3px 40px 3px 20px;
-  }
-  .following{
-    font-size: 12px;
-    color: rgb(70, 70, 70);
-    display: flex;
-    justify-content: space-between;
-  }
-  .likes{
-    font-size: 12px;
-    color: rgb(70, 70, 70);
-    display: flex;
-    justify-content: space-between;
-  }
-  .rate{
-    margin-top: 5px;
-    display: flex;
-    justify-content: space-between;
   }
   .name{
     font-family: Tahoma, Malgun Gothic, MingLiu, SimSun, Meiryo;

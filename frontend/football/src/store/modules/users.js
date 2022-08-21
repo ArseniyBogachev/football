@@ -22,9 +22,6 @@ export const users = {
         MeUser(state, me){
             state.me = me
         },
-        UpdateMe(state, user){
-            state.me = user['sub'].find(item => item.username.includes(user['nick']))
-        },
         UpdateVerify(state, verify){
             state.verify = verify
         },
@@ -126,7 +123,7 @@ export const users = {
                 await axios.patch(`http://127.0.0.1:8000/api/v1/subscription/${id}/`, {'add': false}, {headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
             }
             catch (e) {
-                console.log(e)
+                router.push({name: 'login'})
             }
         },
         async user_unsubscribe_reject(ctx, id){

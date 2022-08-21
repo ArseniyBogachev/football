@@ -1,4 +1,6 @@
 from itertools import chain
+
+from django.db.models import Count
 from rest_framework import serializers
 from .models import *
 
@@ -7,10 +9,12 @@ class MeSerializer(serializers.ModelSerializer):
     my_articles = serializers.SerializerMethodField()
     bookmarks = serializers.SerializerMethodField()
     sub_user = serializers.SerializerMethodField()
+    like_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Users
-        fields = ('image', 'first_name', 'last_name', 'email', 'bookmarks', 'my_articles', 'username', 'sub_user')
+        fields = ('image', 'first_name', 'last_name', 'email', 'bookmarks', 'my_articles', 'username', 'sub_user', 'like_count', 'followers_count')
 
     def get_my_articles(self, instance):
         return Articles.objects.filter(author=instance.id).values_list('id', flat=True)
@@ -25,16 +29,25 @@ class MeSerializer(serializers.ModelSerializer):
         sub_all = Users.objects.filter(pk__in=users).values('first_name', 'last_name', 'username', 'image')
         return sub_all
 
+    def get_like_count(self, instance):
+        list_art = Articles.objects.filter(author=instance).values_list(flat=True)
+        return ArticlesLikes.objects.filter(article_id__in=list(list_art), likes=True).count()
+
+    def get_followers_count(self, instance):
+        return UsersSub.objects.filter(subscription=instance, add=False).count()
+
 
 class UserSerializer(serializers.ModelSerializer):
     my_articles = serializers.SerializerMethodField()
     sub_user = serializers.SerializerMethodField()
     subscriber_user = serializers.SerializerMethodField()
     choice_user = serializers.SerializerMethodField()
+    like_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Users
-        fields = ('image', 'first_name', 'last_name', 'my_articles', 'username', 'sub_user', 'subscriber_user', 'id', 'choice_user')
+        fields = ('image', 'first_name', 'last_name', 'my_articles', 'username', 'sub_user', 'subscriber_user', 'id', 'choice_user', 'like_count', 'followers_count')
 
     def get_my_articles(self, instance):
         return Articles.objects.filter(author=instance.id).values_list('id', flat=True)
@@ -61,6 +74,13 @@ class UserSerializer(serializers.ModelSerializer):
             return bool(sub)
         except:
             return False
+
+    def get_like_count(self, instance):
+        list_art = Articles.objects.filter(author=instance).values_list(flat=True)
+        return ArticlesLikes.objects.filter(article_id__in=list(list_art), likes=True).count()
+
+    def get_followers_count(self, instance):
+        return UsersSub.objects.filter(subscription=instance, add=False).count()
 
 
 class ArticleSerializer(serializers.ModelSerializer):

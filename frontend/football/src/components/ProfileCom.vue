@@ -12,26 +12,7 @@
           <img class="image-user-lg d-none d-lg-block d-xxl-none" src="../assets/none.png" alt="">
           <img class="image-user-md d-none d-md-block d-lg-none" src="../assets/none.png" alt="">
         </div>
-        <p class="followers-md-none d-none d-lg-block">
-          <span>58k</span>
-          <br>
-          <span>Followers</span>
-        </p>
-        <p class="followers-md d-none d-md-block d-lg-none">
-          <span>58k</span>
-          <br>
-          <span>Followers</span>
-        </p>
-        <p class="like-md-none d-none d-lg-block">
-          <span>204k</span>
-          <br>
-          <span>Like</span>
-        </p>
-        <p class="like-md d-none d-md-block d-lg-none">
-          <span>204k</span>
-          <br>
-          <span>Like</span>
-        </p>
+        <FollowersLikesCountCom v-bind:user="user"></FollowersLikesCountCom>
         <div class="info-user-lg d-none d-lg-block">
           <span class="username">{{user.username}}</span>
           <p class="name-and-age">{{ user.first_name }} {{ user.last_name }} 22 age</p>
@@ -67,6 +48,7 @@ import MyarticleCom from "@/components/MyarticleCom";
 import MybookmarksCom from "@/components/MybookmarksCom";
 import MysubscriptionsCom from "@/components/MysubscriptionsCom";
 import MysettingsCom from "@/components/MysettingsCom";
+import FollowersLikesCountCom from "@/components/UI/FollowersLikesCountCom";
 import {mapGetters, mapActions} from "vuex";
 export default {
   name: "ProfileCom",
@@ -75,6 +57,7 @@ export default {
     MybookmarksCom,
     MyarticleCom,
     MysettingsCom,
+    FollowersLikesCountCom,
   },
   props:{
     tab_profile:{
@@ -137,52 +120,6 @@ export default {
     margin-right: -50%;
     transform: translate(-50%, 0);
     box-shadow: 0 0 5px 1px black;
-  }
-  .followers-md-none{
-    position: absolute;
-    color: gray;
-    top: 30px;
-  }
-  .followers-md-none span:first-child{
-    font-size: 25px;
-    font-family: "Droid Serif";
-  }
-  .followers-md{
-    position: absolute;
-    color: gray;
-    top: 70px;
-  }
-  .followers-md span:first-child{
-    font-size: 15px;
-    font-family: "Droid Serif";
-  }
-  .followers-md span:last-child{
-    font-size: 10px;
-    font-family: "Droid Serif";
-  }
-  .like-md-none{
-    position: absolute;
-    color: gray;
-    right: 10px;
-    top: 30px;
-  }
-  .like-md-none span:first-child{
-    font-size: 25px;
-    font-family: "Droid Serif";
-  }
-  .like-md{
-    position: absolute;
-    color: gray;
-    top: 70px;
-    right: 10px;
-  }
-  .like-md span:first-child{
-    font-size: 15px;
-    font-family: "Droid Serif";
-  }
-  .like-md span:last-child{
-    font-size: 10px;
-    font-family: "Droid Serif";
   }
   .info-user-lg{
     margin-top: 40%;

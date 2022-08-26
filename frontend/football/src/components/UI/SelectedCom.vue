@@ -12,7 +12,7 @@ export default {
       type:Object,
     },
     modelValue:{
-      type:Object,
+      type:String,
     },
   },
   methods:{

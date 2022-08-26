@@ -4,7 +4,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from startapp.models import *
-from startapp.serializers import ArticleSerializer
+from startapp.serializers import ArticleSerializer, ArticlesCategorySerializer, MeSerializer, UserSerializer
 
 
 class ViewTestCase(APITestCase):
@@ -19,7 +19,15 @@ class ViewTestCase(APITestCase):
     def test_articles_get(self):
         url = reverse('article_list')
         response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(ArticleSerializer([self.articles_1, self.articles_2], many=True).data, response.data)
+
+    def test_category_get(self):
+        url = reverse('category_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(ArticlesCategorySerializer([self.cat_1], many=True).data, response.data)
+
 
     def test_jwt_post(self):
         url = reverse('token_obtain_pair')
@@ -43,8 +51,8 @@ class ViewTestCase(APITestCase):
         result = {
             'id': 1,
             'likes': True,
-            'user': 3,
-            'article': 5
+            'user': 4,
+            'article': 7,
         }
 
         token = self.test_jwt_post()['access']
@@ -52,3 +60,22 @@ class ViewTestCase(APITestCase):
         response = self.client.patch(url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, result)
+
+    def test_me_list(self):
+        url = reverse('me_list')
+
+        token = self.test_jwt_post()['access']
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # print(resp)
+        # print(MeSerializer(self.user_1).data)
+        # print(resp == MeSerializer(self.user_1).data)
+
+        # self.assertEqual(MeSerializer([self.user_1], many=True).data, response.)
+
+    def test_user_retrieve(self):
+        url = reverse('user_retrieve', args=(self.user_1.username,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

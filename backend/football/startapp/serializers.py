@@ -1,6 +1,7 @@
 from itertools import chain
 
 from django.db.models import Count
+from django.http import request
 from rest_framework import serializers
 from .models import *
 
@@ -83,6 +84,8 @@ class UserSerializer(serializers.ModelSerializer):
         return UsersSub.objects.filter(subscription=instance, add=False).count()
 
 
+
+
 class ArticleSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
     count_true = serializers.SerializerMethodField()
@@ -91,7 +94,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Articles
-        fields = ('title', 'text', 'date', 'cat', 'author', 'like_dislike', 'count_true', 'count_false', 'id')
+        fields = ('title', 'text', 'date', 'cat', 'like_dislike', 'count_true', 'count_false', 'id', 'author',)
 
     def get_author(self, instance):
         return instance.author.username

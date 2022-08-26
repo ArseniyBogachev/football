@@ -1,16 +1,21 @@
-from django.shortcuts import render
-from django.views.generic import ListView
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
+from rest_framework import generics, viewsets
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from .models import Articles
 from .serializers import *
+from .permissions import *
 
 
-class ArticlesAPIList(generics.ListAPIView):
+class ArticlesViewSet(viewsets.ModelViewSet):
     queryset = Articles.objects.all()
     serializer_class = ArticleSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def create(self, request, *args, **kwargs):
+        serializer = CreateArticleSerializer(data=request.data, context={'request': self.request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
 class ArticlesRelationAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
@@ -42,12 +47,12 @@ class ArticlesLikesAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
         return obj
 
 
-class UsersAPIList(generics.ListAPIView):
+class UsersAPIList(generics.RetrieveAPIView):
     serializer_class = MeSerializer
     permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self):
-        query = Users.objects.filter(username=self.request.user)
+    def get_object(self):
+        query = Users.objects.get(username=self.request.user)
         return query
 
 
@@ -81,10 +86,4 @@ class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 
         return obj
 
-
-
-class ArticleAPIPost(generics.CreateAPIView):
-    queryset = Articles.objects.all()
-    serializer_class = CreateArticleSerializer
-    permission_classes = (IsAuthenticated,)
 # Create your views here.

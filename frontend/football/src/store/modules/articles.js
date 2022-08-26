@@ -136,8 +136,18 @@ export const articles = {
         },
         async article_create(ctx, data){
             try{
-                const response = await axios.post('http://127.0.0.1:8000/api/v1/article/', data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                const response = await axios.post('http://127.0.0.1:8000/api/v1/articles/', data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                 location.reload()
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
+        async article_update(ctx, data){
+            try{
+                const response = await axios.put(`http://127.0.0.1:8000/api/v1/articles/${data.id}/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                await ctx.dispatch('articles_data')
+                router.push({name: 'profile', params:{slug: ctx.getters.me.username}})
             }
             catch (e) {
                 console.log(e)

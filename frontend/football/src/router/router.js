@@ -12,6 +12,7 @@ import RegisterApp from "@/pages/RegisterApp";
 import UserApp from "@/pages/UserApp";
 import OpenarticleApp from "@/pages/OpenarticleApp";
 import CreatearticlesApp from "@/pages/CreatearticlesApp";
+import UpdatearticlesApp from "@/pages/UpdatearticlesApp";
 import store from "@/store";
 
 
@@ -86,6 +87,12 @@ const routes = [
         path: '/profile/:slug/create',
         component: CreatearticlesApp,
         name: 'create-article',
+        props: true,
+    },
+    {
+        path: '/profile/:user/update/:article',
+        component: UpdatearticlesApp,
+        name: 'update-article',
         props: true,
     },
 ]

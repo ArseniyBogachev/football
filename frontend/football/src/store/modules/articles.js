@@ -152,6 +152,16 @@ export const articles = {
             catch (e) {
                 console.log(e)
             }
+        },
+        async article_delete(ctx, id){
+            try{
+                const response = await axios.delete(`http://127.0.0.1:8000/api/v1/articles/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                await ctx.dispatch('articles_data')
+                router.push({name: 'profile', params:{slug: ctx.getters.me.username}})
+            }
+            catch (e) {
+                console.log(e)
+            }
         }
     },
 }

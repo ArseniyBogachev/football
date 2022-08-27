@@ -109,6 +109,12 @@ router.beforeEach((to, from, next)=>{
             replace: true
         })
     }
+    else if (to.name === 'profile' && to.params.slug !== store.getters.me.username) {
+        next({
+            path: `/user/${to.params.slug}`,
+            replace: true
+        })
+    }
     else if (to.name === 'user' && to.params.slug === store.getters.me.username) {
         next({
             path: `/profile/${to.params.slug}`,

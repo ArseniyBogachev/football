@@ -13,7 +13,7 @@ urlpatterns = [
     path('api/v1/articlesrelation/<int:article>/', ArticlesRelationAPIUpdate.as_view(), name='relation_list'),
     path('api/v1/articlescategory/', ArticlesCategoryAPIList.as_view(), name='category_list'),
     path('api/v1/articleslikes/<int:article>/', ArticlesLikesAPIUpdate.as_view(), name='likes_update'),
-    path('api/v1/me/', UsersAPIList.as_view(), name='me_list'),
+    path('api/v1/me/', MeAPIRetrieve.as_view(), name='me_list'),
     path('api/v1/user/<str:user>/', UsersSubAPIRetrieve.as_view(), name='user_retrieve'),
     path('api/v1/subscription/<int:user>/', UsersSubAPIUpdate.as_view(), name='subscription_update'),
     re_path(r'^auth/', include('djoser.urls')),

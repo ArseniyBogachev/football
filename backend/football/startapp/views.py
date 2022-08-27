@@ -9,7 +9,7 @@ from .permissions import *
 class ArticlesViewSet(viewsets.ModelViewSet):
     queryset = Articles.objects.all()
     serializer_class = ArticleSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsUserOrReadOnly,)
 
     def create(self, request, *args, **kwargs):
         serializer = CreateArticleSerializer(data=request.data, context={'request': self.request})
@@ -47,7 +47,7 @@ class ArticlesLikesAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
         return obj
 
 
-class UsersAPIList(generics.RetrieveAPIView):
+class MeAPIRetrieve(generics.RetrieveAPIView):
     serializer_class = MeSerializer
     permission_classes = (IsAuthenticated,)
 

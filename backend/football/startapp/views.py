@@ -47,11 +47,12 @@ class ArticlesLikesAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
         return obj
 
 
-class MeAPIRetrieve(generics.RetrieveAPIView):
+class MeAPIRetrieve(generics.RetrieveUpdateAPIView):
     serializer_class = MeSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
+        print(self.request.data)
         query = Users.objects.get(username=self.request.user)
         return query
 
@@ -85,5 +86,4 @@ class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
                                                      subscription_id=self.kwargs['user'], )
 
         return obj
-
 # Create your views here.

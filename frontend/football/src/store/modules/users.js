@@ -108,6 +108,23 @@ export const users = {
                 ctx.commit('MeUser', {bookmarks: []})
             }
         },
+        async me_update(ctx, data){
+            let formData = new FormData();
+            if (data.image){
+                formData.append('image', data.image);
+            }
+            formData.append('first_name', data.first_name);
+            formData.append('last_name', data.last_name);
+            formData.append('email', data.email);
+            formData.append('username', data.username);
+            try{
+                const response = await axios.put('http://127.0.0.1:8000/api/v1/me/', formData, {headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`,}})
+                ctx.dispatch('me_data', localStorage.getItem('access'))
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
         async user_data(ctx, user){
             try{
                 const response = await axios.get(`http://127.0.0.1:8000/api/v1/user/${user}/`, {headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})

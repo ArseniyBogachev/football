@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 # добавить поле age!!!!!!!!!!!!!!!!!
 class Users(AbstractUser):
     first_name = models.CharField(max_length=10)

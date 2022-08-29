@@ -1,25 +1,44 @@
 <template>
   <div class="container">
-    <ul class="list" v-for="(u, k) in user">
-      <li v-if="k === 'image'" class="photo mb-3">
-        <img v-if="this.files" v-bind:src="this.files" class="img-fluid img-thumbnail">
-        <img v-else v-bind:src="u" class="img-fluid img-thumbnail">
+    <ul class="list">
+      <li class="photo mb-3">
+        <img v-if="this.image" v-bind:src="this.image" class="img-fluid img-thumbnail">
+        <img v-else v-bind:src="user.image" class="img-fluid img-thumbnail">
         <input class="form-control" type="file" ref="formFile" style="margin-left: 20px; margin-top: 70px" @change="previewFiles($event)">
       </li>
-      <li class="item" v-else-if="typeof(u) === 'string'">
-        <small class="text-muted">{{k.charAt(0).toUpperCase() + k.slice(1)}}</small>
-        <input  type="text" class="form-control" v-bind:value="u"></li>
+      <li class="item">
+        <small class="text-muted">Firstname</small>
+        <MyInput v-model="user.first_name"></MyInput>
+      </li>
+      <li class="item">
+        <small class="text-muted">Lastname</small>
+        <MyInput v-model="user.last_name"></MyInput>
+      </li>
+      <li class="item">
+        <small class="text-muted">E-mail</small>
+        <MyInput v-model="user.email"></MyInput>
+      </li>
+      <li class="item">
+        <small class="text-muted">Username</small>
+        <MyInput v-model="user.username"></MyInput>
+      </li>
     </ul>
-    <button type="button" class="btn btn-success btn-sm"><fa icon="fa-solid fa-floppy-disk"></fa></button>
+    <button type="button" class="btn btn-success btn-sm" v-on:click="me_update({image: this.files, first_name: this.user.first_name, last_name: this.user.last_name, email: this.user.email, username: this.user.username})"><fa icon="fa-solid fa-floppy-disk"></fa></button>
   </div>
 </template>
 
 <script>
+import {mapActions} from "vuex";
+import MyInput from "@/components/UI/MyInput";
 export default {
   name: "MysettingsMob",
+  components:{
+    MyInput,
+  },
   data(){
     return{
       files: null,
+      image: null,
     }
   },
   props:{
@@ -28,9 +47,13 @@ export default {
     }
   },
   methods:{
+    ...mapActions({
+      me_update: 'me_update',
+    }),
     previewFiles(event){
-      this.files = URL.createObjectURL(event.target.files[0])
-    }
+      this.image = URL.createObjectURL(event.target.files[0])
+      this.files = event.target.files[0]
+    },
   },
 }
 </script>

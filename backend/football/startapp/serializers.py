@@ -154,5 +154,3 @@ class UsersSubSerializer(serializers.ModelSerializer):
         model = UsersSub
         fields = '__all__'
 
-
-

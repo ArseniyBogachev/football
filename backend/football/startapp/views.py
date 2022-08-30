@@ -1,4 +1,8 @@
+import requests
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from rest_framework import generics, viewsets
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from .models import Articles
@@ -86,4 +90,17 @@ class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
                                                      subscription_id=self.kwargs['user'], )
 
         return obj
+
+
+class ActivateJWT(GenericAPIView):
+    def get(self, request, uid, token, format=None):
+        payload = {'uid': uid, 'token': token}
+
+        url = "http://127.0.0.1:8000/auth/users/activation/"
+        response = requests.post(url, data=payload)
+
+        if response.status_code == 204:
+            return render(request, 'active/activation.html')
+        else:
+            return Response(response.json())
 # Create your views here.

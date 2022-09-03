@@ -82,7 +82,7 @@ export default {
 <style scoped>
   .container-md{
     box-shadow: 0 -5px 5px 1px grey;
-    height: 41em;
+    min-height: 41em;
     margin-top: 102px;
   }
   .bg-dark{

@@ -56,7 +56,6 @@ class MeAPIRetrieve(generics.RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
-        print(self.request.data)
         query = Users.objects.get(username=self.request.user)
         return query
 
@@ -90,6 +89,20 @@ class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
                                                      subscription_id=self.kwargs['user'], )
 
         return obj
+
+
+class CommentArticleAPIList(generics.ListCreateAPIView):
+    serializer_class = CommentArticleSerializer
+
+    def get_queryset(self):
+        query = CommentArticle.objects.filter(article=self.request.query_params['article'])
+        return query
+
+    def create(self, request, *args, **kwargs):
+        serializer = CreateCommentArticleSerializer(data=request.data, context={'request': self.request, 'article': self.request.query_params['article']})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
 class ActivateJWT(GenericAPIView):

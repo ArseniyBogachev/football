@@ -31,12 +31,6 @@ export default {
   components:{
     NewsApp,
   },
-  created() {
-    if (!this.verify){
-      this.articles_data()
-      this.me_data(localStorage.getItem('access'))
-    }
-  },
   computed:{
     ...mapGetters({
       me: 'me',

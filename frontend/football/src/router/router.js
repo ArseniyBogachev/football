@@ -13,7 +13,7 @@ import UserApp from "@/pages/UserApp";
 import OpenarticleApp from "@/pages/OpenarticleApp";
 import CreatearticlesApp from "@/pages/CreatearticlesApp";
 import UpdatearticlesApp from "@/pages/UpdatearticlesApp";
-import store from "@/store";
+import store from "@/store/index";
 
 
 
@@ -109,13 +109,13 @@ router.beforeEach((to, from, next)=>{
             replace: true
         })
     }
-    // else if (to.name === 'profile' && to.params.slug !== store.getters.me.username) {
-    //     next({
-    //         path: `/user/${to.params.slug}`,
-    //         replace: true
-    //     })
-    // }
-    else if (to.name === 'user' && to.params.slug === store.getters.me.username) {
+    else if (to.name === 'profile' && to.params.slug !== localStorage.getItem("username")) {
+        next({
+            path: `/user/${to.params.slug}`,
+            replace: true
+        })
+    }
+    else if (to.name === 'user' && to.params.slug === localStorage.getItem("username")) {
         next({
             path: `/profile/${to.params.slug}`,
             replace: true

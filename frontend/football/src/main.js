@@ -12,6 +12,7 @@ const app = createApp(App)
 
 
 library.add(fas, faGithub, faInstagram, faTelegram )
+router.app = app
 
 app
     .component('fa', FontAwesomeIcon)

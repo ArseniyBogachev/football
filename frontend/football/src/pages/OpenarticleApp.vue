@@ -14,6 +14,10 @@
     <div style="padding-bottom: 50px;">
       <LikesDislikes v-bind:n="this.article"></LikesDislikes>
     </div>
+    <CommentsArticle
+        v-bind:comment="comment"
+        v-on:comment_create="comment_create"
+    ></CommentsArticle>
   </div>
 </template>
 
@@ -21,6 +25,7 @@
 import {mapGetters, mapActions} from 'vuex'
 import LikesDislikes from "@/components/UI/LikesDislikes";
 import MyBookmarks from "@/components/UI/MyBookmarks";
+import CommentsArticle from "@/components/CommentsArticle";
 export default {
   name: "OpenarticleApp",
   props: {
@@ -29,22 +34,35 @@ export default {
   components:{
     LikesDislikes,
     MyBookmarks,
+    CommentsArticle,
   },
   methods:{
     ...mapActions({
       bookmarks_true: 'bookmarks_true',
       bookmarks_false: 'bookmarks_false',
+      articles_data: 'articles_data',
+      article_comment_data: 'article_comment_data',
+      article_comment_create: 'article_comment_create',
     }),
+    async comment_create(data){
+      data['id'] = this.article.id
+      await this.article_comment_create(data)
+      await this.article_comment_data(data.id)
+    },
   },
   computed:{
     ...mapGetters({
       articles_all: 'articles_all',
       verify: 'verify',
       me: 'me',
+      comment: 'comment',
     }),
     article(){
       return [...this.articles_all].find(item => item.title === this.slug)
     }
+  },
+  mounted() {
+    this.article_comment_data(this.article.id)
   }
 }
 </script>

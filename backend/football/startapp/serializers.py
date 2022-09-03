@@ -91,10 +91,14 @@ class ArticleSerializer(serializers.ModelSerializer):
     count_true = serializers.SerializerMethodField()
     count_false = serializers.SerializerMethodField()
     like_dislike = serializers.SerializerMethodField()
+    comment = serializers.SerializerMethodField()
 
     class Meta:
         model = Articles
-        fields = ('title', 'text', 'date', 'cat', 'like_dislike', 'count_true', 'count_false', 'id', 'author',)
+        fields = ('title', 'text', 'date', 'cat', 'like_dislike', 'count_true', 'count_false', 'id', 'author', 'comment')
+
+    def get_comment(self, instance):
+        return CommentArticle.objects.filter(article=instance).values_list(flat=True)
 
     def get_author(self, instance):
         return instance.author.username
@@ -152,5 +156,34 @@ class ArticlesLikesSerializer(serializers.ModelSerializer):
 class UsersSubSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsersSub
+        fields = '__all__'
+
+
+class CommentArticleSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CommentArticle
+        fields = ('user', 'content', 'date', 'rate')
+
+    def get_user(self, instance):
+        return instance.user.username
+
+
+class CreateCommentArticleSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = CommentArticle
+        fields = ('user', 'content', 'date', 'rate')
+
+    def create(self, validated_data):
+        validated_data['article'] = Articles.objects.get(pk=int(self.context['article']))
+        return CommentArticle.objects.create(**validated_data)
+
+
+class RateCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RateComment
         fields = '__all__'
 

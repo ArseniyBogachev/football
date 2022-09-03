@@ -10,6 +10,7 @@ export const articles = {
         articles_manager: [],
         articles_team: [],
         category: [],
+        comment: [],
     }),
     getters:{
         articles_all(state){
@@ -33,6 +34,9 @@ export const articles = {
         category(state){
             return state.category
         },
+        comment(state){
+            return state.comment
+        },
     },
     mutations:{
         updateArticles(state, articles){
@@ -45,6 +49,12 @@ export const articles = {
         },
         updateCategory(state, category){
             state.category = [{'title': 'all', 'link': 'all'}].concat([...category])
+        },
+        updateComment(state, comment){
+            for (let i of comment){
+                i['reply'] = false
+            }
+            state.comment = comment
         },
     },
     actions: {
@@ -162,6 +172,23 @@ export const articles = {
             catch (e) {
                 console.log(e)
             }
-        }
+        },
+        async article_comment_data(ctx, id){
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {params: {article: id}})
+                ctx.commit('updateComment', response.data)
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
+        async article_comment_create(ctx, data){
+            try {
+                const response = await axios.post(`http://127.0.0.1:8000/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.id}})
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
     },
 }

@@ -1,5 +1,7 @@
 <template>
-  <textarea type="text" class="form-control article" id="textAreaExample1" placeholder="Articles" v-bind:value="modelValue" rows="4" @input="text_func"></textarea>
+  <textarea type="text" class="form-control article" id="textAreaExample1" placeholder="Articles"
+            v-bind:value="modelValue" v-bind:rows="this.rows" v-bind:style="this.min_width" @input="text_func">
+  </textarea>
 </template>
 
 <script>
@@ -8,6 +10,14 @@ export default {
   props:{
     modelValue:{
       type: String,
+    },
+    rows:{
+      type: Number,
+      default: 4,
+    },
+    min_width:{
+      type: Object,
+      default: 100 + '%'
     }
   },
   methods:{
@@ -21,6 +31,5 @@ export default {
 <style scoped>
   .article{
     margin-top: 20px;
-    min-height: 300px;
   }
 </style>

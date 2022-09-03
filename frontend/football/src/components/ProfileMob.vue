@@ -71,6 +71,7 @@ export default {
     width: 100%;
     margin-top: 102px;
     margin-bottom: -16px;
+    min-height: 41em;
   }
   .image-user{
     width: 50px;

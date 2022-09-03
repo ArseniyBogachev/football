@@ -38,12 +38,6 @@ export default {
       me_data: 'me_data'
     }),
   },
-  created() {
-    if (!this.verify){
-      this.articles_data()
-      this.me_data(localStorage.getItem('access'))
-    }
-  },
   computed:{
     ...mapGetters({
         articles_all: 'articles_all',

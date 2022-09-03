@@ -65,4 +65,23 @@ class UsersSub(models.Model):
     user = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, related_name='user')
     subscription = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, related_name='sub')
     add = models.BooleanField(default=False)
+
+
+class CommentArticle(models.Model):
+    user = models.ForeignKey(Users, null=True, on_delete=models.SET_NULL)
+    article = models.ForeignKey(Articles, on_delete=models.CASCADE)
+    content = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    rate = models.ManyToManyField(Users, through='RateComment', related_name='rate')
+
+    # REQUIRED_FIELDS = ['user', 'article', 'content', 'date', 'rate']
+
+    def __str__(self):
+        return f'user: {self.user}'
+
+
+class RateComment(models.Model):
+    user = models.ForeignKey(Users, null=True, on_delete=models.SET_NULL)
+    comment = models.ForeignKey(CommentArticle, on_delete=models.CASCADE)
+    rate = models.BooleanField()
 # Create your models here.

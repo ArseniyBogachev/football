@@ -1,8 +1,6 @@
 <template>
   <footer class="bg-dark text-center text-white">
-    <!-- Grid container -->
     <div class="container p-4 pb-0">
-      <!-- Section: Social media -->
       <section class="mb-4">
         <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
           ><fa icon="fa-brands fa-instagram"></fa

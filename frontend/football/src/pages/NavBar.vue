@@ -38,6 +38,7 @@ export default {
     logoutUser(){
       localStorage.removeItem('access')
       localStorage.removeItem('refresh')
+      localStorage.removeItem('username')
       location.reload()
     }
   },

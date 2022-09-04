@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/v1/user/<str:user>/', UsersSubAPIRetrieve.as_view(), name='user_retrieve'),
     path('api/v1/subscription/<int:user>/', UsersSubAPIUpdate.as_view(), name='subscription_update'),
     path('api/v1/comment/', CommentArticleAPIList.as_view(), name='comment_list_post'),
+    path('api/v1/rate/<int:comment>/', RateCommentAPIUpdate.as_view(), name='comment_rate_update'),
     re_path(r'^auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.jwt')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

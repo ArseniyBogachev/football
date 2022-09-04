@@ -1,5 +1,5 @@
 <template>
-  <textarea type="text" class="form-control article" id="textAreaExample1" placeholder="Articles"
+  <textarea type="text" class="form-control article" id="textAreaExample1" v-bind:placeholder="this.placeholder"
             v-bind:value="modelValue" v-bind:rows="this.rows" v-bind:style="this.min_width" @input="text_func">
   </textarea>
 </template>
@@ -18,6 +18,10 @@ export default {
     min_width:{
       type: Object,
       default: 100 + '%'
+    },
+    placeholder:{
+      type: String,
+      default: ''
     }
   },
   methods:{

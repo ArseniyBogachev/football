@@ -1,15 +1,19 @@
 <template>
   <div class="wrapper">
-    <span style="font-size: 20px; font-family: 'Apple Chancery';">Comments</span>
+    <span style="font-size: 20px; font-family: 'Apple Chancery';">Comments {{comment.length}}</span>
     <MyTextArea
         v-model="text_comment"
         v-bind:rows="rows_comment"
     ></MyTextArea>
     <button type="button" class="btn btn-dark btn-sm" v-on:click.prevent="$emit('comment_create', {data: {'content': this.text_comment}}); text_comment = ''">Send</button>
     <div class="comments" v-for="c in comment">
-      <div class="com"><small class="author_date">{{ c.user }} | {{ c.date }} | <a href="#" class="reply_btn" v-on:click.prevent="c.reply = !c.reply">Reply &#8628;</a></small>
+      <div class="com"><small class="author_date">{{ c.user }} | {{ c.date }} | <a href="#" class="reply_btn" v-on:click.prevent="c.reply = !c.reply; text_reply = `${c.user},`">Reply &#8628;</a></small>
         <div class="text_rate">
-          <CommentRate></CommentRate>
+          <CommentRate
+              v-bind:rate_count="c.rate_count"
+              v-bind:rate_user="c.rate_user"
+              v-bind:comment_id="c.id"
+          ></CommentRate>
           <p class="text">
             {{ c.content }}
           </p>
@@ -52,7 +56,7 @@ export default {
       min_width_reply: {
         maxWidth: 90 + '%',
         marginLeft: 10 + '%'
-      }
+      },
     }
   },
   methods:{

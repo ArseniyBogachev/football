@@ -2,7 +2,10 @@
   <div class="container-md">
     <div class="form-outline">
       <MyInput v-model="title"></MyInput>
-      <MyTextArea v-model="text"></MyTextArea>
+      <MyTextArea
+          v-model="text"
+          v-bind:rows="rows"
+      ></MyTextArea>
     </div>
     <SelectedCom
         v-model="selected_sort"
@@ -33,6 +36,8 @@ export default {
         {'name': 'Articles about managers', 'value': 4},
         {'name': 'Articles about team', 'value': 5},
       ],
+      rows: 15,
+      placeholder: 'Article',
     }
   },
   props:{

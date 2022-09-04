@@ -161,13 +161,39 @@ class UsersSubSerializer(serializers.ModelSerializer):
 
 class CommentArticleSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
+    rate_user = serializers.SerializerMethodField()
+    rate_count = serializers.SerializerMethodField()
 
     class Meta:
         model = CommentArticle
-        fields = ('user', 'content', 'date', 'rate')
+        fields = ('user', 'content', 'date', 'id', 'rate_user', 'rate_count')
 
     def get_user(self, instance):
         return instance.user.username
+
+    def get_rate_user(self, instance):
+        result = False
+        try:
+            user = Users.objects.get(username=self.context['request'].user).id
+            rate_true = RateComment.objects.filter(comment=instance, rate=True).values_list('user', flat=True)
+            rate_false = RateComment.objects.filter(comment=instance, rate=False).values_list('user', flat=True)
+            rate = list(chain(rate_true, rate_false))
+            if user in rate:
+                if user in rate_true:
+                    result = 1
+                    return result
+                result = -1
+                return result
+            return result
+        except:
+            return result
+
+    def get_rate_count(self, instance):
+        rate_true = RateComment.objects.filter(comment=instance, rate=True).count()
+        rate_false = RateComment.objects.filter(comment=instance, rate=False).count()
+        print(f'true: {rate_true}')
+        print(f'false: {rate_false}')
+        return rate_true - rate_false
 
 
 class CreateCommentArticleSerializer(serializers.ModelSerializer):

@@ -105,6 +105,20 @@ class CommentArticleAPIList(generics.ListCreateAPIView):
         return Response(serializer.data)
 
 
+class RateCommentAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
+    queryset = RateComment.objects.all()
+    serializer_class = RateCommentSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'comment'
+
+    def get_object(self):
+        obj, create = RateComment.objects.get_or_create(user=self.request.user,
+                                                        comment_id=self.kwargs['comment'], )
+
+        return obj
+
+
+
 class ActivateJWT(GenericAPIView):
     def get(self, request, uid, token, format=None):
         payload = {'uid': uid, 'token': token}

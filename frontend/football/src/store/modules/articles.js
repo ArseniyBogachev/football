@@ -175,7 +175,7 @@ export const articles = {
         },
         async article_comment_data(ctx, id){
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {params: {article: id}})
+                const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {article: id}})
                 ctx.commit('updateComment', response.data)
             }
             catch (e) {
@@ -190,5 +190,40 @@ export const articles = {
                 console.log(e)
             }
         },
+        async comment_rate_update(ctx, id){
+            let comment = ctx.state.comment.find(item => item.id === id)
+            await axios.delete(`http://127.0.0.1:8000/api/v1/rate/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+            if (comment.rate_user === 1){
+
+                comment.rate_user = false
+                comment.rate_count -= 1
+            }
+            else {
+                comment.rate_user = false
+                comment.rate_count += 1
+            }
+        },
+        async comment_rate_update_true(ctx, id){
+            let comment = ctx.state.comment.find(item => item.id === id)
+            await axios.patch(`http://127.0.0.1:8000/api/v1/rate/${id}/`, {'rate': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+            if (comment.rate_user === false){
+                comment.rate_user = 1
+                comment.rate_count += 1
+            }
+            else{
+                ctx.dispatch('comment_rate_update', id)
+            }
+        },
+        async comment_rate_update_false(ctx, id){
+            let comment = ctx.state.comment.find(item => item.id === id)
+            await axios.patch(`http://127.0.0.1:8000/api/v1/rate/${id}/`, {'rate': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+            if (comment.rate_user === false){
+                comment.rate_user = -1
+                comment.rate_count -= 1
+            }
+            else{
+                ctx.dispatch('comment_rate_update', id)
+            }
+        }
     },
 }

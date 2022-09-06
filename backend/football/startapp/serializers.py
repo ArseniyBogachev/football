@@ -166,7 +166,7 @@ class CommentArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CommentArticle
-        fields = ('user', 'content', 'date', 'id', 'rate_user', 'rate_count')
+        fields = ('user', 'content', 'date', 'id', 'rate_user', 'rate_count', 'reply_first', 'reply_second')
 
     def get_user(self, instance):
         return instance.user.username
@@ -191,8 +191,6 @@ class CommentArticleSerializer(serializers.ModelSerializer):
     def get_rate_count(self, instance):
         rate_true = RateComment.objects.filter(comment=instance, rate=True).count()
         rate_false = RateComment.objects.filter(comment=instance, rate=False).count()
-        print(f'true: {rate_true}')
-        print(f'false: {rate_false}')
         return rate_true - rate_false
 
 
@@ -201,9 +199,17 @@ class CreateCommentArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CommentArticle
-        fields = ('user', 'content', 'date', 'rate')
+        fields = ('user', 'content', 'date', 'rate', 'reply_first', 'reply_second')
 
     def create(self, validated_data):
+        try:
+            if len(self.context['reply']) == 1:
+                validated_data['reply_first'] = CommentArticle.objects.get(pk=self.context['reply'][0])
+            else:
+                validated_data['reply_first'] = CommentArticle.objects.get(pk=self.context['reply'][0])
+                validated_data['reply_second'] = CommentArticle.objects.get(pk=self.context['reply'][1])
+        except:
+            pass
         validated_data['article'] = Articles.objects.get(pk=int(self.context['article']))
         return CommentArticle.objects.create(**validated_data)
 

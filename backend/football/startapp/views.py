@@ -95,11 +95,33 @@ class CommentArticleAPIList(generics.ListCreateAPIView):
     serializer_class = CommentArticleSerializer
 
     def get_queryset(self):
-        query = CommentArticle.objects.filter(article=self.request.query_params['article'])
+        try:
+            reply = list(map(int, self.request.query_params['reply'].split(',')))
+            if len(reply) == 1:
+                query = CommentArticle.objects.filter(article=self.request.query_params['article'],
+                                                      reply_first=reply[0])
+            else:
+                query = CommentArticle.objects.filter(article=self.request.query_params['article'],
+                                                      reply_first=reply[0],
+                                                      reply_second=reply[1])
+        except:
+            query = CommentArticle.objects.filter(article=self.request.query_params['article'],
+                                                  reply_first=None,
+                                                  reply_second=None)
         return query
 
     def create(self, request, *args, **kwargs):
-        serializer = CreateCommentArticleSerializer(data=request.data, context={'request': self.request, 'article': self.request.query_params['article']})
+        print(f"reply: {list(map(int, self.request.query_params['reply'].split(',')))}")
+        print(f"reply: {type(self.request.query_params['reply'])}")
+        try:
+            serializer = CreateCommentArticleSerializer(data=request.data, context={
+                                                        'request': self.request,
+                                                        'article': self.request.query_params['article'],
+                                                        'reply': list(map(int, self.request.query_params['reply'].split(',')))})
+        except:
+            serializer = CreateCommentArticleSerializer(data=request.data, context={
+                                                        'request': self.request,
+                                                        'article': self.request.query_params['article']})
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)

@@ -71,7 +71,8 @@ class CommentArticle(models.Model):
     user = models.ForeignKey(Users, null=True, on_delete=models.SET_NULL)
     article = models.ForeignKey(Articles, on_delete=models.CASCADE)
     content = models.TextField()
-    # reply = models.ForeignKey('CommentArticle', on_delete=models.CASCADE)
+    reply_first = models.ForeignKey('CommentArticle', null=True, on_delete=models.SET_NULL, related_name='first')
+    reply_second = models.ForeignKey('CommentArticle', null=True, on_delete=models.SET_NULL, related_name='second')
     date = models.DateTimeField(auto_now_add=True)
     rate = models.ManyToManyField(Users, through='RateComment', related_name='rate')
 
@@ -85,8 +86,4 @@ class RateComment(models.Model):
     user = models.ForeignKey(Users, null=True, on_delete=models.SET_NULL)
     comment = models.ForeignKey(CommentArticle, on_delete=models.CASCADE)
     rate = models.BooleanField(default=False)
-
-
-class ReplyComment(models.Model):
-    pass
 # Create your models here.

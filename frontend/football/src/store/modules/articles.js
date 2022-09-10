@@ -11,6 +11,7 @@ export const articles = {
         articles_team: [],
         category: [],
         comment: [],
+        comment_reply: {},
     }),
     getters:{
         articles_all(state){
@@ -37,6 +38,9 @@ export const articles = {
         comment(state){
             return state.comment
         },
+        comment_reply(state){
+            return state.comment_reply
+        },
     },
     mutations:{
         updateArticles(state, articles){
@@ -52,9 +56,15 @@ export const articles = {
         },
         updateComment(state, comment){
             for (let i of comment){
-                i['reply'] = false
+                i['text_reply'] = ''
             }
             state.comment = comment
+        },
+        updateCommentReply(state, comment_reply){
+            for (let i of comment_reply.data){
+                i['text_reply'] = ''
+            }
+            state.comment_reply[comment_reply.id] = comment_reply.data
         },
     },
     actions: {
@@ -182,9 +192,26 @@ export const articles = {
                 console.log(e)
             }
         },
+        async comment_reply_data(ctx, data){
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {article: data.article, reply: data.reply_data}})
+                ctx.commit('updateCommentReply', {data: response.data, id: data.reply_data})
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
         async article_comment_create(ctx, data){
             try {
-                const response = await axios.post(`http://127.0.0.1:8000/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.id}})
+                const response = await axios.post(`http://127.0.0.1:8000/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.article}})
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
+        async comment_reply_create(ctx, data){
+            try {
+                const response = await axios.post(`http://127.0.0.1:8000/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.article, reply: data.reply_post}})
             }
             catch (e) {
                 console.log(e)

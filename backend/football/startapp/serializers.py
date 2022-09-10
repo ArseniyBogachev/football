@@ -163,6 +163,7 @@ class CommentArticleSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     rate_user = serializers.SerializerMethodField()
     rate_count = serializers.SerializerMethodField()
+    reply_second = serializers.SerializerMethodField()
 
     class Meta:
         model = CommentArticle
@@ -170,6 +171,11 @@ class CommentArticleSerializer(serializers.ModelSerializer):
 
     def get_user(self, instance):
         return instance.user.username
+
+    def get_reply_second(self, instance):
+        if instance.reply_second != None:
+            return instance.reply_second.user.username
+        return instance.reply_second
 
     def get_rate_user(self, instance):
         result = False

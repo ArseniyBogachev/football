@@ -16,7 +16,9 @@
     </div>
     <CommentsArticle
         v-bind:comment="comment"
+        v-bind:comment_reply="comment_reply"
         v-on:comment_create="comment_create"
+        v-on:reply_data="reply_data"
     ></CommentsArticle>
   </div>
 </template>
@@ -43,11 +45,24 @@ export default {
       articles_data: 'articles_data',
       article_comment_data: 'article_comment_data',
       article_comment_create: 'article_comment_create',
+      comment_reply_data: 'comment_reply_data',
+      comment_reply_create: 'comment_reply_create',
     }),
     async comment_create(data){
-      data['id'] = this.article.id
-      await this.article_comment_create(data)
-      await this.article_comment_data(data.id)
+      data['article'] = this.article.id
+      console.log(data)
+      if (!data['reply_data']){
+        await this.article_comment_create(data)
+        await this.article_comment_data(data.id)
+      }
+      else {
+        await this.comment_reply_create(data)
+        await this.comment_reply_data(data)
+      }
+    },
+    async reply_data(data){
+      data['article'] = this.article.id
+      await this.comment_reply_data(data)
     },
   },
   computed:{
@@ -56,6 +71,7 @@ export default {
       verify: 'verify',
       me: 'me',
       comment: 'comment',
+      comment_reply: 'comment_reply',
     }),
     article(){
       return [...this.articles_all].find(item => item.title === this.slug)

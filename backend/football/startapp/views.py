@@ -93,6 +93,7 @@ class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 
 class CommentArticleAPIList(generics.ListCreateAPIView):
     serializer_class = CommentArticleSerializer
+    # permission_classes = (IsUserOrReadOnly,)
 
     def get_queryset(self):
         try:

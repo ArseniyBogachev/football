@@ -5,9 +5,18 @@
         v-model="text_comment"
         v-bind:rows="rows_comment"
     ></MyTextArea>
-    <button type="button" class="btn btn-dark btn-sm" v-on:click.prevent="$emit('comment_create', {data: {'content': this.text_comment}}); text_comment = ''">Send</button>
+    <button type="button" class="btn btn-dark btn-sm"
+            v-on:click.prevent="$emit('comment_create', {data: {'content': this.text_comment, reply: ''}}); text_comment = '';">
+      Send
+    </button>
     <div class="comments" v-for="c in comment">
-      <div class="com"><small class="author_date">{{ c.user }} | {{ c.date }} | <a href="#" class="reply_btn" v-on:click.prevent="c.reply = !c.reply; text_reply = `${c.user},`">Reply &#8628;</a></small>
+      <div class="com">
+        <small class="author_date" v-if="c.reply">
+          {{ c.user }} | {{ c.date }} | <a href="#" class="reply_btn" v-on:click.prevent="c.reply = !c.reply;">Hide &#8613;</a>
+        </small>
+        <small class="author_date" v-else>
+          {{ c.user }} | {{ c.date }} | <a href="#" class="reply_btn" v-on:click.prevent="$emit('reply_data', {reply_data: c.id}); c.reply = !c.reply;">Reply &#8628;</a>
+        </small>
         <div class="text_rate">
           <CommentRate
               v-bind:rate_count="c.rate_count"
@@ -20,11 +29,21 @@
         </div>
         <div v-if="c.reply">
           <MyTextArea
-            v-model="text_reply"
+            v-model="c.text_reply"
             v-bind:rows="rows_reply"
             v-bind:min_width="min_width_reply"
           ></MyTextArea>
-          <button type="button" class="btn btn-dark btn-sm" style="margin-left: 10%">Send</button>
+          <button type="button" class="btn btn-dark btn-sm" style="margin-left: 10%"
+                  v-on:click.prevent="$emit('comment_create', {data: {'content': c.text_reply}, reply_post: c.id, reply_data: c.id}); c.text_reply = '';">
+            Send
+          </button>
+          <CommentReply
+              v-bind:comment="comment_reply"
+              v-bind:min_width_reply="min_width_reply"
+              v-bind:reply_first="c.user"
+              v-bind:reply_id="c.id"
+              v-on:comment_create="doSomething"
+          ></CommentReply>
         </div>
       </div>
       <hr>
@@ -35,22 +54,26 @@
 <script>
 import MyTextArea from "@/components/UI/MyTextArea";
 import CommentRate from "@/components/UI/CommentRate";
+import CommentReply from "@/components/CommentReply";
 import {mapActions} from 'vuex';
 export default {
   name: "CommentsArticle",
   props:{
     comment:{
       type: Array,
-    }
+    },
+    comment_reply:{
+      type: Object,
+    },
   },
   components: {
     MyTextArea,
     CommentRate,
+    CommentReply,
   },
   data(){
     return{
       text_comment: '',
-      text_reply: '',
       rows_comment: 4,
       rows_reply: 1,
       min_width_reply: {
@@ -59,10 +82,13 @@ export default {
       },
     }
   },
-  methods:{
+  methods: {
     ...mapActions({
       article_comment_create: 'article_comment_create',
-    })
+    }),
+    doSomething(data) {
+      this.$emit('comment_create', data)
+    },
   }
 }
 </script>

@@ -43,6 +43,7 @@ export default {
         {active: false, name: 'Article'},
       ],
       crud: false,
+      loading: false,
     }
   },
   methods:{
@@ -71,6 +72,7 @@ export default {
     },
   },
   created() {
+
     this.user_data(this.slug)
   },
   computed:{

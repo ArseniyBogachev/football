@@ -6,6 +6,7 @@ export const users = {
         me: {},
         verify: false,
         user: {},
+        loading: false,
     }),
     getters:{
         me(state){
@@ -16,6 +17,9 @@ export const users = {
         },
         user(state){
             return state.user
+        },
+        loading(state){
+            return state.loading
         },
     },
     mutations:{
@@ -28,6 +32,9 @@ export const users = {
         UpdateUser(state, user){
             state.user = user
         },
+        // UpdateLoading(state){
+        //     state.loading = false
+        // },
     },
     actions: {
         async bookmarks_true(ctx, id){

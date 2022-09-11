@@ -15,7 +15,10 @@
         <input type="checkbox" class="form-check-input" id="exampleCheck1">
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
       </div>
-      <button type="button" class="btn btn-dark" @click="login_axios">Submit</button>
+      <button type="button" class="btn btn-secondary" @click="login_axios">
+        <MyLoading v-if="this.loading"></MyLoading>
+        <span v-else>Submit</span>
+      </button>
     </form>
   </div>
 
@@ -26,13 +29,18 @@ import axios from "axios";
 import router from "@/router/router";
 import {mapActions} from "vuex"
 import {nextTick} from "vue";
+import MyLoading from "@/components/UI/MyLoading";
 export default {
   name: "LoginApp",
+  components:{
+    MyLoading,
+  },
   data(){
     return{
       username: '',
       password: '',
       axios_error: '',
+      loading: false,
     }
   },
   methods:{
@@ -43,17 +51,25 @@ export default {
     }),
     async login_axios(){
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/token/', {
-          'username': this.username,
-          'password': this.password,
-        })
-        localStorage.setItem("access", response.data.access);
-        localStorage.setItem("refresh", response.data.refresh);
-        await this.verify_fn({access: localStorage.getItem('access'), refresh: localStorage.getItem('refresh')})
-        await nextTick(router.push('/'))
+        if (this.username && this.password){
+          this.loading = true
+          const response = await axios.post('http://127.0.0.1:8000/api/token/', {
+            'username': this.username,
+            'password': this.password,
+          })
+          localStorage.setItem("access", response.data.access);
+          localStorage.setItem("refresh", response.data.refresh);
+          await this.verify_fn({access: localStorage.getItem('access'), refresh: localStorage.getItem('refresh')})
+          this.loading = false
+          await nextTick(router.push('/'))
+        }
+        else{
+          this.axios_error = 'Please, field placeholder.'
+        }
       }
       catch (e) {
         this.axios_error = e.response.data.detail
+        this.loading = false
       }
     }
   },
@@ -84,5 +100,15 @@ export default {
   }
   .mb-3{
     margin-top: 30px;
+  }
+  .btn{
+    min-width: 150px;
+    /*min-height: 40px;*/
+  }
+  .btn-secondary:active{
+    box-shadow: 0 0 15px 10px white inset;
+  }
+  .btn-secondary:focus{
+    box-shadow: 0 0 0 0.2rem white !important;
   }
 </style>

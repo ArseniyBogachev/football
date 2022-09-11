@@ -9,6 +9,7 @@
               v-bind:rate_count="c.rate_count"
               v-bind:rate_user="c.rate_user"
               v-bind:comment_id="c.id"
+              v-bind:reply_id="reply_id"
           ></CommentRate>
           <p class="text" v-if="c.reply_second">
             {{c.reply_second}}, {{ c.content }}

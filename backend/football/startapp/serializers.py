@@ -1,9 +1,10 @@
 from itertools import chain
-
+import datetime
 from django.db.models import Count
 from django.http import request
 from rest_framework import serializers
 from .models import *
+import re
 
 
 class MeSerializer(serializers.ModelSerializer):
@@ -92,10 +93,31 @@ class ArticleSerializer(serializers.ModelSerializer):
     count_false = serializers.SerializerMethodField()
     like_dislike = serializers.SerializerMethodField()
     comment = serializers.SerializerMethodField()
+    date = serializers.SerializerMethodField()
 
     class Meta:
         model = Articles
         fields = ('title', 'text', 'date', 'cat', 'like_dislike', 'count_true', 'count_false', 'id', 'author', 'comment')
+
+    def get_date(self, instance):
+        d1 = datetime.datetime.now(datetime.timezone.utc)
+        d2 = instance.date
+        adding_time = str(d1 - d2)
+        match = re.findall(r'\b[0-9]{1,3}\b', adding_time)
+        m_list = list(map(int, match))
+        result = ''
+        if len(m_list) > 3:
+            result = f'{m_list[0] // 30} {"months" if (m_list[0] // 30) > 1 else "month"} ago'
+            if (m_list[0] // 30) == 0:
+                result = f'{m_list[0]} {"days" if m_list[0] > 1 else "day"} ago'
+        else:
+            if m_list[0] != 0:
+                result = f'{m_list[0]} {"hours" if m_list[0] > 1 else "hour"} ago'
+            elif m_list[1] != 0:
+                result = f'{m_list[1]} {"minutes" if m_list[1] > 1 else "minute"} ago'
+            else:
+                result = f'{m_list[2]} {"seconds" if m_list[2] > 1 else "second"} ago'
+        return result
 
     def get_comment(self, instance):
         return CommentArticle.objects.filter(article=instance).values_list(flat=True)
@@ -164,10 +186,31 @@ class CommentArticleSerializer(serializers.ModelSerializer):
     rate_user = serializers.SerializerMethodField()
     rate_count = serializers.SerializerMethodField()
     reply_second = serializers.SerializerMethodField()
+    date = serializers.SerializerMethodField()
 
     class Meta:
         model = CommentArticle
         fields = ('user', 'content', 'date', 'id', 'rate_user', 'rate_count', 'reply_first', 'reply_second')
+
+    def get_date(self, instance):
+        d1 = datetime.datetime.now(datetime.timezone.utc)
+        d2 = instance.date
+        adding_time = str(d1 - d2)
+        match = re.findall(r'\b[0-9]{1,3}\b', adding_time)
+        m_list = list(map(int, match))
+        result = ''
+        if len(m_list) > 3:
+            result = f'{m_list[0] // 30} {"months" if (m_list[0] // 30) > 1 else "month"} ago'
+            if (m_list[0] // 30) == 0:
+                result = f'{m_list[0]} {"days" if m_list[0] > 1 else "day"} ago'
+        else:
+            if m_list[0] != 0:
+                result = f'{m_list[0]} {"hours" if m_list[0] > 1 else "hour"} ago'
+            elif m_list[1] != 0:
+                result = f'{m_list[1]} {"minutes" if m_list[1] > 1 else "minute"} ago'
+            else:
+                result = f'{m_list[2]} {"seconds" if m_list[2] > 1 else "second"} ago'
+        return result
 
     def get_user(self, instance):
         return instance.user.username

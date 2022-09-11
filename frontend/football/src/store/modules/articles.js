@@ -189,6 +189,10 @@ export const articles = {
                 ctx.commit('updateComment', response.data)
             }
             catch (e) {
+                if (e.response.status === 401) {
+                    const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {params: {article: id}})
+                    ctx.commit('updateComment', response.data)
+                }
                 console.log(e)
             }
         },
@@ -198,6 +202,10 @@ export const articles = {
                 ctx.commit('updateCommentReply', {data: response.data, id: data.reply_data})
             }
             catch (e) {
+                if (e.response.status === 401){
+                    const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {params: {article: data.article, reply: data.reply_data}})
+                    ctx.commit('updateCommentReply', {data: response.data, id: data.reply_data})
+                }
                 console.log(e)
             }
         },
@@ -206,6 +214,9 @@ export const articles = {
                 const response = await axios.post(`http://127.0.0.1:8000/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.article}})
             }
             catch (e) {
+                if (e.response.status === 401){
+                    router.push('/login')
+                }
                 console.log(e)
             }
         },
@@ -214,42 +225,73 @@ export const articles = {
                 const response = await axios.post(`http://127.0.0.1:8000/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.article, reply: data.reply_post}})
             }
             catch (e) {
+                if (e.response.status === 401){
+                    router.push('/login')
+                }
                 console.log(e)
             }
         },
-        async comment_rate_update(ctx, id){
-            let comment = ctx.state.comment.find(item => item.id === id)
-            await axios.delete(`http://127.0.0.1:8000/api/v1/rate/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-            if (comment.rate_user === 1){
-
-                comment.rate_user = false
-                comment.rate_count -= 1
+        async comment_rate_update(ctx, data){
+            try {
+                await axios.delete(`http://127.0.0.1:8000/api/v1/rate/${data.id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                if (data.comment.rate_user === 1){
+                    data.comment.rate_user = false
+                    data.comment.rate_count -= 1
+                }
+                else {
+                    data.comment.rate_user = false
+                    data.comment.rate_count += 1
+                }
             }
-            else {
-                comment.rate_user = false
-                comment.rate_count += 1
-            }
-        },
-        async comment_rate_update_true(ctx, id){
-            let comment = ctx.state.comment.find(item => item.id === id)
-            await axios.patch(`http://127.0.0.1:8000/api/v1/rate/${id}/`, {'rate': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-            if (comment.rate_user === false){
-                comment.rate_user = 1
-                comment.rate_count += 1
-            }
-            else{
-                ctx.dispatch('comment_rate_update', id)
+            catch (e) {
+                if (e.response.status === 401){
+                    router.push('/login')
+                }
+                console.log(e)
             }
         },
-        async comment_rate_update_false(ctx, id){
-            let comment = ctx.state.comment.find(item => item.id === id)
-            await axios.patch(`http://127.0.0.1:8000/api/v1/rate/${id}/`, {'rate': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-            if (comment.rate_user === false){
-                comment.rate_user = -1
-                comment.rate_count -= 1
+        async comment_rate_update_true(ctx, data){
+            let comment = ctx.state.comment.find(item => item.id === data.comment_id)
+            if (comment === undefined){
+                comment = ctx.state.comment_reply[data.reply_id].find(item => item.id === data.comment_id)
             }
-            else{
-                ctx.dispatch('comment_rate_update', id)
+            try {
+                if (comment.rate_user === false){
+                    await axios.patch(`http://127.0.0.1:8000/api/v1/rate/${data.comment_id}/`, {'rate': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    comment.rate_user = 1
+                    comment.rate_count += 1
+                }
+                else{
+                    ctx.dispatch('comment_rate_update', {id: data.comment_id, comment: comment})
+                }
+            }
+            catch (e) {
+                if (e.response.status === 401){
+                    router.push('/login')
+                }
+                console.log(e)
+            }
+        },
+        async comment_rate_update_false(ctx, data){
+            let comment = ctx.state.comment.find(item => item.id === data.comment_id)
+            if (comment === undefined){
+                comment = ctx.state.comment_reply[data.reply_id].find(item => item.id === data.comment_id)
+            }
+            try {
+                if (comment.rate_user === false){
+                    await axios.patch(`http://127.0.0.1:8000/api/v1/rate/${data.comment_id}/`, {'rate': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    comment.rate_user = -1
+                    comment.rate_count -= 1
+                }
+                else{
+                    ctx.dispatch('comment_rate_update', {id: data.comment_id, comment: comment})
+                }
+            }
+            catch (e) {
+                if (e.response.status === 401){
+                    router.push('/login')
+                }
+                console.log(e)
             }
         }
     },

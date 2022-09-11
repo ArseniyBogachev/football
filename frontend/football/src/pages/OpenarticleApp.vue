@@ -50,7 +50,6 @@ export default {
     }),
     async comment_create(data){
       data['article'] = this.article.id
-      console.log(data)
       if (!data['reply_data']){
         await this.article_comment_create(data)
         await this.article_comment_data(data.id)

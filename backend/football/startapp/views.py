@@ -1,9 +1,8 @@
 import requests
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from rest_framework import generics, viewsets
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from .models import Articles
 from .serializers import *
@@ -37,6 +36,7 @@ class ArticlesRelationAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 class ArticlesCategoryAPIList(generics.ListAPIView):
     queryset = CategoryArticles.objects.all()
     serializer_class = ArticlesCategorySerializer
+    permission_classes = (AllowAny,)
 
 
 class ArticlesLikesAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
@@ -53,7 +53,7 @@ class ArticlesLikesAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 
 class MeAPIRetrieve(generics.RetrieveUpdateAPIView):
     serializer_class = MeSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsCurrentUser,)
 
     def get_object(self):
         query = Users.objects.get(username=self.request.user)
@@ -62,6 +62,7 @@ class MeAPIRetrieve(generics.RetrieveUpdateAPIView):
 
 class UsersSubAPIRetrieve(generics.RetrieveAPIView):
     serializer_class = UserSerializer
+    permission_classes = (AllowAny,)
     lookup_field = 'user'
 
     def get_object(self):
@@ -93,7 +94,7 @@ class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 
 class CommentArticleAPIList(generics.ListCreateAPIView):
     serializer_class = CommentArticleSerializer
-    # permission_classes = (IsUserOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         try:
@@ -112,8 +113,6 @@ class CommentArticleAPIList(generics.ListCreateAPIView):
         return query
 
     def create(self, request, *args, **kwargs):
-        print(f"reply: {list(map(int, self.request.query_params['reply'].split(',')))}")
-        print(f"reply: {type(self.request.query_params['reply'])}")
         try:
             serializer = CreateCommentArticleSerializer(data=request.data, context={
                                                         'request': self.request,

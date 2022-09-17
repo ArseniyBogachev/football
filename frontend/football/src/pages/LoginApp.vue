@@ -103,7 +103,6 @@ export default {
   }
   .btn{
     min-width: 150px;
-    /*min-height: 40px;*/
   }
   .btn-secondary:active{
     box-shadow: 0 0 15px 10px white inset;

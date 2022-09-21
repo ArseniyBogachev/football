@@ -260,3 +260,53 @@ class ViewTestCase(APITestCase):
         self.assertEqual(0, len(queryset))
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_comment_create(self):
+        url = f'http://127.0.0.1:8000/api/v1/comment/?article={self.articles_1.id}'
+        token = self.test_jwt_post()['access']
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+
+        data = {
+            'content': 'text1...'
+        }
+
+        result = {
+            'content': 'text1...',
+            'date': str(datetime.datetime.now(datetime.timezone.utc)),
+            'rate': [],
+            'reply_first': None,
+            'reply_second': None
+        }
+
+        response = self.client.post(url, data)
+        date = self.compare_date(response.data, result)
+        response.data['date'] = date['response']
+        result['date'] = date['result']
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(result, response.data)
+
+    def test_reply_create(self):
+        url = f'http://127.0.0.1:8000/api/v1/comment/?article={self.articles_1.id}&reply={self.comment_1.id}'
+        token = self.test_jwt_post()['access']
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+
+        data = {
+            'content': 'text2...'
+        }
+
+        result = {
+            'content': 'text2...',
+            'date': str(datetime.datetime.now(datetime.timezone.utc)),
+            'rate': [],
+            'reply_first': self.comment_1.id,
+            'reply_second': None
+        }
+
+        response = self.client.post(url, data=data)
+        date = self.compare_date(response.data, result)
+        response.data['date'] = date['response']
+        result['date'] = date['result']
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(result, response.data)

@@ -19,6 +19,7 @@
 import NavbarCom from "@/components/NavbarCom";
 import NavbarMob from "@/components/NavbarMob";
 import {mapGetters, mapActions} from 'vuex';
+import axios from "axios";
 export default {
   name: "NavBar",
   data(){
@@ -35,7 +36,8 @@ export default {
       players_data: 'players_data',
       me_data: 'me_data'
     }),
-    logoutUser(){
+    async logoutUser(){
+      await axios.post('http://127.0.0.1:8000/api/v1/blacklist/', {'token': localStorage.getItem('access')}, {headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
       localStorage.removeItem('access')
       localStorage.removeItem('refresh')
       localStorage.removeItem('username')

@@ -12,7 +12,7 @@ from .permissions import *
 class ArticlesViewSet(viewsets.ModelViewSet):
     queryset = Articles.objects.all()
     serializer_class = ArticleSerializer
-    permission_classes = (IsUserOrReadOnly,)
+    permission_classes = (IsUserOrReadOnly, TokenIsInvalid)
 
     def create(self, request, *args, **kwargs):
         serializer = CreateArticleSerializer(data=request.data, context={'request': self.request})
@@ -24,7 +24,7 @@ class ArticlesViewSet(viewsets.ModelViewSet):
 class ArticlesRelationAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = ArticlesRelation.objects.all()
     serializer_class = ArticlesRelationSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, TokenIsInvalid)
     lookup_field = 'article'
 
     def get_object(self):
@@ -42,7 +42,7 @@ class ArticlesCategoryAPIList(generics.ListAPIView):
 class ArticlesLikesAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = ArticlesLikes.objects.all()
     serializer_class = ArticlesLikesSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, TokenIsInvalid)
     lookup_field = 'article'
 
     def get_object(self):
@@ -53,7 +53,7 @@ class ArticlesLikesAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 
 class MeAPIRetrieve(generics.RetrieveUpdateAPIView):
     serializer_class = MeSerializer
-    permission_classes = (IsCurrentUser,)
+    permission_classes = (IsCurrentUser, TokenIsInvalid)
 
     def get_object(self):
         query = Users.objects.get(username=self.request.user)
@@ -74,7 +74,7 @@ class UsersSubAPIRetrieve(generics.RetrieveAPIView):
 class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = UsersSub.objects.all()
     serializer_class = UsersSubSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, TokenIsInvalid)
     lookup_field = 'user'
 
     def get_object(self):
@@ -94,7 +94,7 @@ class UsersSubAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 
 class CommentArticleAPIList(generics.ListCreateAPIView):
     serializer_class = CommentArticleSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly, TokenIsInvalid)
 
     def get_queryset(self):
         try:
@@ -130,7 +130,7 @@ class CommentArticleAPIList(generics.ListCreateAPIView):
 class RateCommentAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = RateComment.objects.all()
     serializer_class = RateCommentSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, TokenIsInvalid)
     lookup_field = 'comment'
 
     def get_object(self):
@@ -144,7 +144,7 @@ class RateCommentAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 class ActivateJWT(GenericAPIView):
     def get(self, request, uid, token, format=None):
         payload = {'uid': uid, 'token': token}
-
+        print(payload)
         url = "http://127.0.0.1:8000/auth/users/activation/"
         response = requests.post(url, data=payload)
 
@@ -152,4 +152,9 @@ class ActivateJWT(GenericAPIView):
             return render(request, 'active/activation.html')
         else:
             return Response(response.json())
+
+
+class BlackListAddJWT(generics.CreateAPIView):
+    queryset = BlackListJWT.objects.all()
+    serializer_class = BlackListJWTSerializer
 # Create your views here.

@@ -97,7 +97,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Articles
-        fields = ('title', 'text', 'date', 'cat', 'like_dislike', 'count_true', 'count_false', 'id', 'author', 'comment')
+        fields = ('title', 'text', 'date', 'cat', 'like_dislike', 'count_true', 'count_false', 'author', 'id', 'comment')
 
     def get_date(self, instance):
         d1 = datetime.datetime.now(datetime.timezone.utc)
@@ -267,4 +267,12 @@ class RateCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = RateComment
         fields = '__all__'
+
+
+class BlackListJWTSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = BlackListJWT
+        fields = "__all__"
 

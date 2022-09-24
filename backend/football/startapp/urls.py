@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/v1/subscription/<int:user>/', UsersSubAPIUpdate.as_view(), name='subscription_update'),
     path('api/v1/comment/', CommentArticleAPIList.as_view(), name='comment_list_post'),
     path('api/v1/rate/<int:comment>/', RateCommentAPIUpdate.as_view(), name='comment_rate_update'),
+    path('api/v1/blacklist/', BlackListAddJWT.as_view(), name='black_list'),
     re_path(r'^auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.jwt')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -1,13 +1,13 @@
+from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse
-import datetime
-import re
+from djoser import utils
 from rest_framework import status
 from rest_framework.test import APITestCase
-from startapp.models import *
 from startapp.serializers import *
+from startapp.utils import MethodTest
 
 
-class ViewTestCase(APITestCase):
+class ViewTestCase(APITestCase, MethodTest):
     def setUp(self):
         self.user_1 = Users.objects.create_user(email='sen@mail.ru', username='user', password='password')
         self.user_1.is_active = False
@@ -21,29 +21,6 @@ class ViewTestCase(APITestCase):
         self.comment_1 = CommentArticle.objects.create(user=self.user_1, article=self.articles_1, content='comment 1')
         self.comment_2 = CommentArticle.objects.create(user=self.user_1, article=self.articles_1, content='comment 2', reply_first=self.comment_1)
         self.bookmarks_1 = ArticlesRelation.objects.create(user=self.user_1, article=self.articles_2, bookmarks=True)
-
-    @staticmethod
-    def list_queryset(data, list_=None):
-        if isinstance(list_, list):
-            for i in data:
-                if i in list_:
-                    data[i] = list(data[i])
-        else:
-            for i in data:
-                for j in i:
-                    if j == list_:
-                        i[j] = list(i[j])
-
-        return data
-
-    @staticmethod
-    def compare_date(response, result):
-        match_result = re.findall(r'[0-9:-]{7,}[^. ]?', result['date'])
-        match_response = re.findall(r'[0-9:-]{7,}[^.T]?', response['date'])
-        if match_result == match_response:
-            return {'result': match_result, 'response': match_response}
-
-        return {'result': result['date'], 'response': response['date']}
 
     def test_articles_get(self):
         url = reverse('articles-list')
@@ -145,7 +122,7 @@ class ViewTestCase(APITestCase):
             'title': 'title',
             'text': 'text',
             'date': str(datetime.datetime.now(datetime.timezone.utc)),
-            'cat': 1
+            'cat': self.cat_1.pk
         }
 
         date = self.compare_date(response.data, result)
@@ -187,7 +164,7 @@ class ViewTestCase(APITestCase):
         }
 
         result = {
-            'id': 5,
+            'id': 6,
             'bookmarks': True,
             'user': self.user_1.pk,
             'article': self.articles_1.pk
@@ -310,3 +287,113 @@ class ViewTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(result, response.data)
+
+    def test_rate_update(self):
+        url_true = reverse('comment_rate_update', args=(self.comment_1.id,))
+        url_false = reverse('comment_rate_update', args=(self.comment_2.id,))
+        url_delete = reverse('comment_rate_update', args=(self.comment_2.id,))
+        token = self.test_jwt_post()['access']
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+
+        data_true = {
+            'rate': True,
+        }
+
+        result_true = {
+            'id': 1,
+            'rate': True,
+            'user': self.user_1.id,
+            'comment': self.comment_1.id,
+        }
+
+        response = self.client.patch(url_true, data_true)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(result_true, response.data)
+
+        data_false = {
+            'rate': False,
+        }
+
+        result_false = {
+            'id': 2,
+            'rate': False,
+            'user': self.user_1.id,
+            'comment': self.comment_2.id,
+        }
+
+        response = self.client.patch(url_false, data_false)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(result_false, response.data)
+
+        query = RateComment.objects.all()
+        self.assertEqual(2, len(query))
+
+        response = self.client.delete(url_delete)
+
+        query = RateComment.objects.all()
+        self.assertEqual(1, len(query))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    """Доделать"""
+    def test_register_post(self):
+        url_register = 'http://127.0.0.1:8000/auth/users/'
+
+        data = {
+            'first_name': 'Kirill',
+            'last_name': 'Zherdev',
+            'email': 'kirik@mail.ru',
+            'username': 'uzumaki',
+            'password': 'messi228',
+        }
+
+        result = {
+            'image': None,
+            'first_name': 'Kirill',
+            'last_name': 'Zherdev',
+            'email': 'kirik@mail.ru',
+            'bookmarks': [],
+            'sub_user': [],
+            'id': 27,
+            'username': 'uzumaki'
+        }
+
+        query = Users.objects.all()
+        self.assertEqual(2, len(query))
+        response = self.client.post(url_register, data)
+        query = Users.objects.all()
+        self.assertEqual(3, len(query))
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(result, response.data)
+
+    def test_BlackListAddJWT_post(self):
+        url = reverse('black_list')
+        token = self.test_jwt_post()['access']
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+
+        result = {
+            'id': 1,
+            'token': token
+        }
+
+        response = self.client.post(url, data={'token': token})
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(result, response.data)
+
+
+        # context = {}
+        # user = Users.objects.get(pk=response.data['id'])
+        # context["uid"] = utils.encode_uid(response.data['id'])
+        # context["token"] = default_token_generator.make_token(user)
+        #
+        # url_activation = reverse('activation', args=(context["uid"], context["token"]))
+        # # url_activation = f'http://127.0.0.1:8000/activate/{context["uid"]}/{context["token"]}/'
+        #
+        # response = self.client.get(url_activation)
+        #
+        # print(response.data)
+        # print(response.status_code)
+        # self.assertEqual(response.status_code, status.HTTP_200_OK)

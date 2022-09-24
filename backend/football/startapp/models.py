@@ -87,4 +87,9 @@ class RateComment(models.Model):
     user = models.ForeignKey(Users, null=True, on_delete=models.SET_NULL)
     comment = models.ForeignKey(CommentArticle, on_delete=models.CASCADE)
     rate = models.BooleanField(default=False)
+
+
+class BlackListJWT(models.Model):
+    token = models.CharField(max_length=500)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
 # Create your models here.

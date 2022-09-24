@@ -34,6 +34,10 @@ class AdminRate(admin.ModelAdmin):
     list_display = ('id', 'user', 'comment', 'rate')
 
 
+class AdminBlackListJWT(admin.ModelAdmin):
+    list_display = ('id', 'user', 'token')
+
+
 admin.site.register(Articles, AdminArticles)
 admin.site.register(Users, AdminUsers)
 admin.site.register(ArticlesRelation, AdminRelation)
@@ -42,5 +46,6 @@ admin.site.register(ArticlesLikes, AdminLikes)
 admin.site.register(UsersSub, AdminSub)
 admin.site.register(CommentArticle, AdminComment)
 admin.site.register(RateComment, AdminRate)
+admin.site.register(BlackListJWT, AdminBlackListJWT)
 
 # Register your models here.

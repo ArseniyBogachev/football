@@ -1,26 +1,17 @@
 from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse
-from djoser import utils
 from rest_framework import status
 from rest_framework.test import APITestCase
 from startapp.serializers import *
 from startapp.utils import MethodTest
 
 
-class ViewTestCase(APITestCase, MethodTest):
+class ViewTestCase(MethodTest, APITestCase):
     def setUp(self):
         self.user_1 = Users.objects.create_user(email='sen@mail.ru', username='user', password='password')
         self.user_1.is_active = False
         self.user_1.save()
-        self.user_2 = Users.objects.create_user(email='ars@mail.ru', username='subscriber', password='password')
-        self.user_2.is_active = True
-        self.user_2.save()
-        self.cat_1 = CategoryArticles.objects.create(title='test cat', link='test link')
-        self.articles_1 = Articles.objects.create(title='test articles 1', author=self.user_1, text='text 1', cat=self.cat_1)
-        self.articles_2 = Articles.objects.create(title='test articles 2', author=self.user_1, text='text 2', cat=self.cat_1)
-        self.comment_1 = CommentArticle.objects.create(user=self.user_1, article=self.articles_1, content='comment 1')
-        self.comment_2 = CommentArticle.objects.create(user=self.user_1, article=self.articles_1, content='comment 2', reply_first=self.comment_1)
-        self.bookmarks_1 = ArticlesRelation.objects.create(user=self.user_1, article=self.articles_2, bookmarks=True)
+        super().setUp()
 
     def test_articles_get(self):
         url = reverse('articles-list')

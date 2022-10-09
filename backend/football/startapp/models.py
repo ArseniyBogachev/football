@@ -92,4 +92,147 @@ class RateComment(models.Model):
 class BlackListJWT(models.Model):
     token = models.CharField(max_length=500)
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
+
+
+class Players(models.Model):
+    first_name = models.CharField(max_length=15)
+    last_name = models.CharField(max_length=15)
+    number = models.IntegerField()
+    data = models.DateField(null=True)
+    main_position = models.ForeignKey('Position', on_delete=models.PROTECT)
+    club = models.ForeignKey('Club', on_delete=models.PROTECT)
+    total_analysis = models.ManyToManyField('Years', through='TotalStatistics', related_name='total')
+    position_analysis = models.ManyToManyField('Position', through='PositionStatistics', related_name='position')
+    situation_analysis = models.ManyToManyField('Situation', through='SituationStatistics', related_name='situation')
+    shot_zones_analysis = models.ManyToManyField('ShotZones', through='ShotZonesStatistics', related_name='shotZones')
+    shot_types_analysis = models.ManyToManyField('ShotTypes', through='ShotTypesStatistics', related_name='shotTypes')
+
+    def __str__(self):
+        return f'{self.first_name}, {self.last_name}'
+
+
+class Club(models.Model):
+    title = models.CharField(max_length=20)
+    year_creation = models.IntegerField()
+    city = models.CharField(max_length=30)
+    arena = models.CharField(max_length=30)
+    cup = models.JSONField()
+    manager = models.CharField(max_length=30)
+    position_championship = models.ManyToManyField('Years', through='PositionChampionship', related_name='position')
+
+    def __str__(self):
+        return self.title
+
+
+class Years(models.Model):
+    year = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.year
+
+
+class Position(models.Model):
+    position_player = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.position_player
+
+
+class Situation(models.Model):
+    situation_game = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.situation_game
+
+
+class ShotZones(models.Model):
+    zone = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.zone
+
+
+class ShotTypes(models.Model):
+    type = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.type
+
+
+class TotalStatistics(models.Model):
+    player = models.ForeignKey(Players, on_delete=models.PROTECT)
+    year = models.ForeignKey(Years, on_delete=models.PROTECT)
+    club = models.ForeignKey(Club, on_delete=models.PROTECT)
+    apps = models.IntegerField()
+    min = models.IntegerField()
+    goal = models.IntegerField()
+    assist = models.IntegerField()
+    sh_90 = models.DecimalField(max_digits=4, decimal_places=2)
+    kp_90 = models.DecimalField(max_digits=4, decimal_places=2)
+    xg = models.DecimalField(max_digits=4, decimal_places=2)
+    xa = models.DecimalField(max_digits=4, decimal_places=2)
+    xg_90 = models.DecimalField(max_digits=4, decimal_places=2)
+    xa_90 = models.DecimalField(max_digits=4, decimal_places=2)
+
+
+class PositionStatistics(models.Model):
+    player = models.ForeignKey(Players, on_delete=models.PROTECT)
+    position = models.ForeignKey(Position, on_delete=models.PROTECT)
+    apps = models.IntegerField()
+    min = models.IntegerField()
+    goal = models.IntegerField()
+    assist = models.IntegerField()
+    sh_90 = models.DecimalField(max_digits=4, decimal_places=2)
+    kp_90 = models.DecimalField(max_digits=4, decimal_places=2)
+    xg = models.DecimalField(max_digits=4, decimal_places=2)
+    xa = models.DecimalField(max_digits=4, decimal_places=2)
+    xg_90 = models.DecimalField(max_digits=4, decimal_places=2)
+    xa_90 = models.DecimalField(max_digits=4, decimal_places=2)
+
+
+class SituationStatistics(models.Model):
+    player = models.ForeignKey(Players, on_delete=models.PROTECT)
+    situation = models.ForeignKey(Situation, on_delete=models.PROTECT)
+    sh = models.IntegerField()
+    goal = models.IntegerField()
+    kp = models.IntegerField()
+    assist = models.IntegerField()
+    xg = models.DecimalField(max_digits=4, decimal_places=2)
+    xa = models.DecimalField(max_digits=4, decimal_places=2)
+    xg_90 = models.DecimalField(max_digits=4, decimal_places=2)
+    xa_90 = models.DecimalField(max_digits=4, decimal_places=2)
+    xg_sh = models.DecimalField(max_digits=4, decimal_places=2)
+    xa_kp = models.DecimalField(max_digits=4, decimal_places=2)
+
+
+class ShotZonesStatistics(models.Model):
+    player = models.ForeignKey(Players, on_delete=models.PROTECT)
+    shot_zones = models.ForeignKey(ShotZones, on_delete=models.PROTECT)
+    sh = models.IntegerField()
+    goal = models.IntegerField()
+    kp = models.IntegerField()
+    assist = models.IntegerField()
+    xg = models.DecimalField(max_digits=4, decimal_places=2)
+    xa = models.DecimalField(max_digits=4, decimal_places=2)
+    xg_sh = models.DecimalField(max_digits=4, decimal_places=2)
+    xa_kp = models.DecimalField(max_digits=4, decimal_places=2)
+
+
+class ShotTypesStatistics(models.Model):
+    player = models.ForeignKey(Players, on_delete=models.PROTECT)
+    shot_types = models.ForeignKey(ShotTypes, on_delete=models.PROTECT)
+    sh = models.IntegerField()
+    goal = models.IntegerField()
+    kp = models.IntegerField()
+    assist = models.IntegerField()
+    xg = models.DecimalField(max_digits=4, decimal_places=2)
+    xa = models.DecimalField(max_digits=4, decimal_places=2)
+    xg_sh = models.DecimalField(max_digits=4, decimal_places=2)
+    xa_kp = models.DecimalField(max_digits=4, decimal_places=2)
+
+
+class PositionChampionship(models.Model):
+    club = models.ForeignKey(Club, on_delete=models.PROTECT)
+    year = models.ForeignKey(Years, on_delete=models.PROTECT)
+    position_team = models.IntegerField()
 # Create your models here.

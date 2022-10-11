@@ -276,3 +276,25 @@ class BlackListJWTSerializer(serializers.ModelSerializer):
         model = BlackListJWT
         fields = "__all__"
 
+
+class PlayersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Players
+        fields = '__all__'
+
+
+class ClubSerializerList(serializers.ModelSerializer):
+    position = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Club
+        fields = ('title', 'image', 'position')
+
+    def get_position(self, instance):
+        return PositionChampionship.objects.get(club=instance.id, year=self.context['year']).position_team
+
+
+class ClubSerializerRetrieve(serializers.ModelSerializer):
+    class Meta:
+        model = Club
+        fields = ('title', 'year_creation', 'image', 'city', 'arena', 'cup', 'manager')

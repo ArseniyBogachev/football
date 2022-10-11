@@ -1,9 +1,9 @@
 <template>
-    <TeamsCom class="d-none d-lg-block"
+  <TeamsCom class="d-none d-lg-block"
               v-bind:teams="sorted"
               v-model="selected_sort"
               v-bind:options="options"
-    ></TeamsCom>
+  ></TeamsCom>
   <TeamsMob class="d-lg-none"
               v-bind:teams="sorted"
               v-model="selected_sort"
@@ -14,6 +14,7 @@
 <script>
 import TeamsCom from "@/components/TeamsCom";
 import TeamsMob from "@/components/TeamsMob";
+import {mapActions, mapGetters} from 'vuex'
 export default {
   name: "TeamsApp",
   data(){
@@ -24,13 +25,6 @@ export default {
         {'name':'Position', 'value':'Position'},
         {'name':'XG', 'value':'XG'},
       ],
-      teams:[
-        {'title':'Zenit', 'photo': 'zenit.svg', 'position': 1, 'xg': 1.2},
-        {'title':'Cska', 'photo': 'cska.svg', 'position': 5, 'xg': 1.0},
-        {'title':'Rostov', 'photo': 'rostov.svg', 'position': 3, 'xg': 1.1},
-        {'title':'Spartak', 'photo': 'spartak.svg', 'position': 8, 'xg': 1.0},
-        {'title':'Ural', 'photo': 'ural.svg', 'position': 4, 'xg': 0.8},
-      ]
     }
   },
   components:{
@@ -38,9 +32,12 @@ export default {
     TeamsCom,
   },
   computed:{
+    ...mapGetters({
+      teams: 'teams',
+    }),
     sorted(){
       if (this.selected_sort === 'Default'){
-        return [...this.teams]
+        return [...this.teams].sort((str1, str2) => (str1.title).localeCompare(str2.title))
       }
       else if (this.selected_sort === 'Position'){
         return [...this.teams].sort((str1, str2) => str1.position - str2.position)
@@ -49,6 +46,14 @@ export default {
         return [...this.teams].sort((str1, str2) => str2.xg - str1.xg)
       }
     }
+  },
+  methods:{
+    ...mapActions({
+      teams_data: 'teams_data',
+    }),
+  },
+  mounted() {
+    this.teams_data()
   }
 }
 </script>

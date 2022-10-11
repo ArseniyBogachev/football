@@ -99,6 +99,7 @@ class Players(models.Model):
     last_name = models.CharField(max_length=15)
     number = models.IntegerField()
     data = models.DateField(null=True)
+    image = models.ImageField(upload_to='image/players/%Y/%m/%d', null=True)
     main_position = models.ForeignKey('Position', on_delete=models.PROTECT)
     club = models.ForeignKey('Club', on_delete=models.PROTECT)
     total_analysis = models.ManyToManyField('Years', through='TotalStatistics', related_name='total')
@@ -111,12 +112,14 @@ class Players(models.Model):
         return f'{self.first_name}, {self.last_name}'
 
 
+# добавить years, content и players_star
 class Club(models.Model):
     title = models.CharField(max_length=20)
     year_creation = models.IntegerField()
+    image = models.FileField(upload_to='image/teams/%Y/%m/%d', null=True)
     city = models.CharField(max_length=30)
     arena = models.CharField(max_length=30)
-    cup = models.JSONField()
+    cup = models.CharField(max_length=255, default="no cups", blank=True)
     manager = models.CharField(max_length=30)
     position_championship = models.ManyToManyField('Years', through='PositionChampionship', related_name='position')
 

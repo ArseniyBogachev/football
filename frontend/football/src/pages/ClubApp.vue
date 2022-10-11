@@ -2,7 +2,7 @@
   <div class="d-none d-lg-block container-md">
     <MinibarCom v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="tab_func"></MinibarCom>
     <div>
-      <TeamCom v-if="tab_team[0].active"></TeamCom>
+      <TeamCom v-if="tab_team[0].active" v-bind:teams="club"></TeamCom>
       <MatchesCom v-if="tab_team[1].active" v-bind:matches="matches"></MatchesCom>
       <LineupCom v-if="tab_team[2].active" v-model="selected_sort" v-bind:options="options" v-bind:players="sorted"></LineupCom>
     </div>
@@ -10,7 +10,7 @@
   <div class="d-lg-none container">
     <MinibarMob v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="tab_func"></MinibarMob>
     <div>
-      <TeamMob v-if="tab_team[0].active"></TeamMob>
+      <TeamMob v-if="tab_team[0].active" v-bind:teams="club"></TeamMob>
       <MatchesMob v-if="tab_team[1].active" v-bind:matches="matches"></MatchesMob>
       <LineupMob v-if="tab_team[2].active" v-model="selected_sort" v-bind:options="options" v-bind:players="sorted"></LineupMob>
     </div>
@@ -26,6 +26,7 @@ import MatchesCom from "@/components/MatchesCom";
 import MatchesMob from "@/components/MatchesMob";
 import LineupCom from "@/components/LineupCom";
 import LineupMob from "@/components/LineupMob";
+import {mapGetters, mapActions} from 'vuex';
 export default {
   name: "ClubApp",
   components:{
@@ -68,7 +69,16 @@ export default {
       ],
     }
   },
+  props:{
+    slug:{
+      type: String,
+    }
+  },
   methods:{
+    ...mapActions({
+      teams_data: 'teams_data',
+      club_data: 'club_data',
+    }),
     tab_func(name){
       for (let i of this.tab_team){
         let a = (i.name === name) ? i.active = true : i.active = false
@@ -76,6 +86,10 @@ export default {
     },
   },
   computed:{
+    ...mapGetters({
+      teams: 'teams',
+      club: 'club'
+    }),
     sorted(){
       if (this.selected_sort === 'Default'){
         return [...this.$store.getters.players]
@@ -96,7 +110,9 @@ export default {
   },
   created() {
     this.$store.dispatch('players_data')
-  }
+    this.club_data(this.slug)
+    window.scroll(0, 0)
+  },
 }
 </script>
 

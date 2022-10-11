@@ -157,4 +157,35 @@ class ActivateJWT(GenericAPIView):
 class BlackListAddJWT(generics.CreateAPIView):
     queryset = BlackListJWT.objects.all()
     serializer_class = BlackListJWTSerializer
+
+
+class PlayersAPIList(generics.ListAPIView):
+    queryset = Players.objects.all()
+    serializer_class = PlayersSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        query = Players.objects.filter(club=self.request.query_params['club'])
+        return query
+
+
+class ClubAPIList(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, *args, **kwargs):
+        data = Club.objects.all()
+        serializer = ClubSerializerList(data, many=True, context={
+            'year': self.request.query_params['year']
+        })
+        return Response(serializer.data)
+
+
+class ClubAPIRetrieve(generics.RetrieveAPIView):
+    queryset = Club.objects.all()
+    serializer_class = ClubSerializerRetrieve
+    permission_classes = (AllowAny,)
+    lookup_field = 'team'
+
+    def get_object(self):
+        return Club.objects.get(title=self.kwargs['team'])
 # Create your views here.

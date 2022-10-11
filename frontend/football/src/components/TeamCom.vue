@@ -1,20 +1,22 @@
 <template>
     <div class="container">
       <div class="row">
-        <div class="col-4"><img src="../assets/teams/zenit.svg" class="img-thumbnail" alt="..."></div>
+        <div class="col-4">
+          <img v-bind:src="teams.image" class="img-thumbnail" alt="...">
+        </div>
         <div class="col-8">
           <ul>
-            <li><fa icon="fa-solid fa-people-group"></fa><span>Zenit</span></li>
+            <li><fa icon="fa-solid fa-people-group"></fa><span>{{ teams.title }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-calendar"></fa><span>1925</span></li>
+            <li><fa icon="fa-solid fa-calendar"></fa><span>{{ teams.year_creation }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-city"></fa><span>St.Petersburg</span></li>
+            <li><fa icon="fa-solid fa-city"></fa><span>{{ teams.city }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-chart-area"></fa><span>Gazprom Arena</span></li>
+            <li><fa icon="fa-solid fa-chart-area"></fa><span>{{ teams.arena }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-trophy"></fa><span>8 × RPL</span><span>3 × Russian cup</span><span>6 × Supercup Russian</span><span>1 × Cup UEFA</span><span>1 × Supercup UEFA</span></li>
+            <li><fa icon="fa-solid fa-trophy"></fa><span>{{ teams.cup }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-user-tie"></fa><a href="#" class="link" style="margin-left: 20px">Sergey Semak</a></li>
+            <li><fa icon="fa-solid fa-user-tie"></fa><a href="#" class="link" style="margin-left: 20px">{{ teams.manager }}</a></li>
           </ul>
         </div>
       </div>
@@ -69,7 +71,10 @@ export default {
     },
     dropdown_menu:{
       type:Array,
-    }
+    },
+    teams:{
+      type:Object,
+    },
   },
   methods:{
     Do_Something(name){

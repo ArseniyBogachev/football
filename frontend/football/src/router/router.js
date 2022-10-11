@@ -46,9 +46,10 @@ const routes = [
         name: 'teams'
     },
     {
-        path: '/teams/club',
+        path: '/teams/club/:slug',
         component: ClubApp,
-        name: 'club'
+        name: 'club',
+        props: true,
     },
     {
         path: '/teams/lineup/:slug',

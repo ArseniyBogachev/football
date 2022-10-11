@@ -93,6 +93,7 @@ export const users = {
                 ctx.commit('UpdateVerify', false)
                 localStorage.removeItem('access')
                 localStorage.removeItem('refresh')
+                localStorage.removeItem('username')
                 await ctx.dispatch('me_data')
                 await ctx.dispatch('articles_data')
             }
@@ -105,6 +106,7 @@ export const users = {
             catch (e) {
                 localStorage.removeItem('access')
                 localStorage.removeItem('refresh')
+                localStorage.removeItem('username')
                 ctx.commit('UpdateVerify', false)
             }
         },

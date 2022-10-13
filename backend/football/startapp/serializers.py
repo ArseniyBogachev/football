@@ -85,8 +85,6 @@ class UserSerializer(serializers.ModelSerializer):
         return UsersSub.objects.filter(subscription=instance, add=False).count()
 
 
-
-
 class ArticleSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
     count_true = serializers.SerializerMethodField()
@@ -277,11 +275,94 @@ class BlackListJWTSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class PlayersSerializer(serializers.ModelSerializer):
+class PlayersLineUpSerializer(serializers.ModelSerializer):
+    position = serializers.SerializerMethodField()
+    age = serializers.SerializerMethodField()
+    games = serializers.SerializerMethodField()
+
     class Meta:
         model = Players
-        fields = '__all__'
+        fields = (
+                'position',
+                'number',
+                'first_name',
+                'last_name',
+                'age',
+                'games',
+                )
 
+    def get_age(self, instance):
+        query = datetime.date.today().year - instance.data.year \
+            if datetime.date.today().month - instance.data.month \
+            else datetime.date.today().year - instance.data.year - 1
+
+        return query
+
+    def get_position(self, instance):
+        query = {
+            'id': instance.main_position.id,
+            'position': instance.main_position.position_player
+        }
+        return query
+
+    def get_games(self, instance):
+        return TotalStatistics.objects.get(player=instance.id).apps
+
+
+class PlayerSerializerRetrieve(serializers.ModelSerializer):
+    position = serializers.SerializerMethodField()
+    age = serializers.SerializerMethodField()
+    total = serializers.SerializerMethodField()
+    positions = serializers.SerializerMethodField()
+    situations = serializers.SerializerMethodField()
+    shot_zones = serializers.SerializerMethodField()
+    shot_types = serializers.SerializerMethodField()
+
+
+    class Meta:
+        model = Players
+        fields = (
+            'position',
+            'number',
+            'country',
+            'city',
+            'first_name',
+            'last_name',
+            'age',
+            'total',
+            'positions',
+            'situations',
+            'shot_zones',
+            'shot_types',
+        )
+
+    def get_position(self, instance):
+        return instance.main_position.position_player
+
+    def get_age(self, instance):
+        return instance.data
+
+    def get_total(self, instance):
+        query = TotalStatistics.objects.filter(player=instance.id).values()
+        for i in query:
+            i['year_id'] = Years.objects.get(pk=i['year_id']).year
+        return query
+
+    def get_positions(self, instance):
+        query = PositionStatistics.objects.filter(player=instance.id).values()
+        return query
+
+    def get_situations(self, instance):
+        query = SituationStatistics.objects.filter(player=instance.id).values()
+        return query
+
+    def get_shot_zones(self, instance):
+        query = ShotZonesStatistics.objects.filter(player=instance.id).values()
+        return query
+
+    def get_shot_types(self, instance):
+        query = ShotTypesStatistics.objects.filter(player=instance.id).values()
+        return query
 
 class ClubSerializerList(serializers.ModelSerializer):
     position = serializers.SerializerMethodField()

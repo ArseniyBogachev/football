@@ -95,9 +95,11 @@ class BlackListJWT(models.Model):
 
 
 class Players(models.Model):
-    first_name = models.CharField(max_length=15)
+    first_name = models.CharField(max_length=15, blank=True)
     last_name = models.CharField(max_length=15)
     number = models.IntegerField()
+    country = models.CharField(max_length=30)
+    city = models.CharField(max_length=30)
     data = models.DateField(null=True)
     image = models.ImageField(upload_to='image/players/%Y/%m/%d', null=True)
     main_position = models.ForeignKey('Position', on_delete=models.PROTECT)

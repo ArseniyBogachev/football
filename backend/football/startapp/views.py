@@ -159,14 +159,24 @@ class BlackListAddJWT(generics.CreateAPIView):
     serializer_class = BlackListJWTSerializer
 
 
-class PlayersAPIList(generics.ListAPIView):
+class PlayersLineUpAPIList(generics.ListAPIView):
     queryset = Players.objects.all()
-    serializer_class = PlayersSerializer
+    serializer_class = PlayersLineUpSerializer
     permission_classes = (AllowAny,)
 
     def get_queryset(self):
-        query = Players.objects.filter(club=self.request.query_params['club'])
+        query = Players.objects.filter(club__title=self.request.query_params['club'])
         return query
+
+
+class PlayerAPIRetrieve(generics.RetrieveAPIView):
+    queryset = Players.objects.all()
+    serializer_class = PlayerSerializerRetrieve
+    permission_classes = (AllowAny,)
+    lookup_field = 'player'
+
+    def get_object(self):
+        return Players.objects.get(last_name=self.kwargs['player'])
 
 
 class ClubAPIList(generics.ListAPIView):

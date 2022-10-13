@@ -62,10 +62,9 @@ export default {
       selected_sort: 'Default',
       options: [
         {'name':'Default', 'value':'Default'},
-        {'name':'Lastname', 'value':'Lastname'},
+        {'name':'Surname', 'value':'Surname'},
         {'name':'Age', 'value':'Age'},
         {'name':'Matches', 'value':'Matches'},
-        {'name':'XG', 'value':'XG'},
       ],
     }
   },
@@ -76,7 +75,6 @@ export default {
   },
   methods:{
     ...mapActions({
-      teams_data: 'teams_data',
       club_data: 'club_data',
     }),
     tab_func(name){
@@ -87,29 +85,26 @@ export default {
   },
   computed:{
     ...mapGetters({
+      players: 'players',
       teams: 'teams',
       club: 'club'
     }),
     sorted(){
       if (this.selected_sort === 'Default'){
-        return [...this.$store.getters.players]
+        return [...this.players].sort((str1, str2) => str1.position['id'] - str2.position['id'])
       }
-      else if (this.selected_sort === 'Lastname'){
-        return [...this.$store.getters.players].sort((str1, str2) => (str1.lastname).localeCompare(str2.lastname))
+      else if (this.selected_sort === 'Surname'){
+        return [...this.players].sort((str1, str2) => (str1.last_name).localeCompare(str2.last_name))
       }
       else if (this.selected_sort === 'Age'){
-        return [...this.$store.getters.players].sort((str1, str2) => str2.age - str1.age)
+        return [...this.players].sort((str1, str2) => str2.age - str1.age)
       }
       else if (this.selected_sort === 'Matches'){
-        return [...this.$store.getters.players].sort((str1, str2) => str2.games - str1.games)
-      }
-      else{
-        return [...this.$store.getters.players].sort((str1, str2) => str2.xg - str1.xg)
+        return [...this.players].sort((str1, str2) => str2.games - str1.games)
       }
     }
   },
   created() {
-    this.$store.dispatch('players_data')
     this.club_data(this.slug)
     window.scroll(0, 0)
   },

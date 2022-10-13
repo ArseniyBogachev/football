@@ -73,7 +73,8 @@ export default {
         let a = (i.name === name) ? i.active = true : i.active = false
       }
     }
-  }
+  },
+
 }
 </script>
 

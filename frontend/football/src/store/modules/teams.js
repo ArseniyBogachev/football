@@ -27,8 +27,10 @@ export const teams = {
             ctx.commit('updateTeams', response.data)
         },
         async club_data(ctx, title){
-            const response = await axios.get(`http://127.0.0.1:8000/api/v1/club/${title}/`,)
-            ctx.commit('updateClub', response.data)
+            const response_club = await axios.get(`http://127.0.0.1:8000/api/v1/club/${title}/`,)
+            const response_lineUp = await axios.get('http://127.0.0.1:8000/api/v1/players/', {params: {club: title}})
+            await ctx.commit('updateClub', response_club.data)
+            await ctx.commit('updatePlayers', response_lineUp.data)
         },
     },
 }

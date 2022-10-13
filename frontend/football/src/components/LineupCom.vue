@@ -6,12 +6,23 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col" v-for="i in Object.keys(players[0])">{{ i }}</th>
+          <th scope="col" v-for="i in Object.keys(players[0])">
+            <span v-if="i === 'first_name'">name</span>
+            <span v-else-if="i === 'last_name'">surname</span>
+            <span v-else>{{ i }}</span>
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="player in players">
-          <td v-for="item in player"><a @click="$router.push(`/teams/lineup/${player.lastname}`)" class="link-table" href="">{{ item }}</a></td>
+          <td v-for="item in player">
+            <a @click="$router.push(`/teams/lineup/${player.lastname}`)" class="link-table" href="" v-if="typeof item === 'object'">
+              {{ item['position'] }}
+            </a>
+            <a @click="$router.push(`/teams/lineup/${player.lastname}`)" class="link-table" href="" v-else>
+              {{ item }}
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>

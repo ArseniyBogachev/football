@@ -292,9 +292,9 @@ class PlayersLineUpSerializer(serializers.ModelSerializer):
                 )
 
     def get_age(self, instance):
-        query = datetime.date.today().year - instance.data.year \
-            if datetime.date.today().month - instance.data.month \
-            else datetime.date.today().year - instance.data.year - 1
+        query = datetime.date.today().year - instance.date.year \
+            if datetime.date.today().month - instance.date.month \
+            else datetime.date.today().year - instance.date.year - 1
 
         return query
 
@@ -310,8 +310,8 @@ class PlayersLineUpSerializer(serializers.ModelSerializer):
 
 
 class PlayerSerializerRetrieve(serializers.ModelSerializer):
+    club = serializers.SerializerMethodField()
     position = serializers.SerializerMethodField()
-    age = serializers.SerializerMethodField()
     total = serializers.SerializerMethodField()
     positions = serializers.SerializerMethodField()
     situations = serializers.SerializerMethodField()
@@ -324,11 +324,13 @@ class PlayerSerializerRetrieve(serializers.ModelSerializer):
         fields = (
             'position',
             'number',
+            'image',
             'country',
             'city',
             'first_name',
             'last_name',
-            'age',
+            'date',
+            'club',
             'total',
             'positions',
             'situations',
@@ -339,30 +341,33 @@ class PlayerSerializerRetrieve(serializers.ModelSerializer):
     def get_position(self, instance):
         return instance.main_position.position_player
 
-    def get_age(self, instance):
-        return instance.data
+    def get_club(self, instance):
+        return instance.club.title
 
     def get_total(self, instance):
-        query = TotalStatistics.objects.filter(player=instance.id).values()
-        for i in query:
-            i['year_id'] = Years.objects.get(pk=i['year_id']).year
-        return query
+        query = TotalStatistics.objects.filter(player=instance.id)
+        serializer = TotalStatisticsSerializer(query, many=True)
+        return serializer.data
 
     def get_positions(self, instance):
-        query = PositionStatistics.objects.filter(player=instance.id).values()
-        return query
+        query = PositionStatistics.objects.filter(player=instance.id)
+        serializer = PositionStatisticsSerializer(query, many=True)
+        return serializer.data
 
     def get_situations(self, instance):
-        query = SituationStatistics.objects.filter(player=instance.id).values()
-        return query
+        query = SituationStatistics.objects.filter(player=instance.id)
+        serializer = SituationStatisticsSerializer(query, many=True)
+        return serializer.data
 
     def get_shot_zones(self, instance):
-        query = ShotZonesStatistics.objects.filter(player=instance.id).values()
-        return query
+        query = ShotZonesStatistics.objects.filter(player=instance.id)
+        serializer = ShotZonesStatisticsSerializer(query, many=True)
+        return serializer.data
 
     def get_shot_types(self, instance):
-        query = ShotTypesStatistics.objects.filter(player=instance.id).values()
-        return query
+        query = ShotTypesStatistics.objects.filter(player=instance.id)
+        serializer = ShotTypesStatisticsSerializer(query, many=True)
+        return serializer.data
 
 class ClubSerializerList(serializers.ModelSerializer):
     position = serializers.SerializerMethodField()
@@ -379,3 +384,119 @@ class ClubSerializerRetrieve(serializers.ModelSerializer):
     class Meta:
         model = Club
         fields = ('title', 'year_creation', 'image', 'city', 'arena', 'cup', 'manager')
+
+
+class TotalStatisticsSerializer(serializers.ModelSerializer):
+    year = serializers.SerializerMethodField()
+    club = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TotalStatistics
+        fields = (
+            'year',
+            'club',
+            'apps',
+            'min',
+            'goal',
+            'assist',
+            'sh_90',
+            'kp_90',
+            'xg',
+            'xa',
+            'xg_90',
+            'xa_90',
+        )
+
+    def get_year(self, instance):
+        return instance.year.year
+
+    def get_club(self, instance):
+        return instance.club.title
+
+
+class PositionStatisticsSerializer(serializers.ModelSerializer):
+    position = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PositionStatistics
+        fields = (
+            'position',
+            'apps',
+            'min',
+            'goal',
+            'assist',
+            'sh_90',
+            'kp_90',
+            'xg',
+            'xa',
+            'xg_90',
+            'xa_90',
+        )
+
+    def get_position(self, instance):
+        return instance.position.position_player
+
+
+class SituationStatisticsSerializer(serializers.ModelSerializer):
+    situation = serializers.SerializerMethodField()
+
+    class Meta:
+        model = SituationStatistics
+        fields = (
+            'situation',
+            'sh',
+            'goal',
+            'kp',
+            'assist',
+            'xg',
+            'xa',
+            'xg_90',
+            'xa_90',
+            'xg_sh',
+            'xa_kp',
+        )
+
+    def get_situation(self, instance):
+        return instance.situation.situation_game
+
+
+class ShotZonesStatisticsSerializer(serializers.ModelSerializer):
+    shot_zones = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ShotZonesStatistics
+        fields = (
+            'shot_zones',
+            'sh',
+            'goal',
+            'kp',
+            'assist',
+            'xg',
+            'xa',
+            'xg_sh',
+            'xa_kp',
+        )
+
+    def get_shot_zones(self, instance):
+        return instance.shot_zones.zone
+
+
+class ShotTypesStatisticsSerializer(serializers.ModelSerializer):
+    shot_types = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ShotTypesStatistics
+        fields = (
+            'shot_types',
+            'sh',
+            'goal',
+            'kp',
+            'assist',
+            'xg',
+            'xa',
+            'xg_sh',
+            'xa_kp',
+        )
+
+    def get_shot_types(self, instance):
+        return instance.shot_types.type

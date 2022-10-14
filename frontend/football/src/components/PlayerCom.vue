@@ -2,39 +2,39 @@
   <div class="container-md">
     <div class="container">
       <div class="row">
-        <div class="col-4"><img src="../assets/teams/zenit/lovren.png" class="img-thumbnail" alt="..."></div>
+        <div class="col-4"><img v-bind:src="player.image" class="img-thumbnail" alt="..."></div>
         <div class="col-8">
           <ul>
-            <li><fa icon="fa-solid fa-circle-user"></fa><span>Dejan Lovren</span></li>
+            <li><fa icon="fa-solid fa-circle-user"></fa><span>{{ player.first_name }} {{ player.last_name }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-calendar"></fa><span>11/05/1989</span></li>
+            <li><fa icon="fa-solid fa-calendar"></fa><span>{{ player.date }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-earth-europe"></fa><span>Chortia</span></li>
+            <li><fa icon="fa-solid fa-earth-europe"></fa><span>{{ player.country }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-city"></fa><span>Bratislava</span></li>
+            <li><fa icon="fa-solid fa-city"></fa><span>{{ player.city }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-shirt"></fa><span>Zenit</span></li>
+            <li><fa icon="fa-solid fa-shirt"></fa><span>{{ player.club }}</span></li>
             <hr>
-            <li><fa icon="fa-solid fa-futbol"></fa><span>Сentre-back</span></li>
+            <li><fa icon="fa-solid fa-futbol"></fa><span>{{ player.position }}</span></li>
           </ul>
         </div>
       </div>
     </div>
     <MinibarCom class="minibar" v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="Do_Something"></MinibarCom>
     <TableCom v-if="tab_team[0].active"
-                 v-bind:table="total"
+                 v-bind:table="player.total"
     ></TableCom>
     <TableCom v-else-if="tab_team[1].active"
-                 v-bind:table="position"
+                 v-bind:table="player.positions"
     ></TableCom>
     <TableCom v-else-if="tab_team[2].active"
-                 v-bind:table="situation"
+                 v-bind:table="player.situations"
     ></TableCom>
     <TableCom v-else-if="tab_team[3].active"
-                 v-bind:table="shot_zones"
+                 v-bind:table="player.shot_zones"
     ></TableCom>
     <TableCom v-else-if="tab_team[4].active"
-                 v-bind:table="shot_types"
+                 v-bind:table="player.shot_types"
     ></TableCom>
   </div>
 </template>
@@ -55,20 +55,8 @@ export default {
     dropdown_menu:{
       type: Array,
     },
-    total:{
-      type:Array,
-    },
-    position:{
-      type:Array,
-    },
-    situation:{
-      type:Array,
-    },
-    shot_zones:{
-      type:Array,
-    },
-    shot_types:{
-      type:Array,
+    player:{
+      type:Object,
     },
   },
   methods:{

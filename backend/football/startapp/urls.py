@@ -20,7 +20,7 @@ urlpatterns = [
     path('api/v1/rate/<int:comment>/', RateCommentAPIUpdate.as_view(), name='comment_rate_update'),
     path('api/v1/blacklist/', BlackListAddJWT.as_view(), name='black_list'),
     path('api/v1/players/', PlayersLineUpAPIList.as_view(), name='players_list'),
-    path('api/v1/players/<str:player>/', PlayerAPIRetrieve.as_view(), name='players_retrieve'),
+    path('api/v1/player/<str:player>/', PlayerAPIRetrieve.as_view(), name='players_retrieve'),
     path('api/v1/club/', ClubAPIList.as_view(), name='club_list'),
     path('api/v1/club/<str:team>/', ClubAPIRetrieve.as_view(), name='club_retrieve'),
     re_path(r'^auth/', include('djoser.urls')),

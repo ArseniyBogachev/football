@@ -53,7 +53,8 @@ const routes = [
     {
         path: '/teams/lineup/:slug',
         component: PlayerApp,
-        name: 'lineup'
+        name: 'lineup',
+        props: true,
     },
     {
         path: '/category/:slug',

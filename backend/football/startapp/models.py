@@ -100,7 +100,7 @@ class Players(models.Model):
     number = models.IntegerField()
     country = models.CharField(max_length=30)
     city = models.CharField(max_length=30)
-    data = models.DateField(null=True)
+    date = models.DateField(null=True)
     image = models.ImageField(upload_to='image/players/%Y/%m/%d', null=True)
     main_position = models.ForeignKey('Position', on_delete=models.PROTECT)
     club = models.ForeignKey('Club', on_delete=models.PROTECT)

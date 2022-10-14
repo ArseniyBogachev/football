@@ -16,10 +16,10 @@
       <tbody>
         <tr v-for="player in players">
           <td v-for="item in player">
-            <a @click="$router.push(`/teams/lineup/${player.lastname}`)" class="link-table" href="" v-if="typeof item === 'object'">
+            <a @click="$router.push(`/teams/lineup/${player.last_name}`)" class="link-table" href="" v-if="typeof item === 'object'">
               {{ item['position'] }}
             </a>
-            <a @click="$router.push(`/teams/lineup/${player.lastname}`)" class="link-table" href="" v-else>
+            <a @click="$router.push(`/teams/lineup/${player.last_name}`)" class="link-table" href="" v-else>
               {{ item }}
             </a>
           </td>

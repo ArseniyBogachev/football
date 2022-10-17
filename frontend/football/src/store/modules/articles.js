@@ -147,11 +147,15 @@ export const articles = {
         },
         async category_data(ctx){
             try{
+                await ctx.commit('updateLoading', true)
                 const response = await axios.get('http://127.0.0.1:8000/api/v1/articlescategory/')
                 ctx.commit('updateCategory', response.data)
             }
             catch (e) {
                 console.log(e)
+            }
+            finally {
+                await ctx.commit('updateLoading', false)
             }
         },
         async article_create(ctx, data){
@@ -185,6 +189,7 @@ export const articles = {
         },
         async article_comment_data(ctx, id){
             try {
+                await ctx.commit('updateLoading', true)
                 const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {article: id}})
                 ctx.commit('updateComment', response.data)
             }
@@ -195,9 +200,13 @@ export const articles = {
                 }
                 console.log(e)
             }
+            finally {
+                await ctx.commit('updateLoading', false)
+            }
         },
         async comment_reply_data(ctx, data){
             try {
+                await ctx.commit('updateClickLoading', true)
                 const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {article: data.article, reply: data.reply_data}})
                 ctx.commit('updateCommentReply', {data: response.data, id: data.reply_data})
             }
@@ -207,6 +216,9 @@ export const articles = {
                     ctx.commit('updateCommentReply', {data: response.data, id: data.reply_data})
                 }
                 console.log(e)
+            }
+            finally {
+                await ctx.commit('updateClickLoading', false)
             }
         },
         async article_comment_create(ctx, data){

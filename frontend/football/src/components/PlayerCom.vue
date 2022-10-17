@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <MinibarCom class="minibar" v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="Do_Something"></MinibarCom>
+    <MinibarCom class="minibar" v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="tab_func"></MinibarCom>
     <TableCom v-if="tab_team[0].active"
                  v-bind:table="player.total"
     ></TableCom>
@@ -42,26 +42,37 @@
 <script>
 import MinibarCom from "@/components/UI/MinibarCom";
 import TableCom from "@/components/UI/TableCom";
+import {mapActions, mapGetters} from "vuex";
 export default {
   name: "PlayerCom",
   components:{
     MinibarCom,
     TableCom,
   },
+  data(){
+    return{
+      tab_team:[
+        {active: true, name: 'Total'},
+        {active: false, name: 'Position'},
+        {active: false, name: 'Situation'},
+        {active: false, name: 'Shot zones'},
+        {active: false, name: 'Shot types'},
+      ],
+      dropdown_menu:[
+        {name: 'Season', item: ['2021-2022', '2022-2023']},
+      ],
+    }
+  },
   props:{
-    tab_team:{
-      type: Object,
-    },
-    dropdown_menu:{
-      type: Array,
-    },
     player:{
       type:Object,
     },
   },
   methods:{
-    Do_Something(name){
-      this.$emit('tab_func', name)
+    tab_func(name){
+      for (let i of this.tab_team){
+        let a = (i.name === name) ? i.active = true : i.active = false
+      }
     }
   },
 }

@@ -6,7 +6,6 @@ export const users = {
         me: {},
         verify: false,
         user: {},
-        loading: false,
     }),
     getters:{
         me(state){
@@ -17,9 +16,6 @@ export const users = {
         },
         user(state){
             return state.user
-        },
-        loading(state){
-            return state.loading
         },
     },
     mutations:{
@@ -32,9 +28,6 @@ export const users = {
         UpdateUser(state, user){
             state.user = user
         },
-        // UpdateLoading(state){
-        //     state.loading = false
-        // },
     },
     actions: {
         async bookmarks_true(ctx, id){
@@ -139,12 +132,16 @@ export const users = {
         },
         async user_data(ctx, user){
             try{
+                await ctx.commit('updateLoading', true)
                 const response = await axios.get(`http://127.0.0.1:8000/api/v1/user/${user}/`, {headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
                 ctx.commit('UpdateUser', response.data)
             }
             catch (e) {
                 const response = await axios.get(`http://127.0.0.1:8000/api/v1/user/${user}/`)
                 ctx.commit('UpdateUser', response.data)
+            }
+            finally {
+                await ctx.commit('updateLoading', false)
             }
         },
         async user_subscriber(ctx, id){

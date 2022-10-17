@@ -9,7 +9,8 @@
             v-on:click.prevent="$emit('comment_create', {data: {'content': this.text_comment, reply: ''}}); text_comment = '';">
       Send
     </button>
-    <div class="comments" v-for="c in comment">
+    <MyLoadingMini v-if="loading"></MyLoadingMini>
+    <div class="comments" v-for="c in comment" v-else>
       <div class="com">
         <small class="author_date" v-if="c.reply">
           {{ c.user }} | {{ c.date }} | <a href="#" class="reply_btn" v-on:click.prevent="c.reply = !c.reply;">Hide &#8613;</a>
@@ -55,7 +56,8 @@
 import MyTextArea from "@/components/UI/MyTextArea";
 import CommentRate from "@/components/UI/CommentRate";
 import CommentReply from "@/components/CommentReply";
-import {mapActions} from 'vuex';
+import MyLoadingMini from "@/components/UI/MyLoadingMini";
+import {mapActions, mapGetters} from 'vuex';
 export default {
   name: "CommentsArticle",
   props:{
@@ -70,6 +72,7 @@ export default {
     MyTextArea,
     CommentRate,
     CommentReply,
+    MyLoadingMini,
   },
   data(){
     return{
@@ -80,7 +83,17 @@ export default {
         maxWidth: 90 + '%',
         marginLeft: 10 + '%'
       },
+      size: {
+        width: 30,
+        height: 30,
+        height_em: 35,
+      },
     }
+  },
+  computed:{
+    ...mapGetters({
+      loading: 'loading',
+    }),
   },
   methods: {
     ...mapActions({

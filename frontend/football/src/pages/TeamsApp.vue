@@ -1,19 +1,24 @@
 <template>
-  <TeamsCom class="d-none d-lg-block"
-              v-bind:teams="sorted"
-              v-model="selected_sort"
-              v-bind:options="options"
-  ></TeamsCom>
-  <TeamsMob class="d-lg-none"
-              v-bind:teams="sorted"
-              v-model="selected_sort"
-              v-bind:options="options"
-  ></TeamsMob>
+  <MyLoading v-if="loading"></MyLoading>
+  <div v-else>
+    <TeamsCom class="d-none d-lg-block"
+                v-bind:teams="sorted"
+                v-model="selected_sort"
+                v-bind:options="options"
+    ></TeamsCom>
+    <TeamsMob class="d-lg-none"
+                v-bind:teams="sorted"
+                v-model="selected_sort"
+                v-bind:options="options"
+    ></TeamsMob>
+  </div>
+
 </template>
 
 <script>
 import TeamsCom from "@/components/TeamsCom";
 import TeamsMob from "@/components/TeamsMob";
+import MyLoading from "@/components/UI/MyLoading";
 import {mapActions, mapGetters} from 'vuex'
 export default {
   name: "TeamsApp",
@@ -30,10 +35,12 @@ export default {
   components:{
     TeamsMob,
     TeamsCom,
+    MyLoading,
   },
   computed:{
     ...mapGetters({
       teams: 'teams',
+      loading: 'loading',
     }),
     sorted(){
       if (this.selected_sort === 'Default'){

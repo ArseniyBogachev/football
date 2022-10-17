@@ -1,5 +1,6 @@
 <template>
-  <div class="comments" v-for="c in sort_reply_comment" v-bind:style="this.min_width_reply">
+  <MyLoadingMini v-if="loading"></MyLoadingMini>
+  <div class="comments" v-for="c in sort_reply_comment" v-bind:style="this.min_width_reply" v-else>
       <div class="com">
         <small class="author_date">
           {{ c.user }} | {{ c.date }} | <a href="#" class="reply_btn" v-on:click.prevent="c.reply = !c.reply;">Reply &#8628;</a>
@@ -37,6 +38,8 @@
 <script>
 import MyTextArea from "@/components/UI/MyTextArea";
 import CommentRate from "@/components/UI/CommentRate";
+import MyLoadingMini from "@/components/UI/MyLoadingMini";
+import {mapGetters} from 'vuex';
 export default {
   name: "CommentReply",
   data(){
@@ -61,8 +64,12 @@ export default {
   components:{
     MyTextArea,
     CommentRate,
+    MyLoadingMini,
   },
   computed:{
+    ...mapGetters({
+      loading: 'click_loading',
+    }),
     sort_reply_comment(){
       let id = String(this.reply_id)
       return this.comment[id]

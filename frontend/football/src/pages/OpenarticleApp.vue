@@ -28,6 +28,7 @@ import {mapGetters, mapActions} from 'vuex'
 import LikesDislikes from "@/components/UI/LikesDislikes";
 import MyBookmarks from "@/components/UI/MyBookmarks";
 import CommentsArticle from "@/components/CommentsArticle";
+import MyLoading from "@/components/UI/MyLoading";
 export default {
   name: "OpenarticleApp",
   props: {
@@ -37,6 +38,7 @@ export default {
     LikesDislikes,
     MyBookmarks,
     CommentsArticle,
+    MyLoading,
   },
   methods:{
     ...mapActions({

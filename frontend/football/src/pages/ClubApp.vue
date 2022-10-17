@@ -1,5 +1,6 @@
 <template>
-  <div class="d-none d-lg-block container-md">
+  <MyLoading v-if="loading"></MyLoading>
+  <div v-else class="d-none d-lg-block container-md">
     <MinibarCom v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="tab_func"></MinibarCom>
     <div>
       <TeamCom v-if="tab_team[0].active" v-bind:teams="club"></TeamCom>
@@ -26,6 +27,7 @@ import MatchesCom from "@/components/MatchesCom";
 import MatchesMob from "@/components/MatchesMob";
 import LineupCom from "@/components/LineupCom";
 import LineupMob from "@/components/LineupMob";
+import MyLoading from "@/components/UI/MyLoading";
 import {mapGetters, mapActions} from 'vuex';
 export default {
   name: "ClubApp",
@@ -38,6 +40,7 @@ export default {
     MatchesMob,
     LineupCom,
     LineupMob,
+    MyLoading,
   },
   data(){
     return{
@@ -87,7 +90,8 @@ export default {
     ...mapGetters({
       players: 'players',
       teams: 'teams',
-      club: 'club'
+      club: 'club',
+      loading: 'loading',
     }),
     sorted(){
       if (this.selected_sort === 'Default'){
@@ -105,8 +109,8 @@ export default {
     }
   },
   created() {
+    window.scroll({top: 0, left: 0})
     this.club_data(this.slug)
-    window.scroll(0, 0)
   },
 }
 </script>

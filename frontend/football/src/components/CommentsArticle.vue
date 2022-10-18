@@ -38,12 +38,14 @@
                   v-on:click.prevent="$emit('comment_create', {data: {'content': c.text_reply}, reply_post: c.id, reply_data: c.id}); c.text_reply = '';">
             Send
           </button>
+          <MyLoadingMini v-if="c.click_loading"></MyLoadingMini>
           <CommentReply
               v-bind:comment="comment_reply"
               v-bind:min_width_reply="min_width_reply"
               v-bind:reply_first="c.user"
               v-bind:reply_id="c.id"
               v-on:comment_create="doSomething"
+              v-else
           ></CommentReply>
         </div>
       </div>
@@ -93,6 +95,7 @@ export default {
   computed:{
     ...mapGetters({
       loading: 'loading',
+      click_loading: 'click_loading',
     }),
   },
   methods: {

@@ -16,7 +16,7 @@
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
       </div>
       <button type="button" class="btn btn-secondary" @click="login_axios">
-        <MyLoading v-if="this.loading"></MyLoading>
+        <MyLoadingMini v-if="click_loading" v-bind:size="size"></MyLoadingMini>
         <span v-else>Submit</span>
       </button>
     </form>
@@ -27,12 +27,14 @@
 <script>
 import axios from "axios";
 import router from "@/router/router";
-import {mapActions} from "vuex"
+import {mapActions, mapGetters, mapMutations} from "vuex"
 import {nextTick} from "vue";
 import MyLoading from "@/components/UI/MyLoading";
+import MyLoadingMini from "@/components/UI/MyLoadingMini";
 export default {
   name: "LoginApp",
   components:{
+    MyLoadingMini,
     MyLoading,
   },
   data(){
@@ -40,7 +42,10 @@ export default {
       username: '',
       password: '',
       axios_error: '',
-      loading: false,
+      size: {
+        width: 24,
+        height: 24,
+      }
     }
   },
   methods:{
@@ -49,10 +54,13 @@ export default {
       me_data: 'me_data',
       articles_data: 'articles_data'
     }),
+    ...mapMutations({
+      updateClickLoading: 'updateClickLoading',
+    }),
     async login_axios(){
       try {
         if (this.username && this.password){
-          this.loading = true
+          this.updateClickLoading('true')
           const response = await axios.post('http://127.0.0.1:8000/api/token/', {
             'username': this.username,
             'password': this.password,
@@ -60,7 +68,7 @@ export default {
           localStorage.setItem("access", response.data.access);
           localStorage.setItem("refresh", response.data.refresh);
           await this.verify_fn({access: localStorage.getItem('access'), refresh: localStorage.getItem('refresh')})
-          this.loading = false
+          this.updateClickLoading('false')
           await nextTick(router.push('/'))
         }
         else{
@@ -72,6 +80,11 @@ export default {
         this.loading = false
       }
     }
+  },
+  computed:{
+    ...mapGetters({
+      click_loading: 'click_loading',
+    }),
   },
   created() {
     if (!this.verify){

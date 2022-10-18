@@ -1,6 +1,5 @@
 <template>
-  <MyLoadingMini v-if="loading"></MyLoadingMini>
-  <div class="comments" v-for="c in sort_reply_comment" v-bind:style="this.min_width_reply" v-else>
+  <div class="comments" v-for="c in sort_reply_comment" v-bind:style="this.min_width_reply">
       <div class="com">
         <small class="author_date">
           {{ c.user }} | {{ c.date }} | <a href="#" class="reply_btn" v-on:click.prevent="c.reply = !c.reply;">Reply &#8628;</a>
@@ -32,7 +31,7 @@
         </div>
       </div>
       <hr>
-    </div>
+  </div>
 </template>
 
 <script>

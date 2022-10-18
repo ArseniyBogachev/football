@@ -57,6 +57,7 @@ export const articles = {
         updateComment(state, comment){
             for (let i of comment){
                 i['text_reply'] = ''
+                i['click_loading'] = false
             }
             state.comment = comment
         },
@@ -205,8 +206,9 @@ export const articles = {
             }
         },
         async comment_reply_data(ctx, data){
+            let c = await ctx.state.comment.find(item => item.id === data.reply_data)
             try {
-                await ctx.commit('updateClickLoading', true)
+                c.click_loading = true
                 const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {article: data.article, reply: data.reply_data}})
                 ctx.commit('updateCommentReply', {data: response.data, id: data.reply_data})
             }
@@ -218,7 +220,7 @@ export const articles = {
                 console.log(e)
             }
             finally {
-                await ctx.commit('updateClickLoading', false)
+                c.click_loading = false
             }
         },
         async article_comment_create(ctx, data){

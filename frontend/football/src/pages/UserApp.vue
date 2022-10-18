@@ -1,5 +1,5 @@
 <template>
-  <MyLoading v-if="true"></MyLoading>
+  <MyLoading v-if="loading"></MyLoading>
   <div v-else>
     <UserCom class="d-none d-md-block"
                 v-bind:tab_profile="tab_profile"

@@ -240,4 +240,46 @@ class PositionChampionship(models.Model):
     club = models.ForeignKey(Club, on_delete=models.PROTECT)
     year = models.ForeignKey(Years, on_delete=models.PROTECT)
     position_team = models.IntegerField()
-# Create your models here.
+
+
+class Matches(models.Model):
+    home_team = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='home')
+    guest_team = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='guest')
+    amount_goals_home_team = models.IntegerField()
+    amount_goals_guest_team = models.IntegerField()
+    date_game = models.DateField()
+    year = models.ForeignKey(Years, on_delete=models.CASCADE, null=True)
+    total_stats = models.ForeignKey('MatchesStats', on_delete=models.PROTECT, null=True)
+    players_stats = models.ManyToManyField(Players, through='MatchesPlayersStats', related_name='players')
+
+
+class MatchesStats(models.Model):
+    home_chances = models.IntegerField()
+    home_xg = models.DecimalField(max_digits=4, decimal_places=2)
+    home_shots = models.IntegerField()
+    home_shots_on_target = models.IntegerField()
+    home_deep = models.IntegerField()
+    home_ppda = models.DecimalField(max_digits=4, decimal_places=2)
+    home_xpts = models.DecimalField(max_digits=4, decimal_places=2)
+
+    guest_chances = models.IntegerField()
+    guest_xg = models.DecimalField(max_digits=4, decimal_places=2)
+    guest_shots = models.IntegerField()
+    guest_shots_on_target = models.IntegerField()
+    guest_deep = models.IntegerField()
+    guest_ppda = models.DecimalField(max_digits=4, decimal_places=2)
+    guest_xpts = models.DecimalField(max_digits=4, decimal_places=2)
+
+
+class MatchesPlayersStats(models.Model):
+    match = models.ForeignKey(Matches, on_delete=models.CASCADE)
+    player = models.ForeignKey(Players, on_delete=models.CASCADE)
+    position = models.ForeignKey(Position, on_delete=models.PROTECT)
+    min = models.IntegerField()
+    sh = models.IntegerField()
+    goal = models.IntegerField()
+    kp = models.IntegerField()
+    assist = models.IntegerField()
+    xg = models.DecimalField(max_digits=4, decimal_places=2)
+    xa = models.DecimalField(max_digits=4, decimal_places=2)
+

@@ -10,21 +10,11 @@
         </tr>
       </thead>
       <tbody v-for="match in matches">
-        <tr v-if="match.home">
-          <th scope="col">{{ match.date }}</th>
-          <td>{{ match.club_first }}</td>
-          <td v-if="match.goal_first > match.goal_last"><a href="#" class="score" style="background-color: rgba(9, 130, 21, 0.8); color: white;">{{ match.goal_first }} : {{ match.goal_last }}</a></td>
-          <td v-else-if="match.goal_first === match.goal_last"><a href="#" class="score" style="background-color: rgba(127, 138, 8, 0.8); color: white;">{{ match.goal_first }} : {{ match.goal_last }}</a></td>
-          <td v-else><a href="#" class="score" style="background-color: rgba(138, 8, 8, 0.8); color: white;">{{ match.goal_first }} : {{ match.goal_last }}</a></td>
-          <td>{{ match.club_last }}</td>
-        </tr>
-        <tr v-else>
-          <th scope="col">{{ match.date }}</th>
-          <td>{{ match.club_last }}</td>
-          <td v-if="match.goal_first > match.goal_last"><a href="#" class="score" style="background-color: rgba(9, 130, 21, 0.8); color: white;">{{ match.goal_last }} : {{ match.goal_first }}</a></td>
-          <td v-else-if="match.goal_first === match.goal_last"><a href="#" class="score" style="background-color: rgba(127, 138, 8, 0.8); color: white;">{{ match.goal_last }} : {{ match.goal_first }}</a></td>
-          <td v-else><a href="#" class="score" style="background-color: rgba(138, 8, 8, 0.8); color: white;">{{ match.goal_last }} : {{ match.goal_first }}</a></td>
-          <td>{{ match.club_first }}</td>
+        <tr>
+          <th scope="col">{{ match.date_game }}</th>
+          <td>{{ match.home_team }}</td>
+          <td><a href="#" class="score" v-bind:style="match.style" @click.prevent="$router.push({name: 'match', params:{club: club, id: match.id}})">{{ match.amount_goals_home_team }} : {{ match.amount_goals_guest_team }}</a></td>
+          <td>{{ match.guest_team }}</td>
         </tr>
       </tbody>
     </table>
@@ -48,6 +38,9 @@ export default {
     },
     dropdown_menu:{
       type:Array,
+    },
+    club:{
+      type:String,
     },
   },
 }
@@ -83,5 +76,6 @@ export default {
   }
   th{
     text-align: center;
+    font-size: 13px;
   }
 </style>

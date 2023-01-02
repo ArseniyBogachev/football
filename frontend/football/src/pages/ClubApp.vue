@@ -4,7 +4,7 @@
     <MinibarCom v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="tab_func"></MinibarCom>
     <div>
       <TeamCom v-if="tab_team[0].active" v-bind:teams="club"></TeamCom>
-      <MatchesCom v-if="tab_team[1].active" v-bind:matches="matches"></MatchesCom>
+      <MatchesCom v-if="tab_team[1].active" v-bind:matches="matches" v-bind:club="club.title"></MatchesCom>
       <LineupCom v-if="tab_team[2].active" v-model="selected_sort" v-bind:options="options" v-bind:players="sorted"></LineupCom>
     </div>
   </div>
@@ -12,7 +12,7 @@
     <MinibarMob v-bind:tab_team="tab_team" v-bind:dropdown_menu="dropdown_menu" v-on:tab_func="tab_func"></MinibarMob>
     <div>
       <TeamMob v-if="tab_team[0].active" v-bind:teams="club"></TeamMob>
-      <MatchesMob v-if="tab_team[1].active" v-bind:matches="matches"></MatchesMob>
+      <MatchesMob v-if="tab_team[1].active" v-bind:matches="matches" v-bind:club="club.title"></MatchesMob>
       <LineupMob v-if="tab_team[2].active" v-model="selected_sort" v-bind:options="options" v-bind:players="sorted"></LineupMob>
     </div>
   </div>
@@ -52,16 +52,6 @@ export default {
       dropdown_menu:[
         {name: 'Season', item: ['2021-2022', '2022-2023']},
       ],
-      matches:[
-        {'club_first':'Zenit', 'goal_first':2, 'goal_last':0, 'home':true ,'club_last':'Rostov', 'date': '01/09/21'},
-        {'club_first':'Zenit', 'goal_first':3, 'goal_last':1, 'home':false ,'club_last':'Cska', 'date': '07/09/21'},
-        {'club_first':'Zenit', 'goal_first':2, 'goal_last':1, 'home':true ,'club_last':'Orenburg', 'date': '14/09/21'},
-        {'club_first':'Zenit', 'goal_first':3, 'goal_last':2, 'home':false ,'club_last':'NN', 'date': '21/09/21'},
-        {'club_first':'Zenit', 'goal_first':1, 'goal_last':0, 'home':true ,'club_last':'Lokomotiv', 'date': '28/09/21'},
-        {'club_first':'Zenit', 'goal_first':2, 'goal_last':2, 'home':false ,'club_last':'Spartak', 'date': '04/10/21'},
-        {'club_first':'Zenit', 'goal_first':2, 'goal_last':3, 'home':true ,'club_last':'Terek', 'date': '11/10/21'},
-        {'club_first':'Zenit', 'goal_first':4, 'goal_last':0, 'home':false ,'club_last':'Tambov', 'date': '18/10/21'},
-      ],
       selected_sort: 'Default',
       options: [
         {'name':'Default', 'value':'Default'},
@@ -92,6 +82,7 @@ export default {
       teams: 'teams',
       club: 'club',
       loading: 'loading',
+      matches: 'matches',
     }),
     sorted(){
       if (this.selected_sort === 'Default'){

@@ -13,6 +13,7 @@ import UserApp from "@/pages/UserApp";
 import OpenarticleApp from "@/pages/OpenarticleApp";
 import CreatearticlesApp from "@/pages/CreatearticlesApp";
 import UpdatearticlesApp from "@/pages/UpdatearticlesApp";
+import MatchesApp from "@/pages/MatchesApp";
 
 
 
@@ -94,6 +95,12 @@ const routes = [
         path: '/profile/:user/update/:article',
         component: UpdatearticlesApp,
         name: 'update-article',
+        props: true,
+    },
+    {
+        path: '/teams/club/:club/match/:id',
+        component: MatchesApp,
+        name: 'match',
         props: true,
     },
 ]

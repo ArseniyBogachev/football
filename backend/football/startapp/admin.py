@@ -90,6 +90,18 @@ class AdminPositionChampionship(admin.ModelAdmin):
     list_display = ('id', 'club', 'year')
 
 
+class AdminMatches(admin.ModelAdmin):
+    list_display = ('id', 'home_team', 'guest_team')
+
+
+class AdminMatchesStats(admin.ModelAdmin):
+    list_display = ('id',)
+
+
+class AdminMatchesPlayersStats(admin.ModelAdmin):
+    list_display = ('id', 'match', 'player')
+
+
 admin.site.register(Articles, AdminArticles)
 admin.site.register(Users, AdminUsers)
 admin.site.register(ArticlesRelation, AdminRelation)
@@ -112,5 +124,8 @@ admin.site.register(SituationStatistics, AdminSituationStatistics)
 admin.site.register(ShotZonesStatistics, AdminShotZonesStatistics)
 admin.site.register(ShotTypesStatistics, AdminShotTypesStatistics)
 admin.site.register(PositionChampionship, AdminPositionChampionship)
+admin.site.register(Matches, AdminMatches)
+admin.site.register(MatchesStats, AdminMatchesStats)
+admin.site.register(MatchesPlayersStats, AdminMatchesPlayersStats)
 
 # Register your models here.

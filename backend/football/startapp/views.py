@@ -4,9 +4,9 @@ from rest_framework import generics, viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
-from .models import Articles
 from .serializers import *
 from .permissions import *
+from django.db.models import Q
 
 
 class ArticlesViewSet(viewsets.ModelViewSet):
@@ -142,7 +142,7 @@ class RateCommentAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ActivateJWT(GenericAPIView):
-    def get(self, request, uid, token, format=None):
+    def get(self, request, uid, token):
         payload = {'uid': uid, 'token': token}
         print(payload)
         url = "http://127.0.0.1:8000/auth/users/activation/"
@@ -159,43 +159,102 @@ class BlackListAddJWT(generics.CreateAPIView):
     serializer_class = BlackListJWTSerializer
 
 
-class PlayersLineUpAPIList(generics.ListAPIView):
-    queryset = Players.objects.all()
-    serializer_class = PlayersLineUpSerializer
-    permission_classes = (AllowAny,)
-
-    def get_queryset(self):
-        query = Players.objects.filter(club__title=self.request.query_params['club'])
-        return query
-
-
-class PlayerAPIRetrieve(generics.RetrieveAPIView):
-    queryset = Players.objects.all()
-    serializer_class = PlayerSerializerRetrieve
+class PlayersViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AllowAny,)
     lookup_field = 'player'
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return PlayersLineUpSerializer
+        return PlayerSerializerRetrieve
+
+    def get_queryset(self):
+        return Players.objects.filter(club__title=self.request.query_params['club'])
 
     def get_object(self):
         return Players.objects.get(last_name=self.kwargs['player'])
 
 
-class ClubAPIList(generics.ListAPIView):
+class ClubViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AllowAny,)
+    serializer_class = ClubSerializerRetrieve
+    lookup_field = 'title'
 
-    def get(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         data = Club.objects.all()
         serializer = ClubSerializerList(data, many=True, context={
             'year': self.request.query_params['year']
         })
         return Response(serializer.data)
 
+    def get_object(self):
+        return Club.objects.get(title=self.kwargs['title'])
 
-class ClubAPIRetrieve(generics.RetrieveAPIView):
-    queryset = Club.objects.all()
-    serializer_class = ClubSerializerRetrieve
+
+class MatchesViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AllowAny,)
-    lookup_field = 'team'
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return MatchesSerializer
+        return MatchSerializer
+
+    def get_queryset(self):
+        return Matches.objects.filter(Q(home_team__title=self.request.query_params['team']) |
+                                      Q(guest_team__title=self.request.query_params['team']))
 
     def get_object(self):
-        return Club.objects.get(title=self.kwargs['team'])
-# Create your views here.
+        return Matches.objects.get(pk=self.kwargs['pk'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class ClubAPIList(generics.ListAPIView):
+#     permission_classes = (AllowAny,)
+#
+#     def get(self, request, *args, **kwargs):
+#         data = Club.objects.all()
+#         serializer = ClubSerializerList(data, many=True, context={
+#             'year': self.request.query_params['year']
+#         })
+#         return Response(serializer.data)
+#
+#
+# class ClubAPIRetrieve(generics.RetrieveAPIView):
+#     queryset = Club.objects.all()
+#     serializer_class = ClubSerializerRetrieve
+#     permission_classes = (AllowAny,)
+#     lookup_field = 'team'
+#
+#     def get_object(self):
+#         return Club.objects.get(title=self.kwargs['team'])
+#
+
+# class PlayersLineUpAPIList(generics.ListAPIView):
+#     queryset = Players.objects.all()
+#     serializer_class = PlayersLineUpSerializer
+#     permission_classes = (AllowAny,)
+#
+#     def get_queryset(self):
+#         query = Players.objects.filter(club__title=self.request.query_params['club'])
+#         return query
+#
+#
+# class PlayerAPIRetrieve(generics.RetrieveAPIView):
+#     queryset = Players.objects.all()
+#     serializer_class = PlayerSerializerRetrieve
+#     permission_classes = (AllowAny,)
+#     lookup_field = 'player'
+#
+#     def get_object(self):
+#         return Players.objects.get(last_name=self.kwargs['player'])

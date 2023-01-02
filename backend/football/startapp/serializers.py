@@ -1,7 +1,6 @@
 from itertools import chain
 import datetime
 from django.db.models import Count
-from django.http import request
 from rest_framework import serializers
 from .models import *
 import re
@@ -283,6 +282,7 @@ class PlayersLineUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = Players
         fields = (
+                'id',
                 'position',
                 'number',
                 'first_name',
@@ -368,6 +368,7 @@ class PlayerSerializerRetrieve(serializers.ModelSerializer):
         query = ShotTypesStatistics.objects.filter(player=instance.id)
         serializer = ShotTypesStatisticsSerializer(query, many=True)
         return serializer.data
+
 
 class ClubSerializerList(serializers.ModelSerializer):
     position = serializers.SerializerMethodField()
@@ -500,3 +501,127 @@ class ShotTypesStatisticsSerializer(serializers.ModelSerializer):
 
     def get_shot_types(self, instance):
         return instance.shot_types.type
+
+
+class MatchesSerializer(serializers.ModelSerializer):
+    home_team = serializers.SerializerMethodField()
+    guest_team = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Matches
+        fields = (
+            'id',
+            'amount_goals_home_team',
+            'amount_goals_guest_team',
+            'date_game', 'home_team',
+            'guest_team',
+            'year',
+        )
+
+    def get_home_team(self, instance):
+        return instance.home_team.title
+
+    def get_guest_team(self, instance):
+        return instance.guest_team.title
+
+
+class MatchSerializer(serializers.ModelSerializer):
+    home_team = serializers.SerializerMethodField()
+    guest_team = serializers.SerializerMethodField()
+    total_stats = serializers.SerializerMethodField()
+    players_stats = serializers.SerializerMethodField()
+    home_image = serializers.SerializerMethodField()
+    guest_image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Matches
+        fields = (
+            'amount_goals_home_team',
+            'amount_goals_guest_team',
+            'date_game', 'home_team',
+            'guest_team',
+            'year',
+            'total_stats',
+            'players_stats',
+            'home_image',
+            'guest_image',
+        )
+
+    def get_home_team(self, instance):
+        return instance.home_team.title
+
+    def get_guest_team(self, instance):
+        return instance.guest_team.title
+
+    def get_total_stats(self, instance):
+        query = MatchesStats.objects.get(pk=instance.total_stats.id)
+        serializer = MatchesStatsSerializer(query)
+        return serializer.data.values()
+
+    def get_players_stats(self, instance):
+        query = MatchesPlayersStats.objects.filter(match=instance.id)
+        serializer = MatchesPlayersStatsSerializer(query, many=True)
+        return serializer.data
+
+    def get_home_image(self, instance):
+        query = Club.objects.get(pk=instance.home_team.id).image.url
+        return f'http://127.0.0.1:8000{query}'
+
+    def get_guest_image(self, instance):
+        query = Club.objects.get(pk=instance.guest_team.id).image.url
+        return f'http://127.0.0.1:8000{query}'
+
+
+class MatchesStatsSerializer(serializers.ModelSerializer):
+    stats = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MatchesStats
+        fields = ('stats',)
+
+    def get_stats(self, instance):
+        query = [
+            {'name': 'chances', 'home': instance.home_chances, 'guest': instance.guest_chances},
+            {'name': 'xg', 'home': instance.home_xg, 'guest': instance.guest_xg},
+            {'name': 'shots', 'home': instance.home_shots, 'guest': instance.guest_shots},
+            {'name': 'shots on target', 'home': instance.home_shots_on_target, 'guest': instance.guest_shots_on_target},
+            {'name': 'deep', 'home': instance.home_deep, 'guest': instance.guest_deep},
+            {'name': 'ppda', 'home': instance.home_ppda, 'guest': instance.guest_ppda},
+            {'name': 'xpts', 'home': instance.home_xpts, 'guest': instance.guest_xpts},
+        ]
+        return query
+
+    # def get_guest(self, instance):
+    #     query = {
+    #         'chances': instance.guest_chances,
+    #         'xg': instance.guest_xg,
+    #         'shots': instance.guest_shots,
+    #         'shots_on_target': instance.guest_shots_on_target,
+    #         'deep': instance.guest_deep,
+    #         'ppda': instance.guest_ppda,
+    #         'xpts': instance.guest_xpts,
+    #     }
+    #     return query
+
+class MatchesPlayersStatsSerializer(serializers.ModelSerializer):
+    player = serializers.SerializerMethodField()
+    position = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MatchesPlayersStats
+        fields = ('player',
+                  'position',
+                  'min',
+                  'sh',
+                  'goal',
+                  'kp',
+                  'assist',
+                  'xg',
+                  'xa'
+                  )
+
+    def get_player(self, instance):
+        return instance.player.last_name
+
+    def get_position(self, instance):
+        return instance.position.position_player

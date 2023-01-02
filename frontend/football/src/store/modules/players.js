@@ -25,7 +25,7 @@ export const players = {
         async player_data(ctx, last_name){
             try{
                 await ctx.commit('updateLoading', true)
-                const response = await axios.get(`http://127.0.0.1:8000/api/v1/player/${last_name}/`)
+                const response = await axios.get(`http://127.0.0.1:8000/api/v1/players/${last_name}/`)
                 await ctx.commit('updatePlayer', response.data)
             }
             catch (e) {

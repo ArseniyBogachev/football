@@ -8,7 +8,6 @@
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{ drop.name }}</a>
         <ul class="dropdown-menu">
           <li v-for="item in drop.item"><a class="dropdown-item" href="#">{{ item }}</a></li>
-<!--          <li><a class="dropdown-item disabled" href="#">2022-2023</a></li>-->
         </ul>
       </li>
   </ul>
@@ -30,6 +29,9 @@ export default {
 
 <style scoped>
   .nav-link{
+    color: rgb(100,100,100);
+  }
+  .nav-link:hover{
     color: rgb(100,100,100);
   }
 </style>

@@ -12,6 +12,8 @@ export const articles = {
         category: [],
         comment: [],
         comment_reply: {},
+        page: 1,
+        paginate: true,
     }),
     getters:{
         articles_all(state){
@@ -41,6 +43,15 @@ export const articles = {
         comment_reply(state){
             return state.comment_reply
         },
+        articles_paginate(state){
+            return state.articles_paginate
+        },
+        page(state){
+            return state.page
+        },
+        paginate(state){
+            return state.paginate
+        }
     },
     mutations:{
         updateArticles(state, articles){
@@ -66,6 +77,18 @@ export const articles = {
                 i['text_reply'] = ''
             }
             state.comment_reply[comment_reply.id] = comment_reply.data
+        },
+        articlesPaginate(state, articles_paginate){
+            state.articles_all = [...state.articles_all].concat(articles_paginate)
+        },
+        UpdatePage(state){
+            state.page += 1
+        },
+        PageOne(state){
+            state.page = 1
+        },
+        UpdatePaginate(state){
+            state.paginate = false
         },
     },
     actions: {
@@ -136,14 +159,51 @@ export const articles = {
                 await ctx.dispatch('dislike_fn', id)
             }
         },
-        async articles_data(ctx){
+        async articles_data(ctx, page){
             try{
-                const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/', {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-                ctx.commit('updateArticles', response.data)
+                await ctx.commit('updateLoading', true)
+                if (page === ctx.getters.page && ctx.getters.paginate){
+                    const response = await axios.get(`http://127.0.0.1:8000/api/v1/articles/?page=${page}`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    ctx.commit('articlesPaginate', response.data.results)
+                    if (Math.ceil(response.data.count / 4) > page){
+                        ctx.commit('UpdatePage')
+                    }
+                    else{
+                        ctx.commit('UpdatePaginate')
+                    }
+                }
             }
-            catch{
-                const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/')
-                ctx.commit('updateArticles', response.data)
+            catch (e){
+                if (e.response.status === 401){
+                    if (page !== 0 && ctx.getters.paginate){
+                        const response = await axios.get(`http://127.0.0.1:8000/api/v1/articles/?page=${page}`)
+                        ctx.commit('articlesPaginate', response.data.results)
+                        if (Math.ceil(response.data.count / 4) > page){
+                            ctx.commit('UpdatePage')
+                        }
+                        else{
+                            ctx.commit('UpdatePaginate')
+                        }
+                    }
+                }
+            }
+            finally{
+                await ctx.commit('updateLoading', false)
+            }
+        },
+        async articles_all_data(ctx){
+            try{
+                const response = await axios.get(`http://127.0.0.1:8000/api/v1/article-all/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                await ctx.commit('updateArticles', response.data)
+            }
+            catch (e) {
+                if (e.response.status === 401){
+                    const response = await axios.get(`http://127.0.0.1:8000/api/v1/article-all/`)
+                    await ctx.commit('updateArticles', response.data)
+                }
+            }
+            finally {
+                await ctx.commit('UpdatePaginate')
             }
         },
         async category_data(ctx){

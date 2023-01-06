@@ -34,8 +34,8 @@
                               v-bind:subscriptions="user.sub_user"
                               v-bind:crud="crud"
           ></MysubscriptionsCom>
-          <MyarticleCom v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleCom>
-          <MybookmarksCom v-else-if="tab_profile[2].active" v-bind:bookmarks="bookmarks"></MybookmarksCom>
+          <MyarticleCom v-else-if="tab_profile[1].active" v-bind:articles="user.my_articles"></MyarticleCom>
+          <MybookmarksCom v-else-if="tab_profile[2].active" v-bind:bookmarks="user.bookmarks"></MybookmarksCom>
           <MysettingsCom v-else v-bind:user="user"></MysettingsCom>
         </div>
       </div>
@@ -66,12 +66,12 @@ export default {
     user:{
       type: Object,
     },
-    articles:{
-      type: Array,
-    },
-    bookmarks:{
-      type: Array,
-    },
+    // articles:{
+    //   type: Array,
+    // },
+    // bookmarks:{
+    //   type: Array,
+    // },
     crud:{
       type: Boolean,
     },

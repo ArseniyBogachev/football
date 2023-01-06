@@ -23,11 +23,11 @@
 
         <div class="user_search">
           <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Players" aria-label="Search" v-bind:value="modelValue" v-on:input="input_func">
+            <input class="form-control me-2" type="search" placeholder="Players" aria-label="Search" v-bind:value="modelValue" v-on:input="input_func" v-on:click="players_search_data">
           </form>
           <ul class="nav flex-column search_item" v-if="modelValue && players.length > 0">
             <li v-for="p in players.slice(0,5)" class="nav-item player">
-              <a href="#" class="nav-link link" @click.prevent="$router.push(`/teams/lineup/${p.lastname}`); modelValue = '';"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
+              <a href="#" class="nav-link link" @click.prevent="$router.push(`/teams/lineup/${p.last_name}`); modelValue = '';"><span>{{ p.first_name}} {{p.last_name}}</span> <small class="text-muted">{{ p.club }}</small></a>
             </li>
           </ul>
 
@@ -84,6 +84,9 @@ export default {
     },
   },
   methods:{
+    ...mapActions({
+      players_search_data: 'players_search_data',
+    }),
     input_func(event){
       this.$emit('update:modelValue', event.target.value)
     },

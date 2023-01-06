@@ -56,6 +56,8 @@ export default {
     }),
     ...mapMutations({
       updateClickLoading: 'updateClickLoading',
+      pageOne: 'PageOne',
+      updateArticles: 'updateArticles',
     }),
     async login_axios(){
       try {
@@ -68,8 +70,11 @@ export default {
           localStorage.setItem("access", response.data.access);
           localStorage.setItem("refresh", response.data.refresh);
           await this.verify_fn({access: localStorage.getItem('access'), refresh: localStorage.getItem('refresh')})
+          await this.pageOne()
+          await this.updateArticles([])
           this.updateClickLoading('false')
-          await nextTick(router.push('/'))
+          this.$forceUpdate()
+          router.push('/')
         }
         else{
           this.axios_error = 'Please, field placeholder.'

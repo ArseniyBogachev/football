@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export const players = {
     state: () => ({
+        players_search: [],
         players: [],
         player: {},
     }),
@@ -12,6 +13,9 @@ export const players = {
         player(state){
             return state.player
         },
+        players_search(state){
+            return state.players_search
+        },
     },
     mutations:{
         updatePlayers(state, players){
@@ -19,6 +23,9 @@ export const players = {
         },
         updatePlayer(state, player){
             state.player = player
+        },
+        playersSearch(state, players_search){
+            state.players_search = players_search
         },
     },
     actions: {
@@ -33,6 +40,18 @@ export const players = {
             }
             finally {
                 ctx.commit('updateLoading', false)
+            }
+        },
+        async players_search_data(ctx){
+            try {
+                if (!ctx.state.players_search.length){
+                    const response = await axios.get('http://127.0.0.1:8000/api/v1/players-all/')
+                    await ctx.commit('playersSearch', response.data)
+                    console.log(ctx.getters.players_search)
+                }
+            }
+            catch (e) {
+                console.log(e)
             }
         }
     },

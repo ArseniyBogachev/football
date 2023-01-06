@@ -15,13 +15,23 @@ class MeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Users
-        fields = ('image', 'first_name', 'last_name', 'email', 'bookmarks', 'my_articles', 'username', 'sub_user', 'like_count', 'followers_count')
+        fields = ('image',
+                  'first_name',
+                  'last_name',
+                  'email',
+                  'bookmarks',
+                  'my_articles',
+                  'username',
+                  'sub_user',
+                  'like_count',
+                  'followers_count'
+                  )
 
     def get_my_articles(self, instance):
-        return Articles.objects.filter(author=instance.id).values_list('id', flat=True)
+        return ArticleSerializer(Articles.objects.filter(author=instance.id), many=True).data
 
     def get_bookmarks(self, instance):
-        return ArticlesRelation.objects.filter(user=instance, bookmarks=True).values_list('article', flat=True)
+        return ArticleSerializer(Articles.objects.filter(id__in=ArticlesRelation.objects.filter(user=instance, bookmarks=True).values_list('article', flat=True)), many=True).data
 
     def get_sub_user(self, instance):
         sub1 = UsersSub.objects.filter(subscription=instance, add=True).values_list('user', flat=True)
@@ -633,3 +643,14 @@ class MatchesPlayersStatsSerializer(serializers.ModelSerializer):
 
     def get_position(self, instance):
         return instance.position.position_player
+
+
+class SearchPlayersListSerializer(serializers.ModelSerializer):
+    club = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Players
+        fields = ('first_name', 'last_name', 'club',)
+
+    def get_club(self, instance):
+        return instance.club.title

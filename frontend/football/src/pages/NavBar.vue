@@ -33,7 +33,6 @@ export default {
   },
   methods:{
     ...mapActions({
-      players_data: 'players_data',
       me_data: 'me_data'
     }),
     async logoutUser(){
@@ -44,17 +43,14 @@ export default {
       location.reload()
     }
   },
-  created() {
-    this.players_data()
-  },
   computed:{
     ...mapGetters({
       me: 'me',
       verify: 'verify',
-      players: 'players'
+      players: 'players_search'
     }),
     search_players(){
-      return [...this.players].filter(item => item.lastname.includes(this.search))
+      return [...this.players].filter(item => item.last_name.includes(this.search))
     }
   }
 }

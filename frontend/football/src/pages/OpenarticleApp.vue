@@ -54,7 +54,7 @@ export default {
       data['article'] = this.article.id
       if (!data['reply_data']){
         await this.article_comment_create(data)
-        await this.article_comment_data(data.id)
+        await this.article_comment_data(data.article)
       }
       else {
         await this.comment_reply_create(data)
@@ -73,10 +73,19 @@ export default {
       me: 'me',
       comment: 'comment',
       comment_reply: 'comment_reply',
+      articles_paginate: 'articles_paginate',
     }),
     article(){
-      return [...this.articles_all].find(item => item.title === this.slug)
-    }
+      if ([...this.articles_all].find(item => item.title === this.slug)){
+        return [...this.articles_all].find(item => item.title === this.slug)
+      }
+      else if ([...this.me.bookmarks].find(item => item.title === this.slug)){
+        return [...this.me.bookmarks].find(item => item.title === this.slug)
+      }
+      else{
+        return [...this.me.my_articles].find(item => item.title === this.slug)
+      }
+    },
   },
   mounted() {
     this.article_comment_data(this.article.id)

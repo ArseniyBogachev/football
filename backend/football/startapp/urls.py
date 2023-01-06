@@ -22,6 +22,8 @@ urlpatterns = [
     path('api/v1/comment/', CommentArticleAPIList.as_view(), name='comment_list_post'),
     path('api/v1/rate/<int:comment>/', RateCommentAPIUpdate.as_view(), name='comment_rate_update'),
     path('api/v1/blacklist/', BlackListAddJWT.as_view(), name='black_list'),
+    path('api/v1/players-all/', SearchPlayersAPIList.as_view(), name='players-all_list'),
+    path('api/v1/article-all/', ArticleAllApiList.as_view(), name='article-all_list'),
     re_path(r'^auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.jwt')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

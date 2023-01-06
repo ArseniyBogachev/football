@@ -3,16 +3,12 @@
               v-bind:tab_profile="tab_profile"
               v-bind:user="me"
               v-bind:crud="crud"
-              v-bind:bookmarks="bookmarks"
-              v-bind:articles="articles"
               v-on:tab_func="tab_func"
   ></ProfileCom>
   <ProfileMob class="d-md-none mob"
               v-bind:tab_profile="tab_profile"
               v-bind:user="me"
               v-bind:crud="crud"
-              v-bind:bookmarks="bookmarks"
-              v-bind:articles="articles"
               v-on:tab_func="tab_func"
   ></ProfileMob>
 </template>
@@ -53,14 +49,14 @@ export default {
   computed:{
     ...mapGetters({
       me: 'me',
-      articles_all: 'articles_all',
+      // articles_all: 'articles_all',
     }),
-    articles(){
-      return [...this.articles_all,].filter(item => this.me.my_articles.includes(item.id))
-    },
-    bookmarks(){
-      return [...this.articles_all,].filter(item => this.me.bookmarks.includes(item.id))
-    }
+    // articles(){
+    //   return [...this.articles_all,].filter(item => this.me.my_articles.includes(item.id))
+    // },
+    // bookmarks(){
+    //   return [...this.articles_all,].filter(item => this.me.bookmarks.includes(item.id))
+    // }
   }
 }
 </script>

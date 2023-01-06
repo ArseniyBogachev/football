@@ -34,7 +34,7 @@ export default {
   },
   methods:{
     ...mapActions({
-      articles_data: 'articles_data',
+      articles_data: 'articles_all_data',
       me_data: 'me_data'
     }),
   },
@@ -69,6 +69,9 @@ export default {
         return this.articles_team
       }
     }
+  },
+  created() {
+    this.articles_data()
   }
 }
 </script>

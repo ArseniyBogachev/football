@@ -67,7 +67,6 @@ export const users = {
             try {
                 await axios.post('http://127.0.0.1:8000/api/token/verify/', {token: `${token.access}`})
                 await ctx.dispatch('me_data', token.access)
-                await ctx.dispatch('articles_data')
                 await ctx.commit('UpdateVerify', true)
             }
             catch (e){
@@ -79,7 +78,6 @@ export const users = {
                 const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {"refresh": `${token}`})
                 localStorage.setItem('access', response.data.access)
                 await ctx.dispatch('me_data', response.data.access)
-                await ctx.dispatch('articles_data')
                 ctx.commit('UpdateVerify', true)
             }
             catch (e){
@@ -88,7 +86,6 @@ export const users = {
                 localStorage.removeItem('refresh')
                 localStorage.removeItem('username')
                 await ctx.dispatch('me_data')
-                await ctx.dispatch('articles_data')
             }
         },
         async refresh_without_reboot(ctx){

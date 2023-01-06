@@ -19,12 +19,14 @@ export default {
     ArticleCom,
     MyLoading,
   },
-  created() {
+  mounted() {
     this.category_data()
+    this.articles_data()
   },
   methods:{
     ...mapActions({
       category_data: 'category_data',
+      articles_data: 'articles_all_data',
     }),
   },
   computed:{

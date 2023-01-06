@@ -1,5 +1,5 @@
 <template>
-    <a href="#" v-if="this.me.bookmarks.includes(this.article.id) && verify" v-on:click.prevent="bookmarks_false(this.article.id)">
+    <a href="#" v-if="this.bookmarks.includes(this.article.id) && verify" v-on:click.prevent="bookmarks_false(this.article.id)">
       <fa icon="fa-solid fa-bookmark" style="color: #216bff"></fa>
     </a>
     <a href="#" v-else v-on:click.prevent="bookmarks_true(this.article.id)">
@@ -25,6 +25,13 @@ export default {
       verify: 'verify',
       me: 'me',
     }),
+    bookmarks(){
+      let result = []
+      for (let i of this.me.bookmarks){
+        result.push(i.id)
+      }
+      return result
+    }
   }
 }
 </script>

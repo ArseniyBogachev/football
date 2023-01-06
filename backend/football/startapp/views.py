@@ -6,19 +6,28 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework.response import Response
 from .serializers import *
 from .permissions import *
+from .paginations import *
 from django.db.models import Q
+from django.utils.datastructures import MultiValueDictKeyError
 
 
 class ArticlesViewSet(viewsets.ModelViewSet):
-    queryset = Articles.objects.all()
+    queryset = Articles.objects.all().order_by('id')
     serializer_class = ArticleSerializer
     permission_classes = (IsUserOrReadOnly, TokenIsInvalid)
+    pagination_class = ArticlesListPagination
 
     def create(self, request, *args, **kwargs):
         serializer = CreateArticleSerializer(data=request.data, context={'request': self.request})
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+
+class ArticleAllApiList(generics.ListAPIView):
+    queryset = Articles.objects.all().order_by('id')
+    serializer_class = ArticleSerializer
+    permission_classes = (IsUserOrReadOnly, TokenIsInvalid)
 
 
 class ArticlesRelationAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
@@ -116,9 +125,9 @@ class CommentArticleAPIList(generics.ListCreateAPIView):
         try:
             serializer = CreateCommentArticleSerializer(data=request.data, context={
                                                         'request': self.request,
-                                                        'article': self.request.query_params['article'],
+                                                        'article': self.request.query_params['article'][0],
                                                         'reply': list(map(int, self.request.query_params['reply'].split(',')))})
-        except:
+        except MultiValueDictKeyError:
             serializer = CreateCommentArticleSerializer(data=request.data, context={
                                                         'request': self.request,
                                                         'article': self.request.query_params['article']})
@@ -207,7 +216,10 @@ class MatchesViewSet(viewsets.ReadOnlyModelViewSet):
         return Matches.objects.get(pk=self.kwargs['pk'])
 
 
-
+class SearchPlayersAPIList(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = SearchPlayersListSerializer
+    queryset = Players.objects.all()
 
 
 

@@ -1,0 +1,9 @@
+FROM node:lts-alpine
+WORKDIR /frontend/football
+COPY /football/package.json .
+COPY /football/package-lock.json .
+RUN npm install
+RUN npm install -g @vue/cli
+COPY /football .
+EXPOSE 8080
+CMD ["npm", "run", "serve"]

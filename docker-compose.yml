@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+
+  backend:
+    build: ./backend
+    ports:
+      - 8000:8000
+#    volumes:
+#      - ./backend:/backend
+    command: python football/manage.py runserver
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - './frontend:/frontend'
+      - '/frontend/node_modules'
+    ports:
+      - 8080:8080
+
+  postgresql:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_DB: 'Football_db'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'Danny100'
+    ports:
+      - 5432:5432

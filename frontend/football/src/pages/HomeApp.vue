@@ -82,6 +82,7 @@ export default {
   }
   .wrapper-sm{
     padding: 2%;
+    min-height: 80em;
   }
   .observer{
     height: 100px;

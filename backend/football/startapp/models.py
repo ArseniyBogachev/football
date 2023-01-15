@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-
 # добавить поле age!!!!!!!!!!!!!!!!!
+
+
 class Users(AbstractUser):
     first_name = models.CharField(max_length=10)
     last_name = models.CharField(max_length=10)
@@ -13,7 +14,7 @@ class Users(AbstractUser):
     bookmarks = models.ManyToManyField('Articles', through='ArticlesRelation', related_name='bookmarks')
     sub_user = models.ManyToManyField('Users', through='UsersSub', related_name='subscriptions')
 
-    REQUIRED_FIELDS = ['image', 'first_name', 'last_name', 'email', 'bookmarks', 'sub_user', 'id']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
 
     def __str__(self):
         return self.username

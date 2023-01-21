@@ -63,7 +63,7 @@ export default {
       try {
         if (this.username && this.password){
           this.updateClickLoading('true')
-          const response = await axios.post('http://127.0.0.1:8000/api/token/', {
+          const response = await axios.post(`${process.env.VUE_APP_URL}/api/token/`, {
             'username': this.username,
             'password': this.password,
           })

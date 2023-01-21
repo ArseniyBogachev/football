@@ -63,7 +63,7 @@ export default {
     async register_axios(){
       try {
         if (this.password === this.password2){
-          const response = await axios.post('http://127.0.0.1:8000/auth/users/', {
+          const response = await axios.post(`${process.env.VUE_APP_URL}/auth/users/`, {
             'first_name': this.first_name,
             'last_name': this.last_name,
             'email': this.email,

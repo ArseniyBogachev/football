@@ -97,18 +97,18 @@ export const articles = {
             try{
                 if (localStorage.getItem('access')) {
                     if (article.like_dislike.like === article.like_dislike.dislike) {
-                        await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                        await axios.patch(`${process.env.VUE_APP_URL}/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                         article.like_dislike.like = 1
                         article.count_true += 1
                     }
                     else {
                         if (article.like_dislike.like === 1) {
-                            await axios.delete(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                            await axios.delete(`${process.env.VUE_APP_URL}/api/v1/articleslikes/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                             article.like_dislike.like = 0
                             article.count_true -= 1
                         }
                         else {
-                            await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                            await axios.patch(`${process.env.VUE_APP_URL}/api/v1/articleslikes/${id}/`, {'likes': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                             article.like_dislike.like = 1
                             article.count_true += 1
                             article.like_dislike.dislike = 0
@@ -130,18 +130,18 @@ export const articles = {
             try{
                 if (localStorage.getItem('access')){
                     if (article.like_dislike.like === article.like_dislike.dislike){
-                        await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                        await axios.patch(`${process.env.VUE_APP_URL}/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                         article.like_dislike.dislike = 1
                         article.count_false += 1
                     }
                     else{
                         if (article.like_dislike.dislike === 1){
-                            await axios.delete(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                            await axios.delete(`${process.env.VUE_APP_URL}/api/v1/articleslikes/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                             article.like_dislike.dislike = 0
                             article.count_false -= 1
                         }
                         else{
-                            await axios.patch(`http://127.0.0.1:8000/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                            await axios.patch(`${process.env.VUE_APP_URL}/api/v1/articleslikes/${id}/`, {'likes': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                             article.like_dislike.dislike = 1
                             article.count_false += 1
                             article.like_dislike.like = 0
@@ -163,7 +163,7 @@ export const articles = {
             try{
                 await ctx.commit('updateLoading', true)
                 if (page === ctx.getters.page && ctx.getters.paginate){
-                    const response = await axios.get(`http://127.0.0.1:8000/api/v1/articles/?page=${page}`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/articles/?page=${page}`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                     ctx.commit('articlesPaginate', response.data.results)
                     if (Math.ceil(response.data.count / 4) > page){
                         ctx.commit('UpdatePage')
@@ -176,7 +176,7 @@ export const articles = {
             catch (e){
                 if (e.response.status === 401){
                     if (page !== 0 && ctx.getters.paginate){
-                        const response = await axios.get(`http://127.0.0.1:8000/api/v1/articles/?page=${page}`)
+                        const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/articles/?page=${page}`)
                         ctx.commit('articlesPaginate', response.data.results)
                         if (Math.ceil(response.data.count / 4) > page){
                             ctx.commit('UpdatePage')
@@ -193,12 +193,12 @@ export const articles = {
         },
         async articles_all_data(ctx){
             try{
-                const response = await axios.get(`http://127.0.0.1:8000/api/v1/article-all/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/article-all/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                 await ctx.commit('updateArticles', response.data)
             }
             catch (e) {
                 if (e.response.status === 401){
-                    const response = await axios.get(`http://127.0.0.1:8000/api/v1/article-all/`)
+                    const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/article-all/`)
                     await ctx.commit('updateArticles', response.data)
                 }
             }
@@ -209,7 +209,7 @@ export const articles = {
         async category_data(ctx){
             try{
                 await ctx.commit('updateLoading', true)
-                const response = await axios.get('http://127.0.0.1:8000/api/v1/articlescategory/')
+                const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/articlescategory/`)
                 ctx.commit('updateCategory', response.data)
             }
             catch (e) {
@@ -221,7 +221,7 @@ export const articles = {
         },
         async article_create(ctx, data){
             try{
-                const response = await axios.post('http://127.0.0.1:8000/api/v1/articles/', data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                const response = await axios.post(`${process.env.VUE_APP_URL}/api/v1/articles/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                 location.reload()
             }
             catch (e) {
@@ -230,7 +230,7 @@ export const articles = {
         },
         async article_update(ctx, data){
             try{
-                const response = await axios.put(`http://127.0.0.1:8000/api/v1/articles/${data.id}/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                const response = await axios.put(`${process.env.VUE_APP_URL}/api/v1/articles/${data.id}/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                 await ctx.dispatch('articles_data')
                 router.push({name: 'profile', params:{slug: ctx.getters.me.username}})
             }
@@ -240,7 +240,7 @@ export const articles = {
         },
         async article_delete(ctx, id){
             try{
-                const response = await axios.delete(`http://127.0.0.1:8000/api/v1/articles/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                const response = await axios.delete(`${process.env.VUE_APP_URL}/api/v1/articles/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                 await ctx.dispatch('articles_data')
                 router.push({name: 'profile', params:{slug: ctx.getters.me.username}})
             }
@@ -251,12 +251,12 @@ export const articles = {
         async article_comment_data(ctx, id){
             try {
                 await ctx.commit('updateLoading', true)
-                const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {article: id}})
+                const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/comment/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {article: id}})
                 ctx.commit('updateComment', response.data)
             }
             catch (e) {
                 if (e.response.status === 401) {
-                    const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {params: {article: id}})
+                    const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/comment/`, {params: {article: id}})
                     ctx.commit('updateComment', response.data)
                 }
                 console.log(e)
@@ -269,12 +269,12 @@ export const articles = {
             let c = await ctx.state.comment.find(item => item.id === data.reply_data)
             try {
                 c.click_loading = true
-                const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {article: data.article, reply: data.reply_data}})
+                const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/comment/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {article: data.article, reply: data.reply_data}})
                 ctx.commit('updateCommentReply', {data: response.data, id: data.reply_data})
             }
             catch (e) {
                 if (e.response.status === 401){
-                    const response = await axios.get(`http://127.0.0.1:8000/api/v1/comment/`, {params: {article: data.article, reply: data.reply_data}})
+                    const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/comment/`, {params: {article: data.article, reply: data.reply_data}})
                     ctx.commit('updateCommentReply', {data: response.data, id: data.reply_data})
                 }
                 console.log(e)
@@ -285,7 +285,7 @@ export const articles = {
         },
         async article_comment_create(ctx, data){
             try {
-                const response = await axios.post(`http://127.0.0.1:8000/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.article}})
+                const response = await axios.post(`${process.env.VUE_APP_URL}/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.article}})
             }
             catch (e) {
                 if (e.response.status === 401){
@@ -296,7 +296,7 @@ export const articles = {
         },
         async comment_reply_create(ctx, data){
             try {
-                const response = await axios.post(`http://127.0.0.1:8000/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.article, reply: data.reply_post}})
+                const response = await axios.post(`${process.env.VUE_APP_URL}/api/v1/comment/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}, params: {'article': data.article, reply: data.reply_post}})
             }
             catch (e) {
                 if (e.response.status === 401){
@@ -307,7 +307,7 @@ export const articles = {
         },
         async comment_rate_update(ctx, data){
             try {
-                await axios.delete(`http://127.0.0.1:8000/api/v1/rate/${data.id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                await axios.delete(`${process.env.VUE_APP_URL}/api/v1/rate/${data.id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                 if (data.comment.rate_user === 1){
                     data.comment.rate_user = false
                     data.comment.rate_count -= 1
@@ -331,7 +331,7 @@ export const articles = {
             }
             try {
                 if (comment.rate_user === false){
-                    await axios.patch(`http://127.0.0.1:8000/api/v1/rate/${data.comment_id}/`, {'rate': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    await axios.patch(`${process.env.VUE_APP_URL}/api/v1/rate/${data.comment_id}/`, {'rate': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                     comment.rate_user = 1
                     comment.rate_count += 1
                 }
@@ -353,7 +353,7 @@ export const articles = {
             }
             try {
                 if (comment.rate_user === false){
-                    await axios.patch(`http://127.0.0.1:8000/api/v1/rate/${data.comment_id}/`, {'rate': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
+                    await axios.patch(`${process.env.VUE_APP_URL}/api/v1/rate/${data.comment_id}/`, {'rate': false}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                     comment.rate_user = -1
                     comment.rate_count -= 1
                 }

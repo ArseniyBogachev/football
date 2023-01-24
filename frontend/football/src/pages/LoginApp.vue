@@ -28,7 +28,6 @@
 import axios from "axios";
 import router from "@/router/router";
 import {mapActions, mapGetters, mapMutations} from "vuex"
-import {nextTick} from "vue";
 import MyLoading from "@/components/UI/MyLoading";
 import MyLoadingMini from "@/components/UI/MyLoadingMini";
 export default {

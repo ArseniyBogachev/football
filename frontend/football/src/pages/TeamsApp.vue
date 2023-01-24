@@ -5,11 +5,13 @@
                 v-bind:teams="sorted"
                 v-model="selected_sort"
                 v-bind:options="options"
+                v-bind:url="url"
     ></TeamsCom>
     <TeamsMob class="d-lg-none"
                 v-bind:teams="sorted"
                 v-model="selected_sort"
                 v-bind:options="options"
+                v-bind:url="url"
     ></TeamsMob>
   </div>
 
@@ -30,6 +32,7 @@ export default {
         {'name':'Position', 'value':'Position'},
         {'name':'XG', 'value':'XG'},
       ],
+      url: process.env.VUE_APP_URL,
     }
   },
   components:{

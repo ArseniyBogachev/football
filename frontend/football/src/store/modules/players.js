@@ -47,7 +47,6 @@ export const players = {
                 if (!ctx.state.players_search.length){
                     const response = await axios.get(`${process.env.VUE_APP_URL}/api/v1/players-all/`)
                     await ctx.commit('playersSearch', response.data)
-                    console.log(ctx.getters.players_search)
                 }
             }
             catch (e) {

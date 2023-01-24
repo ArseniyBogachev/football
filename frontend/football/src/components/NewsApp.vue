@@ -3,9 +3,11 @@
     <h3 class="d-none d-sm-block">{{ n.title }}</h3>
     <MyBookmarks class="d-none d-xs-block icon"
                  v-bind:article="n"
+                 v-bind:arr_id="arr_id"
     ></MyBookmarks>
     <MyBookmarks class="d-xs-none icon-sm"
                  v-bind:article="n"
+                 v-bind:arr_id="arr_id"
     ></MyBookmarks>
     <h5 class="d-sm-none">{{ n.title }}</h5>
     <span><a href="#" class="author" v-on:click.prevent="$router.push({name: 'user', params: {slug: n.author}})">{{n.author}}</a> | {{n.date}}</span>
@@ -28,6 +30,7 @@ export default {
     n:{
       type: Object,
     },
+    arr_id: Array,
   },
   components:{
     LikesDislikes,

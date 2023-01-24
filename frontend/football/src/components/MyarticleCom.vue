@@ -6,7 +6,7 @@
         <div class="card-header bg-transparent border-secondary">
           <small class="text-muted">{{ article.date }}</small>
           <div v-if="this.crud">
-            <a href="#" v-on:click.prevent="$router.push({name: 'update-article', params: {user: me.username, article: article.title}})"><fa icon="fa-solid fa-pen" style="margin-right: 20px;" class="icon-pen"></fa></a>
+            <a href="#" v-on:click.prevent="$router.push({name: 'update-article', params: {user: this.me.username, article: article.title}})"><fa icon="fa-solid fa-pen" style="margin-right: 20px;" class="icon-pen"></fa></a>
             <a href="#" v-on:click.prevent="this.article_delete(article.id)"><fa icon="fa-solid fa-trash-can" class="icon-trash"></fa></a>
           </div>
         </div>

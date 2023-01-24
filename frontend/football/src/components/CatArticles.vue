@@ -5,6 +5,7 @@
           v-for="n in articles"
           v-bind:n="n"
           v-bind:bookmarks="me.bookmarks"
+          v-bind:arr_id="arr_id"
       ></NewsApp>
     </ul>
   </div>
@@ -14,6 +15,7 @@
           v-for="n in articles"
           v-bind:n="n"
           v-bind:bookmarks="me.bookmarks"
+          v-bind:arr_id="arr_id"
       ></NewsApp>
     </ul>
   </div>
@@ -68,7 +70,10 @@ export default {
       else {
         return this.articles_team
       }
-    }
+    },
+    arr_id(){
+      return [...this.me.bookmarks].map(item => item.id)
+    },
   },
   created() {
     this.articles_data()
@@ -87,5 +92,6 @@ export default {
   }
   .container{
     margin-bottom: 100px;
+    min-height: 400px;
   }
 </style>

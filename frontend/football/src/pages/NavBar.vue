@@ -50,7 +50,7 @@ export default {
       players: 'players_search'
     }),
     search_players(){
-      return [...this.players].filter(item => item.last_name.includes(this.search))
+      return [...this.players].filter(item => item.last_name.toLowerCase().includes(this.search.toLowerCase()))
     }
   }
 }

@@ -8,22 +8,22 @@
       </li>
       <li class="item">
         <small class="text-muted">Firstname</small>
-        <MyInput v-model="user.first_name"></MyInput>
+        <MyInput v-model="field.first_name"></MyInput>
       </li>
       <li class="item">
         <small class="text-muted">Lastname</small>
-        <MyInput v-model="user.last_name"></MyInput>
+        <MyInput v-model="field.last_name"></MyInput>
       </li>
       <li class="item">
         <small class="text-muted">E-mail</small>
-        <MyInput v-model="user.email"></MyInput>
+        <MyInput v-model="field.email"></MyInput>
       </li>
       <li class="item">
         <small class="text-muted">Username</small>
-        <MyInput v-model="user.username"></MyInput>
+        <MyInput v-model="field.username"></MyInput>
       </li>
     </ul>
-    <button type="button" class="btn btn-success" v-on:click="me_update({image: this.files, first_name: this.user.first_name, last_name: this.user.last_name, email: this.user.email, username: this.user.username})">
+    <button type="button" class="btn btn-success" v-on:click="me_update({image: this.files, first_name: this.field.first_name, last_name: this.field.last_name, email: this.field.email, username: this.field.username})">
       <fa icon="fa-solid fa-floppy-disk"></fa>
     </button>
   </form>
@@ -41,6 +41,12 @@ export default {
     return{
       files: null,
       image: null,
+      field: {
+        first_name: this.user.first_name,
+        last_name: this.user.last_name,
+        email: this.user.email,
+        username: this.user.username,
+      }
     }
   },
   props:{

@@ -231,7 +231,7 @@ export const articles = {
         async article_update(ctx, data){
             try{
                 const response = await axios.put(`${process.env.VUE_APP_URL}/api/v1/articles/${data.id}/`, data.data, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-                await ctx.dispatch('articles_data')
+                await ctx.dispatch('me_data')
                 router.push({name: 'profile', params:{slug: ctx.getters.me.username}})
             }
             catch (e) {
@@ -241,8 +241,8 @@ export const articles = {
         async article_delete(ctx, id){
             try{
                 const response = await axios.delete(`${process.env.VUE_APP_URL}/api/v1/articles/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-                await ctx.dispatch('articles_data')
-                router.push({name: 'profile', params:{slug: ctx.getters.me.username}})
+                let index = ctx.getters.me.my_articles.indexOf([...ctx.getters.me.my_articles].find(item => item.id === id))
+                ctx.getters.me.my_articles.splice(index, 1)
             }
             catch (e) {
                 console.log(e)

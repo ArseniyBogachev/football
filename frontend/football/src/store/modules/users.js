@@ -35,7 +35,8 @@ export const users = {
                 if (localStorage.getItem('access')){
                     await axios.patch(`${process.env.VUE_APP_URL}/api/v1/articlesrelation/${id}/`, {'bookmarks': true}, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
                     let user = ctx.state.me
-                    user.bookmarks.push(id)
+                    let article = [...ctx.getters.articles_all].find(item => item.id === id)
+                    user.bookmarks.push(article)
                 }
                 else{
                     router.push('/login')
@@ -50,9 +51,8 @@ export const users = {
             try{
                 if (localStorage.getItem('access')){
                     await axios.delete(`${process.env.VUE_APP_URL}/api/v1/articlesrelation/${id}/`, {headers: {"Authorization": `Bearer ${localStorage.getItem('access')}`}})
-                    let user = ctx.state.me
-                    let index = user.bookmarks.indexOf(id)
-                    delete user.bookmarks[index]
+                    let index = ctx.state.me.bookmarks.indexOf([...ctx.getters.me.bookmarks].find(item => item.id === id))
+                    ctx.state.me.bookmarks.splice(index, 1)
                 }
                 else{
                     router.push('/login')
@@ -152,6 +152,8 @@ export const users = {
         async user_unsubscribe_reject(ctx, id){
             try{
                 await axios.delete(`${process.env.VUE_APP_URL}/api/v1/subscription/${id}/`,{headers: {"Authorization" : `Bearer ${localStorage.getItem('access')}`}})
+                let index = ctx.state.me.sub_user.indexOf([...ctx.getters.me.sub_user].find(item => item.id === id))
+                ctx.state.me.sub_user.splice(index, 1)
             }
             catch (e) {
                 console.log(e)

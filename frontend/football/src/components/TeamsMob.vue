@@ -7,7 +7,7 @@
     <div class="card mb-3" style="max-width: 840px;" v-for="team in teams">
       <a href="#" @click.prevent="$router.push(`/teams/club/${team.title}`)" style="color: rgb(70,70,70); text-decoration: none;">
         <div class="row g-0">
-          <div class="col-md-4"><img v-bind:src="`http://127.0.0.1:8000${team.image}`" class="img-fluid img-thumbnail" alt="..."></div>
+          <div class="col-md-4"><img v-bind:src="`${url}${team.image}`" class="img-fluid img-thumbnail" alt="..."></div>
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">{{ team.title }}</h5>
@@ -40,11 +40,14 @@ export default {
     modelValue:{
       type:String,
     },
+    url: {
+      type: String,
+    }
   },
   components:{
     SelectedMob,
   },
-    methods:{
+  methods:{
     sorted_func(event){
       this.$emit('update:modelValue', event.target.value)
     }

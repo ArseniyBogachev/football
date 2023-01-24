@@ -30,7 +30,7 @@ export default {
       me: 'me',
     }),
     article_find(){
-      return [...this.articles_all].find(item => item.title === this.article)
+      return [...this.me.my_articles].find(item => item.title === this.article)
     }
   }
 }

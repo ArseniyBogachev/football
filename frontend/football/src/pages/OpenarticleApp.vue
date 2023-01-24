@@ -3,9 +3,11 @@
     <h3 class="d-none d-sm-block">{{ this.article.title }}</h3>
     <MyBookmarks class="d-none d-xs-block icon"
                  v-bind:article="article"
+                 v-bind:arr_id="arr_id"
     ></MyBookmarks>
     <MyBookmarks class="d-xs-none icon-sm"
                  v-bind:article="article"
+                 v-bind:arr_id="arr_id"
     ></MyBookmarks>
     <h5 class="d-sm-none">{{ this.article.title }}</h5>
     <span><a href="#" class="author" v-on:click.prevent="$router.push({name: 'user', params: {slug: this.article.author}})">{{this.article.author}}</a> | {{this.article.date}}</span>
@@ -86,6 +88,9 @@ export default {
         return [...this.me.my_articles].find(item => item.title === this.slug)
       }
     },
+    arr_id(){
+      return [...this.me.bookmarks].map(item => item.id)
+    }
   },
   mounted() {
     this.article_comment_data(this.article.id)

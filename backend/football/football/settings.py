@@ -152,8 +152,8 @@ MEDIA_URL = '/media/'
 
 # smtp
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_USER = 'kuwsh1nars@gmail.com'
-EMAIL_HOST_PASSWORD = 'gysmletvlxcrgstl'
+EMAIL_HOST_USER = 'footballapplicationauth@gmail.com'
+EMAIL_HOST_PASSWORD = 'apfgxjtkufxamswl'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

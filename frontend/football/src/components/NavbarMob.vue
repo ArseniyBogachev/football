@@ -25,11 +25,13 @@
 
         <div class="user_search">
           <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Players" aria-label="Search" v-bind:value="modelValue" v-on:input="input_func">
+            <input class="form-control me-2" type="search" placeholder="Players" aria-label="Search" v-bind:value="modelValue" v-on:input="input_func" v-on:click="players_search_data">
           </form>
           <ul class="nav flex-column search_item" v-if="modelValue && players.length > 0">
             <li v-for="p in players.slice(0,5)" class="nav-item player">
-              <a href="" class="nav-link link"><span>{{ p.firstname}} {{p.lastname}}</span> <small class="text-muted">Zenit</small></a>
+              <a href="#" class="nav-link link" @click.prevent="$router.push(`/teams/lineup/${p.last_name}`); modelValue = '';">
+                <span>{{ p.first_name}} {{p.last_name}}</span> <small class="text-muted">{{ p.club }}</small>
+              </a>
             </li>
           </ul>
 
@@ -46,7 +48,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Teams</a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="position: absolute">
                   <li><a class="dropdown-item" href="#" v-on:click.prevent="$router.push({name: 'teams'})">Russian PL</a></li>
-                  <li><a class="dropdown-item" href="#" v-on:click.prevent="$router.push({name: 'teams'})">FNL</a></li>
+                  <li><a class="dropdown-item disabled" href="#">FNL</a></li>
                 </ul>
               </li>
               <li class="nav-item">
@@ -63,6 +65,7 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex';
 export default {
   name: "NavbarMob",
   props:{
@@ -80,14 +83,18 @@ export default {
     },
   },
   methods:{
+    ...mapActions({
+      players_search_data: 'players_search_data',
+    }),
     input_func(event){
       this.$emit('update:modelValue', event.target.value)
     },
-    console_true(){
-      console.log('true')
-    },
   },
-
+  computed:{
+    ...mapGetters({
+      me: 'me',
+    })
+  }
 }
 </script>
 

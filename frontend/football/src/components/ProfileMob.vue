@@ -23,8 +23,8 @@
                             v-bind:subscriptions="user.sub_user"
                             v-bind:crud="crud"
         ></MysubscriptionsMob>
-        <MyarticleMob v-else-if="tab_profile[1].active" v-bind:articles="articles"></MyarticleMob>
-        <MybookmarksMob  v-else-if="tab_profile[2].active" v-bind:bookmarks="bookmarks"></MybookmarksMob>
+        <MyarticleMob v-else-if="tab_profile[1].active" v-bind:articles="user.my_articles"></MyarticleMob>
+        <MybookmarksMob  v-else-if="tab_profile[2].active" v-bind:bookmarks="user.bookmarks"></MybookmarksMob>
         <MysettingsMob v-else v-bind:user="user"></MysettingsMob>
       </div>
     </div>
@@ -101,7 +101,7 @@ export default {
     color: rgb(70, 70, 70);
   }
   .content{
-    height: 100%;
+    min-height: 550px;
     background-color: rgb(220,220,220);
   }
   .active{

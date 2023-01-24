@@ -13,7 +13,7 @@
               </a>
               <ul class="dropdown-menu bg-light" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/teams')">Russian PL</a></li>
-                <li><a class="dropdown-item" href="#" @click.prevent="$router.push('/teams')">FNL</a></li>
+                <li><a class="dropdown-item disabled">FNL</a></li>
               </ul>
             </li>
             <li><a href="#" class="nav-link" @click.prevent="$router.push('/category')" style="color: gray">Article</a></li>
@@ -27,7 +27,9 @@
           </form>
           <ul class="nav flex-column search_item" v-if="modelValue && players.length > 0">
             <li v-for="p in players.slice(0,5)" class="nav-item player">
-              <a href="#" class="nav-link link" @click.prevent="$router.push(`/teams/lineup/${p.last_name}`); modelValue = '';"><span>{{ p.first_name}} {{p.last_name}}</span> <small class="text-muted">{{ p.club }}</small></a>
+              <a href="#" class="nav-link link" @click.prevent="$router.push(`/teams/lineup/${p.last_name}`); modelValue = '';">
+                <span>{{ p.first_name}} {{p.last_name}}</span> <small class="text-muted">{{ p.club }}</small>
+              </a>
             </li>
           </ul>
 
@@ -59,8 +61,6 @@
 </template>
 
 <script>
-import {nextTick} from "vue";
-import router from "@/router/router";
 import {mapActions, mapGetters} from 'vuex';
 export default {
   name: "NavbarCom",

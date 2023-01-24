@@ -5,6 +5,7 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
+          v-bind:arr_id="arr_id"
       ></NewsApp>
     </ul>
   </div>
@@ -13,6 +14,7 @@
       <NewsApp
           v-for="n in articles"
           v-bind:n="n"
+          v-bind:arr_id="arr_id"
       ></NewsApp>
     </ul>
   </div>
@@ -45,6 +47,9 @@ export default {
       page: 'page',
       paginate: 'paginate'
     }),
+    arr_id(){
+      return [...this.me.bookmarks].map(item => item.id)
+    }
   },
   methods:{
     ...mapActions({

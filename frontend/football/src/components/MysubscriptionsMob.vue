@@ -1,11 +1,11 @@
 <template>
   <div class="base">
-    <h3>Subscriptions</h3>
+    <h4>Subscriptions</h4>
     <div class="container">
       <div class="card mb-3" style="width: 100%;" v-for="s in subscriptions">
         <div class="row g-0">
           <div class="col-3">
-              <img v-if="s.image" v-bind:src="`http://127.0.0.1:8000/media/${s.image}`" class="img-fluid rounded-start" alt="...">
+              <img v-if="s.image" v-bind:src="`${url}/media/${s.image}`" class="img-fluid rounded-start" alt="...">
               <img v-else src="../assets/none.png" class="img-fluid rounded-start" alt="../assets/users/none.png">
           </div>
           <div class="col-9">
@@ -15,8 +15,7 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                   <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'user', params: {slug: s.username}}); next(s)">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Message</a></li>
-                  <li><a class="dropdown-item" href="#">Unsubscribe</a></li>
+                  <li><a class="dropdown-item" v-if="crud" href="#" @click="user_unsubscribe_reject(s.id)">Unsubscribe</a></li>
                 </ul>
             </div>
             <div class="card-body">
@@ -40,6 +39,11 @@ import {mapActions} from "vuex";
 
 export default {
   name: "MysubscriptionsMob",
+  data(){
+    return{
+      url: process.env.VUE_APP_URL,
+    }
+  },
   props:{
     subscriptions:{
       type:Array,
@@ -51,7 +55,7 @@ export default {
   },
   methods:{
     ...mapActions({
-      user_data: 'user_data',
+      user_unsubscribe_reject: 'user_unsubscribe_reject',
     }),
     next(s){
       if (!this.crud) {
@@ -67,7 +71,7 @@ export default {
     margin-top: 20px;
     border: 1px solid rgb(150, 150, 150);
   }
-  h3{
+  h4{
     text-align: center;
     padding-top: 10px;
     font-family: Tahoma, Malgun Gothic, MingLiu, SimSun, Meiryo;
@@ -76,6 +80,7 @@ export default {
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 40px;
+    min-height: 500px;
   }
   .card{
     margin-left: auto;

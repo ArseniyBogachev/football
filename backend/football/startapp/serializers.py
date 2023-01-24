@@ -3,7 +3,12 @@ import datetime
 from django.db.models import Count
 from rest_framework import serializers
 from .models import *
+from dotenv import load_dotenv
 import re
+import os
+
+
+load_dotenv()
 
 
 class MeSerializer(serializers.ModelSerializer):
@@ -37,7 +42,7 @@ class MeSerializer(serializers.ModelSerializer):
         sub1 = UsersSub.objects.filter(subscription=instance, add=True).values_list('user', flat=True)
         sub2 = UsersSub.objects.filter(user=instance, add=True).values_list('subscription', flat=True)
         users = list(chain(sub1, sub2))
-        sub_all = Users.objects.filter(pk__in=users).values('first_name', 'last_name', 'username', 'image')
+        sub_all = Users.objects.filter(pk__in=users).values('id', 'first_name', 'last_name', 'username', 'image')
         return sub_all
 
     def get_like_count(self, instance):
@@ -582,11 +587,11 @@ class MatchSerializer(serializers.ModelSerializer):
 
     def get_home_image(self, instance):
         query = Club.objects.get(pk=instance.home_team.id).image.url
-        return f'http://127.0.0.1:8000{query}'
+        return f"{os.getenv('HOST_URL')}{query}"
 
     def get_guest_image(self, instance):
         query = Club.objects.get(pk=instance.guest_team.id).image.url
-        return f'http://127.0.0.1:8000{query}'
+        return f"{os.getenv('HOST_URL')}{query}"
 
 
 class MatchesStatsSerializer(serializers.ModelSerializer):

@@ -5,7 +5,7 @@
       <div class="card mb-3" style="max-width: 640px;" v-for="s in subscriptions">
         <div class="row g-0">
           <div class="col-md-3">
-              <img v-if="s.image" v-bind:src="`http://127.0.0.1:8000/media/${s.image}`" class="img-fluid rounded-start" alt="...">
+              <img v-if="s.image" v-bind:src="`${url}/media/${s.image}`" class="img-fluid rounded-start" alt="...">
               <img v-else src="../assets/none.png" class="img-fluid rounded-start" alt="../assets/users/none.png">
           </div>
           <div class="col-md-9">
@@ -15,8 +15,7 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
                   <li><a class="dropdown-item" href="#" @click.prevent="$router.push({name: 'user', params: {slug: s.username}}); next(s)">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Message</a></li>
-                  <li><a class="dropdown-item" href="#">Unsubscribe</a></li>
+                  <li><a class="dropdown-item" v-if="crud" href="#" @click.prevent="user_unsubscribe_reject(s.id)">Unsubscribe</a></li>
                 </ul>
               </div>
             <div class="card-body">
@@ -40,6 +39,11 @@ import {mapActions} from 'vuex'
 
 export default {
   name: "MysubscriptionsCom",
+  data(){
+    return{
+      url: process.env.VUE_APP_URL,
+    }
+  },
   props:{
     subscriptions:{
       type:Array,
@@ -51,7 +55,7 @@ export default {
   },
   methods:{
     ...mapActions({
-      user_data: 'user_data',
+      user_unsubscribe_reject: 'user_unsubscribe_reject',
     }),
     next(s){
       if (!this.crud){

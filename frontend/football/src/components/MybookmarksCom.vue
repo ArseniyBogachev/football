@@ -6,7 +6,7 @@
         <div class="card-header bg-transparent border-secondary">
           <small class="text-muted">{{ bookmark.author }} | {{ bookmark.date }}</small>
           <div>
-            <a href="#"><fa icon="fa-solid fa-trash-can" class="icon-trash"></fa></a>
+            <a href="#" v-on:click.prevent="bookmarks_false(bookmark.id)"><fa icon="fa-solid fa-trash-can" class="icon-trash"></fa></a>
           </div>
         </div>
         <div class="card-body text-dark">
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   name: "MybookmarksCom",
   props:{
@@ -27,6 +28,11 @@ export default {
       type:Array,
     }
   },
+  methods:{
+    ...mapActions({
+      bookmarks_false: 'bookmarks_false',
+    }),
+  }
 }
 </script>
 

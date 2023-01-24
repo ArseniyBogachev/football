@@ -66,12 +66,6 @@ export default {
     user:{
       type: Object,
     },
-    // articles:{
-    //   type: Array,
-    // },
-    // bookmarks:{
-    //   type: Array,
-    // },
     crud:{
       type: Boolean,
     },
